@@ -1,4 +1,4 @@
-const homepage = require("./homepage");
+const homepage = require("./posts");
 const posts = require("./posts");
 const users = require("./users");
 
