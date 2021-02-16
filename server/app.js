@@ -11,5 +11,5 @@ app.use(morgan);
 
 const port = process.env.PORT;
 app.listen(port, () => {
-  console.log(`server is up and listening on port ${port}`);
+  console.log(`The server is up and listening on port ${port}`);
 });

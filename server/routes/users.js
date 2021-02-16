@@ -2,7 +2,7 @@ const express = require("express");
 const users = express.Router();
 const db = require("../db");
 
-users.get("/api/users/:id", async (req, res) => {
+users.get("/:id", async (req, res) => {
   try {
     const gotUser = await db.query("SELECT * FROM users WHERE user_id=$1", [
       req.params.id,
@@ -12,7 +12,7 @@ users.get("/api/users/:id", async (req, res) => {
   }
 });
 
-users.post("/api/users", async (req, res) => {
+users.post("/", async (req, res) => {
   try {
     const userPosted = await db.query(
       "INSERT INTO users (user_id, category_id, text) values ($1, $2, $3) returning *",
@@ -23,7 +23,7 @@ users.post("/api/users", async (req, res) => {
   }
 });
 
-users.delete("/api/users/:id", async (req, res) => {
+users.delete("/:id", async (req, res) => {
   try {
     const userDeleted = await db.query(
       "DELETE FROM users WHERE user_id=$1 returning *",
@@ -34,7 +34,7 @@ users.delete("/api/users/:id", async (req, res) => {
   }
 });
 
-users.put("api/users/:id", async (req, res) => {
+users.put("/:id", async (req, res) => {
   try {
     const userUpdated = await db.query(
       "UPDATE users SET (category_id=$1, text=$2, stars=$3) WHERE (user_id=$4) RETURNING *",
