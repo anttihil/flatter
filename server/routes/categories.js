@@ -8,6 +8,10 @@ categories.get("/", async (req, res) => {
     const categoriesResult = await db.query(
       "SELECT * FROM categories ORDER BY name ASC"
     );
+    res.status(200).json({
+      status: "success",
+      categories: categoriesResult.rows,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -20,6 +24,10 @@ categories.post("/", async (req, res) => {
       "INSERT INTO categories name values $1 returning *",
       [req.body.name]
     );
+    res.status(201).json({
+      status: "success",
+      categories: categoriesResult.rows[0],
+    });
   } catch (error) {
     console.log(error);
   }
@@ -32,6 +40,10 @@ categories.delete("/:id", async (req, res) => {
       "DELETE FROM categories WHERE category_id=$1 returning *",
       [req.params.id]
     );
+    res.status(200).json({
+      status: "success",
+      categories: categoriesResult.rows[0],
+    });
   } catch (error) {
     console.log(error);
   }
@@ -44,6 +56,10 @@ categories.put("/:id", async (req, res) => {
       "UPDATE categories SET (name=$1) WHERE (category_id=$2) RETURNING *",
       [req.body.name, req.params.id]
     );
+    res.status(200).json({
+      status: "success",
+      categories: categoriesResult.rows[0],
+    });
   } catch (error) {
     console.log(error);
   }

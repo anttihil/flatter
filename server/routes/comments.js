@@ -9,6 +9,10 @@ comments.get("/:post_id/n/:count", async (req, res) => {
       "SELECT * FROM comments WHERE post_id=$1 ORDER BY create_date DESC LIMIT 10 OFFSET $2",
       [req.params.post_id, 10 * req.params.count]
     );
+    res.status(200).json({
+      status: "success",
+      comments: commentsResult.rows,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -21,6 +25,10 @@ comments.get("/:post_id/s/:count", async (req, res) => {
       "SELECT * FROM comments WHERE post_id=$1 ORDER BY stars DESC LIMIT 10 OFFSET $2",
       [req.params.post_id, 10 * req.params.count]
     );
+    res.status(200).json({
+      status: "success",
+      comments: commentsResult.rows,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -33,6 +41,10 @@ comments.get(":post_id/:comment_id", async (req, res) => {
       "SELECT * FROM comments WHERE (post_id=$1, comment_id=$2)",
       [req.params.post_id, req.params.comment_id]
     );
+    res.status(200).json({
+      status: "success",
+      comments: commentsResult.rows[0],
+    });
   } catch (error) {
     console.log(error);
   }
@@ -50,6 +62,10 @@ comments.post("/:post_id/", async (req, res) => {
         req.body.text,
       ]
     );
+    res.status(201).json({
+      status: "success",
+      comments: commentsResult.rows[0],
+    });
   } catch (error) {
     console.log(error);
   }
@@ -62,6 +78,10 @@ comments.delete("/:post_id/:comment_id", async (req, res) => {
       "DELETE FROM comments WHERE (comment_id=$1) returning *",
       [req.params.comment_id]
     );
+    res.status(200).json({
+      status: "success",
+      comments: commentsResult.rows[0],
+    });
   } catch (error) {
     console.log(error);
   }
@@ -79,6 +99,10 @@ comments.put("/:post_id/:comment_id", async (req, res) => {
         req.params.comment_id,
       ]
     );
+    res.status(200).json({
+      status: "success",
+      comments: commentsResult.rows[0],
+    });
   } catch (error) {
     console.log(error);
   }
@@ -91,6 +115,10 @@ comments.put("/:post_id/:comment_id", async (req, res) => {
       "UPDATE comments SET (stars=$1) WHERE (comment_id=$2) RETURNING *",
       [req.body.stars, req.params.comment_id]
     );
+    res.status(200).json({
+      status: "success",
+      comments: commentsResult.rows[0],
+    });
   } catch (error) {
     console.log(error);
   }

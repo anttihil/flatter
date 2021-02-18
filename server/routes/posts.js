@@ -9,6 +9,10 @@ posts.get("/n/:count", async (req, res) => {
       "SELECT * FROM posts ORDER BY create_date DESC LIMIT 10 OFFSET $1",
       [10 * req.params.count]
     );
+    res.status(200).json({
+      status: "success",
+      posts: postsResult.rows,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -21,6 +25,10 @@ posts.get("/s/:count", async (req, res) => {
       "SELECT * FROM posts ORDER BY stars DESC LIMIT 10 OFFSET $1",
       [10 * req.params.count]
     );
+    res.status(200).json({
+      status: "success",
+      posts: postsResult.rows,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -32,6 +40,10 @@ posts.get("/:id", async (req, res) => {
     const gotPost = await db.query("SELECT * FROM posts WHERE post_id=$1", [
       req.params.id,
     ]);
+    res.status(200).json({
+      status: "success",
+      posts: gotPost.rows[0],
+    });
   } catch (error) {
     console.log(error);
   }
@@ -44,6 +56,10 @@ posts.post("/", async (req, res) => {
       "INSERT INTO posts (user_id, category_id, text) values ($1, $2, $3) returning *",
       [req.body.user_id, req.body.category_id, req.body.text]
     );
+    res.status(201).json({
+      status: "success",
+      posts: postedResult.rows[0],
+    });
   } catch (error) {
     console.log(error);
   }
@@ -56,6 +72,10 @@ posts.delete("/:id", async (req, res) => {
       "DELETE FROM posts WHERE post_id=$1 returning *",
       [req.params.id]
     );
+    res.status(200).json({
+      status: "success",
+      posts: deletedResult.rows[0],
+    });
   } catch (error) {
     console.log(error);
   }
@@ -68,6 +88,10 @@ posts.put("/:id", async (req, res) => {
       "UPDATE posts SET (category_id=$1, text=$2, stars=$3) WHERE (post_id=$4) RETURNING *",
       [req.body.category_id, req.body.text, req.body.stars, req.params.id]
     );
+    res.status(200).json({
+      status: "success",
+      posts: updatedResult.rows[0],
+    });
   } catch (error) {
     console.log(error);
   }
@@ -80,6 +104,10 @@ posts.put("/s/:id", async (req, res) => {
       "UPDATE posts SET (stars=$1) WHERE (post_id=$2) RETURNING *",
       [req.body.stars, req.params.id]
     );
+    res.status(200).json({
+      status: "success",
+      posts: updatedResult.rows[0],
+    });
   } catch (error) {
     console.log(error);
   }
