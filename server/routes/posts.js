@@ -85,4 +85,4 @@ posts.put("/s/:id", async (req, res) => {
   }
 });
 
-module.exports(posts);
+module.exports = posts;

@@ -49,4 +49,4 @@ categories.put("/:id", async (req, res) => {
   }
 });
 
-module.exports(categories);
+module.exports = categories;

@@ -18,6 +18,10 @@ users.post("/", async (req, res) => {
       "INSERT INTO users (user_id, category_id, text) values ($1, $2, $3) returning *",
       [req.body.user_id, req.body.category_id, req.body.text]
     );
+    res.status(201).json({
+      status: "success",
+      user: userPosted.rows[0],
+    });
   } catch (error) {
     console.log(error);
   }
@@ -45,4 +49,4 @@ users.put("/:id", async (req, res) => {
   }
 });
 
-module.exports(users);
+module.exports = users;

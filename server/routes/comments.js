@@ -96,4 +96,4 @@ comments.put("/:post_id/:comment_id", async (req, res) => {
   }
 });
 
-module.exports(comments);
+module.exports = comments;
