@@ -1,21 +1,31 @@
 const express = require("express");
-const categories = express.Router();
-const db = require("../db/");
+const categoriesController = require("../controllers/categoriesController");
+const categoriesRouter = express.Router();
 
-// get all categories
-categories.get("/", async (req, res) => {
-  try {
-    const categoriesResult = await db.query(
-      "SELECT * FROM categories ORDER BY name ASC"
-    );
-    res.status(200).json({
-      status: "success",
-      categories: categoriesResult.rows,
-    });
-  } catch (error) {
-    console.log(error);
-  }
-});
+categoriesRouter.get("/", categoriesController.getAllCategoriesController);
+
+categoriesRouter.post("/", categoriesController.postCategoryController);
+
+categoriesRouter.delete(":id", categoriesController.deleteCategoryController);
+
+categoriesRouter.put("/:id", categoriesController.updateCategoryController);
+
+module.exports = categoriesRouter;
+/* 
+categories
+  .get("/", async (req, res) => {
+    try {
+      const categoriesResult = await db.query(
+        "SELECT * FROM categories ORDER BY name ASC"
+      );
+      res.status(200).json({
+        status: "success",
+        categories: categoriesResult.rows,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  });
 
 //post a new category
 categories.post("/", async (req, res) => {
@@ -66,3 +76,4 @@ categories.put("/:id", async (req, res) => {
 });
 
 module.exports = categories;
+ */

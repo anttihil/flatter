@@ -1,4 +1,20 @@
 const express = require("express");
+const usersController = require("../controllers/usersController");
+const usersRouter = express.Router();
+
+usersRouter.get("/:id", usersController.getUserController);
+
+usersRouter.get("/", usersController.getAllUsersController);
+
+usersRouter.post("/", usersController.postUserController);
+
+usersRouter.delete("/:id", usersController.deleteUserController);
+
+usersRouter.put("/:id", usersController.updateUserController);
+
+module.exports = usersRouter;
+
+/* const express = require("express");
 const users = express.Router();
 const db = require("../db");
 
@@ -20,14 +36,8 @@ users.get("/:id", async (req, res) => {
 users.post("/", async (req, res) => {
   try {
     const userPosted = await db.query(
-      "INSERT INTO users (user_id, category_id, text, password, create_date) values ($1, $2, $3, $4, to_timestamp($5)) returning *",
-      [
-        req.body.user_id,
-        req.body.category_id,
-        req.body.text,
-        req.body.password,
-        Date.now() / 1000,
-      ]
+      "INSERT INTO users (username, password, email, create_date) values ($1, $2, $3, to_timestamp($4)) returning *",
+      [req.body.username, req.body.password, req.body.email, Date.now() / 1000]
     );
     res.status(201).json({
       status: "success",
@@ -57,8 +67,8 @@ users.delete("/:id", async (req, res) => {
 users.put("/:id", async (req, res) => {
   try {
     const userUpdated = await db.query(
-      "UPDATE users SET (category_id=$1, text=$2, stars=$3) WHERE (user_id=$4) RETURNING *",
-      [req.body.category_id, req.body.text, req.body.stars, req.params.id]
+      "UPDATE users SET (username=$1, password=$2, email=$3) WHERE (user_id=$4) RETURNING *",
+      [req.body.username, req.body.password, req.body.email]
     );
     res.status(200).json({
       status: "success",
@@ -69,4 +79,4 @@ users.put("/:id", async (req, res) => {
   }
 });
 
-module.exports = users;
+module.exports = users; */

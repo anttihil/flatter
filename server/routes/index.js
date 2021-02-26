@@ -1,13 +1,13 @@
 const express = require("express");
 
-const posts = require("./posts");
-const users = require("./users");
-const categories = require("./categories");
-const comments = require("./comments");
+const postsRouter = require("./postsRouter");
+const usersRouter = require("./usersRouter");
+const categoriesRouter = require("./categoriesRouter");
+const commentsRouter = require("./commentsRouter");
 
 module.exports = (app) => {
-  app.use("/api/posts", posts);
-  app.use("/api/users", users);
-  app.use("/api/categories", categories);
-  app.use("/api/comments", comments);
+  app.use("/api/posts", postsRouter);
+  app.use("/api/users", usersRouter);
+  app.use("/api/categories", categoriesRouter);
+  app.use("/api/comments", commentsRouter);
 };

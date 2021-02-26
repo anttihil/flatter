@@ -1,6 +1,6 @@
 const express = require("express");
 const comments = express.Router();
-const db = require("../db/");
+const db = require("../db");
 
 // get xth set of 10 newest comments where x is count
 comments.get("/:post_id/n/:count", async (req, res) => {

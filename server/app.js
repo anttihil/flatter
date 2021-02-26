@@ -5,9 +5,11 @@ const mountRoutes = require("./routes/index");
 
 const app = express();
 
+app.use(express.json());
+
 mountRoutes(app);
 
-app.use(morgan);
+app.use(morgan("short"));
 
 const port = process.env.PORT;
 app.listen(port, () => {
