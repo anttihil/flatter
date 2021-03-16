@@ -30,7 +30,7 @@ exports.deleteCategory = async (req) => {
   try {
     const deletedCategory = await db.query(
       "DELETE FROM categories WHERE category_id=$1 returning *",
-      [req.params.id]
+      [req.params.category_id]
     );
     return deletedCategory;
   } catch (error) {
@@ -43,7 +43,7 @@ exports.updateCategory = async (req) => {
   try {
     const updatedCategory = await db.query(
       "UPDATE categories SET name=$1 WHERE category_id=$2 RETURNING *",
-      [req.body.name, req.params.id]
+      [req.body.name, req.params.category_id]
     );
     return updatedCategory;
   } catch (error) {

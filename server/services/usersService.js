@@ -3,7 +3,7 @@ const db = require("../db");
 exports.getUser = async (req) => {
   try {
     const gotUser = await db.query("SELECT * FROM users WHERE user_id=$1", [
-      req.params.id,
+      req.params.user_id,
     ]);
     return gotUser;
   } catch (error) {
@@ -36,7 +36,7 @@ exports.deleteUser = async (req) => {
   try {
     const deletedUser = await db.query(
       "DELETE FROM users WHERE user_id=$1 returning *",
-      [req.params.id]
+      [req.params.user_id]
     );
     return deletedUser;
   } catch (error) {
@@ -48,7 +48,7 @@ exports.updateUser = async (req) => {
   try {
     const updatedUser = await db.query(
       "UPDATE users SET username=$1, password=$2, email=$3 WHERE user_id=$4 RETURNING *",
-      [req.body.username, req.body.password, req.body.email, req.params.id]
+      [req.body.username, req.body.password, req.body.email, req.params.user_id]
     );
     return updatedUser;
   } catch (error) {

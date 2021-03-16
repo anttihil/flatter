@@ -2,8 +2,11 @@ const express = require("express");
 const morgan = require("morgan");
 require("dotenv").config({ path: "../.env" });
 const mountRoutes = require("./routes/index");
+const helmet = require("helmet");
 
 const app = express();
+
+app.use(helmet);
 
 app.use(express.json());
 
