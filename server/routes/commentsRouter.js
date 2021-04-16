@@ -24,12 +24,9 @@ commentsRouter.delete(
 
 commentsRouter.post("/", commentsController.postCommentController);
 
-commentsRouter.update(
-  "/:comment_id",
-  commentsController.updateCommentController
-);
+commentsRouter.put("/:comment_id", commentsController.updateCommentController);
 
-commentsRouter.update(
+commentsRouter.put(
   "/s/:comment_id",
   commentsController.upvoteCommentController
 );

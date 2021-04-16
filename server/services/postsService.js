@@ -4,8 +4,8 @@ const db = require("../db");
 exports.getNewestPosts = async (req) => {
   try {
     const gotNewestPosts = await db.query(
-      "SELECT * FROM posts ORDER BY create_date DESC LIMIT 10 OFFSET $1",
-      [10 * req.params.count]
+      "SELECT * FROM posts where category = $1 ORDER BY create_date DESC LIMIT 10 OFFSET $2",
+      [req.params.category_id, 10 * req.params.count]
     );
     return gotNewestPosts;
   } catch (error) {
@@ -13,12 +13,12 @@ exports.getNewestPosts = async (req) => {
   }
 };
 
-//get xth set of most starred comments where x is count
+//get xth set of most starred posts in category y where x is count
 exports.getStarredPosts = async (req) => {
   try {
     const gotStarredPosts = await db.query(
-      "SELECT * FROM posts ORDER BY stars DESC LIMIT 10 OFFSET $1",
-      [10 * req.params.count]
+      "SELECT * FROM posts WHERE category = $1 ORDER BY stars DESC LIMIT 10 OFFSET $2",
+      [req.params.category_id, 10 * req.params.count]
     );
     return gotStarredPosts;
   } catch (error) {
@@ -43,7 +43,7 @@ exports.postPost = async (req) => {
   try {
     const postedPost = await db.query(
       "INSERT INTO posts (user_id, category_id, text, create_date) values ($1, $2, $3, to_timestamp($4)) returning *",
-      [req.body.user_id, req.body.category_id, req.body.text, Date.now()/1000 ]
+      [req.body.user_id, req.body.category_id, req.body.text, Date.now() / 1000]
     );
     return postedPost;
   } catch (error) {
@@ -52,7 +52,7 @@ exports.postPost = async (req) => {
 };
 
 //delete a post with id
-exports.deletePost = (req) => {
+exports.deletePost = async (req) => {
   try {
     const deletedPost = await db.query(
       "DELETE FROM posts WHERE post_id=$1 returning *",

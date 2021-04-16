@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const categoryApi = axios.create({
+const CategoryApi = axios.create({
   baseURL: "http://localhost:3001/api/categories",
 });
 
-export default categoryApi;
+export default CategoryApi;

@@ -3,6 +3,7 @@ import React from "react";
 import Homepage from "./routes/homepage";
 import ReadPost from "./routes/readPost";
 import LoginPage from "./routes/loginPage";
+import CategorySidebar from "./components/categorySidebar";
 
 const App = () => {
   return (

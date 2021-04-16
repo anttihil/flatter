@@ -16,7 +16,7 @@ exports.getAllCategories = async () => {
 exports.postCategory = async (req) => {
   try {
     const postedCategory = await db.query(
-      "INSERT INTO categories name values $1 returning *",
+      "INSERT INTO categories (name) values ($1) returning *",
       [req.body.name]
     );
     return postedCategory;
