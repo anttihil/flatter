@@ -20,26 +20,35 @@ const CategorySidebar = () => {
 
   // return a list of navigation links to different category pages of posts and set up routes for each category
   return (
-    <div>
-      <nav>
-        <li>
-          <NavLink exact to="/" activeClassName="selected">
-            All
-          </NavLink>
-        </li>
-        {categories.map((object) => (
-          <li key={object.category_id}>
-            <NavLink to={`/${object.name}`} activeClassName="selected">
-              {object.name}
+    <div style={{ display: "flex" }}>
+      <div style={{ width: "20%", background: "#000000" }}>
+        <nav>
+          <li>
+            <NavLink exact to="/posts/all/" activeClassName="selected">
+              All
             </NavLink>
           </li>
-        ))}
-      </nav>
-      <Switch>
+          {categories.map((object) => (
+            <li key={object.category_id}>
+              <NavLink to={`/posts/${object.name}/`} activeClassName="selected">
+                {object.name}
+              </NavLink>
+            </li>
+          ))}
+        </nav>
+
         {categories.map((object) => (
-          <Route path={`/${object.name}`} key={object.category_id} />
+          <Route path={`/posts/${object.name}/`} key={object.category_id} />
         ))}
-      </Switch>
+      </div>
+
+      <div>
+        <Switch>
+          {categories.map((object) => (
+            <Route path={`/${object.name}/`} key={object.category_id} />
+          ))}
+        </Switch>
+      </div>
     </div>
   );
 };

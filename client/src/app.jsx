@@ -1,23 +1,19 @@
-import { Route, BrowserRouter, Switch } from "react-router-dom";
+import { Redirect, Route, BrowserRouter, Switch } from "react-router-dom";
 import React from "react";
-import Homepage from "./routes/homepage";
-import ReadPost from "./routes/readPost";
-import LoginPage from "./routes/loginPage";
-import CategorySidebar from "./components/categorySidebar";
+import CategorySidebar from "./components/CategorySidebar";
 
 const App = () => {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path="/post">
-          <ReadPost />
+        <Route exact path="/">
+          <Redirect to="/posts/" />
         </Route>
-        <Route path="/login">
-          <LoginPage />
+        <Route path="/posts/">
+          <CategorySidebar />
         </Route>
-        <Route path="/">
-          <Homepage />
-        </Route>
+        <Route path="/login/" />
+        <Route path="/post/" />
       </Switch>
     </BrowserRouter>
   );
