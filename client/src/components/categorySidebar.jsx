@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from "react";
-import CategoryApi from "../apis/categoryApi.jsx";
+import CategoryApi from "../apis/CategoryApi.jsx";
 import { NavLink, Switch, Route } from "react-router-dom";
+import PostList from "./PostList";
 
 const CategorySidebar = () => {
   const [categories, setCategories] = useState([]);
+  const [sort, setSort] = useState("new");
 
   //fetch the data from the back-end and update the categories state hook.
   useEffect(() => {
-    async function fetchData() {
+    async function fetchData(categories) {
       try {
-        const response = await CategoryApi.get("/");
+        const response = await CategoryApi.get(`/${categories}/`);
         setCategories(response.data.categories);
       } catch (error) {
         console.log(error);
@@ -17,6 +19,14 @@ const CategorySidebar = () => {
     }
     fetchData();
   }, []);
+
+  const handleSort = (string) => {
+    if (string === "new") {
+      setSort("new");
+    } else if (string === "starred") {
+      setSort("starred");
+    } else return undefined;
+  };
 
   // return a list of navigation links to different category pages of posts and set up routes for each category
   return (
@@ -42,12 +52,20 @@ const CategorySidebar = () => {
         ))}
       </div>
 
-      <div>
-        <Switch>
-          {categories.map((object) => (
-            <Route path={`/${object.name}/`} key={object.category_id} />
-          ))}
-        </Switch>
+      <div style={{ width: "80%", background: "#111111" }}>
+        <div>
+          <button onClick={() => handleSort("new")}>Sort by newest</button>
+          <button onClick={() => handleSort("starred")}>Sort by starred</button>
+        </div>
+        <div>
+          <Switch>
+            {categories.map((object) => (
+              <Route path={`/${object.name}/`} key={object.category_id}>
+                <PostList sort={sort} category_id={object.category_id} />
+              </Route>
+            ))}
+          </Switch>
+        </div>
       </div>
     </div>
   );

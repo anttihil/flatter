@@ -6,12 +6,12 @@ const postsRouter = express.Router();
 //Below are the http request functions that call the specific Controller (2nd argument) when a request is received at the path in the first argument.
 
 postsRouter.get(
-  "/:category_id/n/:count",
+  "/:category_id/new/:count",
   postsController.getNewestPostsController
 );
 
 postsRouter.get(
-  "/:category_id/s/:count",
+  "/:category_id/starred/:count",
   postsController.getStarredPostsController
 );
 
