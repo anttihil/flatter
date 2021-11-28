@@ -1,4 +1,4 @@
-const db = require("../db");
+import { db } from "../db";
 
 // get all categories
 exports.getAllCategories = async () => {
