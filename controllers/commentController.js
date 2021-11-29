@@ -1,9 +1,9 @@
-const commentsService = require("../services/commentsService");
+import commentService from "../services/commentService";
 
 //get xth set of newest comments in any category where x is count
 exports.getNewestCommentsController = async (req, res) => {
   try {
-    const gotNewestComments = await commentsService.getNewestComments(req);
+    const gotNewestComments = await commentService.getNewestComments(req);
     res.status(200).json({
       status: "success",
       comments: gotNewestComments.rows,
@@ -16,7 +16,7 @@ exports.getNewestCommentsController = async (req, res) => {
 //get xth set of most starred comments where x is count
 exports.getStarredCommentsController = async (req, res) => {
   try {
-    const gotStarredComments = await commentsService.getStarredComments(req);
+    const gotStarredComments = await commentService.getStarredComments(req);
     res.status(200).json({
       status: "success",
       comments: gotStarredComments.rows,
@@ -29,7 +29,7 @@ exports.getStarredCommentsController = async (req, res) => {
 //get a comment
 exports.getCommentController = async (req, res) => {
   try {
-    const gotComment = await commentsService.getComment(req);
+    const gotComment = await commentService.getComment(req);
     res.status(200).json({
       status: "success",
       comments: gotComment.rows[0],
@@ -42,7 +42,7 @@ exports.getCommentController = async (req, res) => {
 //create a comment
 exports.postCommentController = async (req, res) => {
   try {
-    const postedComment = await commentsService.postComment(req);
+    const postedComment = await commentService.postComment(req);
     res.status(201).json({
       status: "success",
       comments: postedComment.rows[0],
@@ -55,7 +55,7 @@ exports.postCommentController = async (req, res) => {
 //delete a comment with id
 exports.deleteCommentController = async (req, res) => {
   try {
-    const deletedComment = await commentsService.deleteComment(req);
+    const deletedComment = await commentService.deleteComment(req);
     res.status(200).json({
       status: "success",
       comments: deletedComment.rows[0],
@@ -68,7 +68,7 @@ exports.deleteCommentController = async (req, res) => {
 //update a comment (category, text or stars)
 exports.updateCommentController = async (req, res) => {
   try {
-    const updatedComment = await commentsService.updateComment(req);
+    const updatedComment = await commentService.updateComment(req);
     res.status(200).json({
       status: "success",
       comments: updatedComment.rows[0],
@@ -81,7 +81,7 @@ exports.updateCommentController = async (req, res) => {
 //update stars in a comment ("upvote")
 exports.upvoteCommentController = async (req, res) => {
   try {
-    const upvotedComment = await commentsService.upvoteComment(req);
+    const upvotedComment = await commentService.upvoteComment(req);
     res.status(200).json({
       status: "success",
       comments: upvotedComment.rows[0],

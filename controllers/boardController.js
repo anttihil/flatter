@@ -1,18 +1,34 @@
 import { boardService } from "../services/boardService";
+import { query } from "../db/db";
 
 //calls the get all board service function and sends a response
-export const getAllBoardsController = async (req, res) => {
+export const getAllBoardsNew = async (req, res) => {
   try {
-    const gotAllBoards = await boardService.getAllBoards();
+    const result = await boardService.getAllBoards();
+
     res.status(200).json({
       status: "success",
-      boards: gotAllBoards.rows,
+      boards: result.rows,
     });
   } catch (error) {
     console.log(error);
   }
 };
 
+//get xth set of newest posts in any category where x is count
+export const getBoardNew = async (req, res) => {
+  try {
+    const result = await postService.getBoard(req);
+    res.status(200).json({
+      status: "success",
+      posts: result.rows,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+/* 
 //calls the post Board service function and sends a response
 export const postBoardController = async (req, res) => {
   try {
@@ -50,4 +66,4 @@ export const updateBoardController = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-};
+}; */

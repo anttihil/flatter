@@ -1,28 +1,28 @@
-const express = require("express");
-const postsController = require("../controllers/postsController");
+import { Router } from "express";
+import { getPost } from "../controllers/postController";
 
-const postsRouter = express.Router();
+const postRouter = Router({ mergeParams: true });
 
 //Below are the http request functions that call the specific Controller (2nd argument) when a request is received at the path in the first argument.
 
-postsRouter.get(
-  "/:category_id/new/:count",
-  postsController.getNewestPostsController
-);
+postRouter.route("/").get(getPost);
 
-postsRouter.get(
+export default postRouter;
+
+/* postRouter.route("/:board_name").get(getNewestPostsController);
+ */
+/* postRouter.get(
   "/:category_id/starred/:count",
-  postsController.getStarredPostsController
+  postController.getStarredPostsController
 );
 
-postsRouter.get("/:id", postsController.getPostController);
+postRouter.get("/:id", postController.getPostController);
 
-postsRouter.delete("/:id", postsController.deletePostController);
+postRouter.delete("/:id", postController.deletePostController);
 
-postsRouter.post("/:id", postsController.postPostController);
+postRouter.post("/:id", postController.postPostController);
 
-postsRouter.put("/:id", postsController.updatePostController);
+postRouter.put("/:id", postController.updatePostController);
 
-postsRouter.put("/s/:id", postsController.upvotePostController);
-
-module.exports = postsRouter;
+postRouter.put("/s/:id", postController.upvotePostController);
+ */

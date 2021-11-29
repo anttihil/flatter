@@ -1,9 +1,11 @@
-const express = require("express");
-const morgan = require("morgan");
-require("dotenv").config({ path: "./.env" });
-const mountRoutes = require("./routes/index");
-const helmet = require("helmet");
-const cors = require("cors");
+import express from "express";
+import morgan from "morgan";
+import dotenv from "dotenv";
+import { mountRoutes } from "./routes/index";
+import helmet from "helmet";
+import cors from "cors";
+
+dotenv.config({ path: "./.env" });
 
 const app = express();
 

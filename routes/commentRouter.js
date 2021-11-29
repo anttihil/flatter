@@ -1,7 +1,7 @@
 const express = require("express");
-const commentsController = require("../controllers/commentsController");
+const commentsController = require("../controllers/commentController");
 
-const commentsRouter = express.Router();
+const commentsRouter = express.Router({ mergeParams: true });
 
 //Below are the http request functions that call the specific Controller (2nd argument) when a request is received at the path in the first argument.
 

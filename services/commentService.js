@@ -1,9 +1,9 @@
-const db = require("../db");
+import { query } from "../db/db";
 
 //get xth set of newest comments in any category where x is count
-exports.getNewestComments = async (req) => {
+export const getNewestComments = async (req) => {
   try {
-    const gotNewestComments = await db.query(
+    const gotNewestComments = await query(
       "SELECT * FROM comments WHERE post_id=$1 ORDER BY create_date DESC LIMIT 10 OFFSET $2",
       [req.params.post_id, 10 * req.params.count]
     );
@@ -14,9 +14,9 @@ exports.getNewestComments = async (req) => {
 };
 
 //get xth set of most starred comments where x is count
-exports.getStarredComments = async (req) => {
+export const getStarredComments = async (req) => {
   try {
-    const gotStarredComments = await db.query(
+    const gotStarredComments = await query(
       "SELECT * FROM comments WHERE post_id=$1 ORDER BY stars DESC LIMIT 10 OFFSET $2",
       [req.params.post_id, 10 * req.params.count]
     );
@@ -27,9 +27,9 @@ exports.getStarredComments = async (req) => {
 };
 
 //get a comment by ID
-exports.getComment = async (req) => {
+export const getComment = async (req) => {
   try {
-    const gotComment = await db.query(
+    const gotComment = await query(
       "SELECT * FROM comments WHERE (comment_id=$1)",
       [req.params.comment_id]
     );
@@ -40,9 +40,9 @@ exports.getComment = async (req) => {
 };
 
 //post a new comment to a post
-exports.postComment = async (req) => {
+export const postComment = async (req) => {
   try {
-    const postedComment = await db.query(
+    const postedComment = await query(
       "INSERT INTO comments WHERE (post_id=$1) (user_id, category_id, text, create_date) values ($2, $3, $4, to_timestamp($5)) returning *",
       [
         req.params.post_id,
@@ -59,9 +59,9 @@ exports.postComment = async (req) => {
 };
 
 //delete a comment in a post
-exports.deleteComment = async (req) => {
+export const deleteComment = async (req) => {
   try {
-    const deletedComment = await db.query(
+    const deletedComment = await query(
       "DELETE FROM comments WHERE (comment_id=$1) returning *",
       [req.params.comment_id]
     );
@@ -72,9 +72,9 @@ exports.deleteComment = async (req) => {
 };
 
 //update the category or text of a comment in a post
-exports.updateComment = async (req) => {
+export const updateComment = async (req) => {
   try {
-    const updatedComment = await db.query(
+    const updatedComment = await query(
       "UPDATE comments SET (category_id=$1, text=$2, stars=$3) WHERE (comment_id=$4) RETURNING *",
       [
         req.body.category_id,
@@ -90,9 +90,9 @@ exports.updateComment = async (req) => {
 };
 
 //update the star count of a comment ("upvote")
-exports.upvoteComment = async (req) => {
+export const upvoteComment = async (req) => {
   try {
-    const upvotedComment = await db.query(
+    const upvotedComment = await query(
       "UPDATE comments SET (stars=$1) WHERE (comment_id=$2) RETURNING *",
       [req.body.stars, req.params.comment_id]
     );
