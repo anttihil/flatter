@@ -1,0 +1,21 @@
+extends layout 
+block content
+    main.flex.flex-col.flex-auto.items-center.bg-gray-900.h-screen
+        button //go back
+        button //edit if creator and logged in
+        button //delete if creator and logged in
+        div //post 
+            header //post title
+            div //post text 
+            footer 
+        for comment in comments 
+                article.bg-gray-400.text-gray-900
+                    div.p-2
+                        header.pb-2.text-lg.font-sans.text-xl= comment.comment_title
+                        div.font-serif.text-base= comment.comment_text
+                        footer.pt-2.flex.flex-row.font-sans.text-xs.justify-between
+                            div= "Posted by " + comment.user_nickname
+                            -   let date_config = {year: 'numeric', month: 'short', day: 'numeric'}
+                            -   let date = comment.comment_created_at.toLocaleDateString("en-US", date_config)
+                            div= date    
+        

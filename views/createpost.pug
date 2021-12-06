@@ -1,0 +1,23 @@
+extends layout 
+
+block content 
+    main.flex.flex-col.flex-auto.items-center.bg-gray-900.h-screen
+        button //Go back
+        .bg-gray-500 //post
+            header Create a post:  
+            form(action="post") 
+                div 
+                    label(for="")
+                    input // Board
+                div 
+                    label(for="")
+                    input // Title
+                div 
+                    label(for="")
+                    input // Image
+                div 
+                    label(for="")
+                    textarea#(name="", cols="30", rows="10")   
+            footer
+                button // Submit 
+                button // Cancel
