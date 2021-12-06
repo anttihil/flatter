@@ -5,12 +5,12 @@ export const getNewestPostsInAll = (req) =>
     // `t` and `this` here are the same;
     // this.ctx = transaction config + state context;
 
-    const boards = await t.many(
+    const boards = await t.manyOrNone(
       `SELECT board_name FROM boards ORDER BY board_name ASC`
     );
     console.log(boards);
-    const posts = await t.many(
-      `SELECT board_name, post_title, post_text, user_nickname, post_created_at 
+    const posts = await t.manyOrNone(
+      `SELECT board_name, post_id, post_title, post_text, user_nickname, post_created_at 
       FROM posts p
       INNER JOIN boards b 
         ON p.board_id = b.board_id 
@@ -29,11 +29,11 @@ export const getNewestPostsInBoard = async (req) =>
     // `t` and `this` here are the same;
     // this.ctx = transaction config + state context;
 
-    const boards = await t.many(
+    const boards = await t.manyOrNone(
       `SELECT board_name FROM boards ORDER BY board_name ASC`
     );
-    const posts = await t.many(
-      `SELECT board_name, post_title, post_text, user_nickname, post_created_at 
+    const posts = await t.manyOrNone(
+      `SELECT board_name, post_id, post_title, post_text, user_nickname, post_created_at 
         FROM posts p
         INNER JOIN boards b 
             ON p.board_id = b.board_id 

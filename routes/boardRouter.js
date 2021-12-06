@@ -4,7 +4,7 @@ import {
   getAllBoardsNew,
   getBoardNew,
 } from "../controllers/boardController.js";
-import { getPost } from "../controllers/postController.js";
+import { getPostController } from "../controllers/postController.js";
 const boardRouter = Router();
 
 //Below are the http request functions that call the specific Controller (2nd argument) when a request is received at the path in the first argument.
@@ -22,7 +22,7 @@ boardRouter.route("/:board_name/new").get((req, res) => {
 
 boardRouter.route("/:board_name/new/:count").get(getBoardNew);
 
-boardRouter.route("/:board_name/:post_id/:post_name").get(getPost);
+boardRouter.route("/:board_name/:post_id/:post_name").get(getPostController);
 
 export default boardRouter;
 

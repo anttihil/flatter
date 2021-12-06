@@ -1,18 +1,33 @@
-// these functions call the respective service function which queries the database, then a response is sent back
+import { insertPost } from "../services/postService.js";
 
 //get a post
-export const getPost = async (req, res) => {
-  try {
-    const gotPost = await postService.getPost(req);
-
-    res.status(200).json({
-      status: "success",
-      posts: gotPost.rows[0],
+export const getPostController = async (req, res, next) => {
+  await getPost(req)
+    .then((data) => {
+      res
+        .status(200)
+        .render("index", { boards: data.boards, posts: data.posts });
+    })
+    .catch((error) => {
+      next(error);
     });
-  } catch (error) {
-    console.log(error);
-  }
 };
+
+export const createPostController = async (req, res, next) => {
+  
+  
+
+  await createPost(req)
+    .then((data) => {
+      res
+        .status(200)
+        .render("post", { boards: data.boards, posts: data.posts });
+    })
+    .catch((error) => {
+      next(error);
+    });
+};
+
 /* 
 
 //get xth set of most starred comments where x is count

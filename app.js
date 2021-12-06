@@ -13,7 +13,7 @@ app.set("view engine", "pug");
 
 
 app.use(express.urlencoded({ extended: false }));
-app.use(helmet)
+app.use(helmet())
 app.use(morgan("dev"));
 
 mountRoutes(app);

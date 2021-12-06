@@ -1,0 +1,11 @@
+nav.fixed.flex.flex-col.items-center.h-full.w-24.text-gray-400.bg-gray-600.font-fraktur.space-y-1.divide-y
+    a.pt-4(href="/login") Login
+    ul.flex.flex-col.items-center.space-y-1 Boards:
+        li 
+            a(href="/board/all/new/0") All
+        for board in boards
+            li
+                a(href="/board/" + board.board_name + "/new/0")= board.board_name 
+    div Blog
+    div Gallery
+    div About

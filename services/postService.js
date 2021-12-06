@@ -1,8 +1,9 @@
+import db from "../db/db.js";
 //get a post
-exports.getPost = async (req) => {
+export const getPost = async (req) => {
   try {
-    const gotPost = await query("SELECT * FROM posts WHERE post_id=$1", [
-      req.params.id,
+    const gotPost = await db.query("SELECT * FROM posts WHERE post_id=$1", [
+      req.params.post_id,
     ]);
     return gotPost;
   } catch (error) {
@@ -11,7 +12,7 @@ exports.getPost = async (req) => {
 };
 
 //create a post
-exports.postPost = async (req) => {
+export const insertPost = async (req) => {
   try {
     const postedPost = await query(
       "INSERT INTO posts (user_id, category_id, text, create_date) values ($1, $2, $3, to_timestamp($4)) returning *",
@@ -24,7 +25,7 @@ exports.postPost = async (req) => {
 };
 
 //delete a post with id
-exports.deletePost = async (req) => {
+export const deletePost = async (req) => {
   try {
     const deletedPost = await query(
       "DELETE FROM posts WHERE post_id=$1 returning *",
@@ -37,7 +38,7 @@ exports.deletePost = async (req) => {
 };
 
 //update a post (category, text or stars)
-exports.updatePost = async (req) => {
+export const updatePost = async (req) => {
   try {
     const updatedPost = await query(
       "UPDATE posts SET category_id=$1, text=$2, stars=$3 WHERE post_id=$4 RETURNING *",
@@ -50,7 +51,7 @@ exports.updatePost = async (req) => {
 };
 
 //update stars in a post ("upvote")
-exports.upvotePost = async (req) => {
+export const upvotePost = async (req) => {
   try {
     const updatedStars = await query(
       "UPDATE posts SET stars=$1 WHERE post_id=$2 RETURNING *",

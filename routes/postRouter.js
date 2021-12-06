@@ -5,7 +5,7 @@ const postRouter = Router({ mergeParams: true });
 
 //Below are the http request functions that call the specific Controller (2nd argument) when a request is received at the path in the first argument.
 
-postRouter.route("/").get(getPost);
+postRouter.route("/").get(getPostPageController);
 
 export default postRouter;
 
