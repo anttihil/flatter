@@ -1,5 +1,3 @@
-import { query } from "../db/db";
-
 //get xth set of newest comments in any category where x is count
 export const getNewestComments = async (req) => {
   try {

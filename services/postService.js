@@ -1,31 +1,3 @@
-import { query } from "../db/db";
-
-//get xth set of newest posts in any category where x is count
-exports.getNewestPosts = async (req) => {
-  try {
-    const gotNewestPosts = await query(
-      "SELECT * FROM posts where category = $1 ORDER BY create_date DESC LIMIT 10 OFFSET $2",
-      [req.params.category_id, 10 * req.params.count]
-    );
-    return gotNewestPosts;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-//get xth set of most starred posts in category y where x is count
-exports.getStarredPosts = async (req) => {
-  try {
-    const gotStarredPosts = await query(
-      "SELECT * FROM posts WHERE category = $1 ORDER BY stars DESC LIMIT 10 OFFSET $2",
-      [req.params.category_id, 10 * req.params.count]
-    );
-    return gotStarredPosts;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 //get a post
 exports.getPost = async (req) => {
   try {

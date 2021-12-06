@@ -1,11 +1,11 @@
-const express = require("express");
-const usersController = require("../controllers/userController");
+import { Router } from "express";
 
-const usersRouter = express.Router();
+const usersRouter = Router();
 
+usersRouter.route("/:user_name").get();
 //Below are the http request functions that call the specific Controller (2nd argument) when a request is received at the path in the first argument.
 
-usersRouter.get("/:user_id", usersController.getUserController);
+/* usersRouter.get("/:user_id", usersController.getUserController);
 
 usersRouter.get("/", usersController.getAllUsersController);
 
@@ -13,6 +13,6 @@ usersRouter.post("/", usersController.postUserController);
 
 usersRouter.delete("/:user_id", usersController.deleteUserController);
 
-usersRouter.put("/:user_id", usersController.updateUserController);
+usersRouter.put("/:user_id", usersController.updateUserController); */
 
-module.exports = usersRouter;
+export default usersRouter;

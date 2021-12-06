@@ -1,5 +1,3 @@
-import commentService from "../services/commentService";
-
 //get xth set of newest comments in any category where x is count
 exports.getNewestCommentsController = async (req, res) => {
   try {

@@ -1,5 +1,3 @@
-import { postService } from "../services/postService";
-
 // these functions call the respective service function which queries the database, then a response is sent back
 
 //get a post

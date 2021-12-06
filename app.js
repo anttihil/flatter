@@ -1,27 +1,27 @@
 import express from "express";
 import morgan from "morgan";
 import dotenv from "dotenv";
-import { mountRoutes } from "./routes/index";
+import mountRoutes from "./routes/index.js";
 import helmet from "helmet";
-import cors from "cors";
 
 dotenv.config({ path: "./.env" });
 
 const app = express();
 
-app.set("views", "./views");
+app.set("views", "views");
 app.set("view engine", "pug");
 
-app.use(cors());
-app.use(helmet());
 
-app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(helmet)
+app.use(morgan("dev"));
 
 mountRoutes(app);
 
-app.use(morgan("short"));
+app.use(express.static("public"));
 
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 3001;
+
 app.listen(port, () => {
   console.log(`The server is up and listening on port ${port}`);
 });

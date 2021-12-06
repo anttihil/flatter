@@ -1,9 +1,7 @@
-const userService = require("../services/userService");
-
 //calls the get user service function and sends a response
-exports.getUserController = async (req, res) => {
+export const getUserPosts = async (req, res) => {
   try {
-    const gotUser = await userService.getUser(req);
+    const gotUser = await getUser(req);
     res.status(200).json({
       status: "success",
       users: gotUser.rows[0],
@@ -13,7 +11,7 @@ exports.getUserController = async (req, res) => {
   }
 };
 
-exports.getAllUsersController = async (req, res) => {
+export const getAllUsersController = async (req, res) => {
   try {
     const gotUser = await userService.getAllUsers(req);
     res.status(200).json({
@@ -26,7 +24,7 @@ exports.getAllUsersController = async (req, res) => {
 };
 
 //calls the post user service function and sends a response
-exports.postUserController = async (req, res) => {
+export const postUserController = async (req, res) => {
   try {
     const postedUser = await userService.postUser(req);
     res.status(201).json({
@@ -39,7 +37,7 @@ exports.postUserController = async (req, res) => {
 };
 
 //calls the delete user service function and sends a response
-exports.deleteUserController = async (req, res) => {
+export const deleteUserController = async (req, res) => {
   try {
     const deletedUser = await userService.deleteUser(req);
     res.status(200).json({
@@ -52,7 +50,7 @@ exports.deleteUserController = async (req, res) => {
 };
 
 //calls the update user service function and sends a response
-exports.updateUserController = async (req, res) => {
+export const updateUserController = async (req, res) => {
   try {
     const updatedUser = await userService.updateUser(req);
     res.status(200).json({

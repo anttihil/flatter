@@ -1,22 +1,28 @@
 import { Router } from "express";
-import postRouter from "./postRouter";
-import { getAllBoardsNew, getBoardNew } from "../controllers/boardController";
+
+import {
+  getAllBoardsNew,
+  getBoardNew,
+} from "../controllers/boardController.js";
+import { getPost } from "../controllers/postController.js";
 const boardRouter = Router();
 
 //Below are the http request functions that call the specific Controller (2nd argument) when a request is received at the path in the first argument.
-boardRouter.use("/:board_name/:post_id/:post_name", postRouter);
+//boardRouter.use("/new/:board_name/:post_id/:post_name", postRouter);
 
-boardRouter.route("/" || "/new").get((req, res) => {
-  res.redirect("/new/1");
+boardRouter.route("/").get((req, res) => {
+  res.redirect("/board/all/new/0");
 });
 
-boardRouter.route("/new/:count").get(getAllBoardsNew);
+boardRouter.route("/all/new/:count").get(getAllBoardsNew);
 
-boardRouter.route("/new/:board_name").get((req, res) => {
-  res.redirect(`/new/${req.params.board_name}/1`);
+boardRouter.route("/:board_name/new").get((req, res) => {
+  res.redirect(`/${req.params.board_name}/new/0`);
 });
 
-boardRouter.route("/new/:board_name/:count").get(getBoardNew);
+boardRouter.route("/:board_name/new/:count").get(getBoardNew);
+
+boardRouter.route("/:board_name/:post_id/:post_name").get(getPost);
 
 export default boardRouter;
 

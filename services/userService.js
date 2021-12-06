@@ -1,6 +1,4 @@
-import { query } from "../db/db";
-
-exports.getUser = async (req) => {
+export const getUser = async (req) => {
   try {
     const gotUser = await query("SELECT * FROM users WHERE user_id=$1", [
       req.params.user_id,
@@ -11,7 +9,7 @@ exports.getUser = async (req) => {
   }
 };
 
-exports.getAllUsers = async () => {
+export const getAllUsers = async () => {
   try {
     const gotUser = await query("SELECT * FROM users");
     return gotUser;
@@ -20,7 +18,7 @@ exports.getAllUsers = async () => {
   }
 };
 
-exports.postUser = async (req) => {
+export const postUser = async (req) => {
   try {
     const postedUser = await query(
       "INSERT INTO users (username, password, email, create_date) values ($1, $2, $3, to_timestamp($4)) returning *",
@@ -32,7 +30,7 @@ exports.postUser = async (req) => {
   }
 };
 
-exports.deleteUser = async (req) => {
+export const deleteUser = async (req) => {
   try {
     const deletedUser = await query(
       "DELETE FROM users WHERE user_id=$1 returning *",
@@ -44,7 +42,7 @@ exports.deleteUser = async (req) => {
   }
 };
 
-exports.updateUser = async (req) => {
+export const updateUser = async (req) => {
   try {
     const updatedUser = await query(
       "UPDATE users SET username=$1, password=$2, email=$3 WHERE user_id=$4 RETURNING *",

@@ -1,0 +1,28 @@
+extends layout 
+
+block content
+    div.flex.flex-row.w-full
+        nav.fixed.flex.flex-col.items-center.h-full.w-24.text-gray-400.bg-gray-600.font-fraktur.space-y-1.divide-y
+            div.pt-4 User
+            ul.flex.flex-col.items-center.space-y-1 Boards:
+                li 
+                    a(href="/board/all/new/0") All
+                for board in boards
+                    li
+                        a(href="/board/" + board.board_name + "/new/0")= board.board_name 
+            div Blog
+            div Gallery
+            div About
+        main.flex.flex-col.flex-auto.items-center.bg-gray-900.h-screen
+            div.mt-4.flex.flex-col.space-y-4
+                for post in posts 
+                    article.bg-gray-400.text-gray-900
+                        div.p-2
+                            header.pb-2.text-lg.font-sans.text-xl= post.post_title
+                            div.font-serif.text-base= post.post_text
+                            footer.pt-2.flex.flex-row.font-sans.text-xs.justify-between
+                                div= "Posted by " + post.user_nickname
+                                -   let date_config = {year: 'numeric', month: 'short', day: 'numeric'}
+                                -   let date = post.post_created_at.toLocaleDateString("en-US", date_config)
+                                div= date
+            footer This is the footer.

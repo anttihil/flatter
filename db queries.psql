@@ -1,0 +1,23 @@
+INSERT INTO 
+    users (user_email, user_nickname, user_role, user_password) 
+VALUES
+    ('keke@gmail.com', 'Paroni', 'user', 'salasana')
+RETURNING *;
+
+INSERT INTO 
+    boards (board_name) 
+VALUES
+    ('LARP'), 
+    ('Mordheim'),
+    ('Life'),
+    ('Art')
+RETURNING *;
+
+INSERT INTO 
+    posts (user_id, board_id, post_title, post_text) 
+VALUES
+    (1, 2, 'Hey', 'Lorem Ipsum'), 
+    (1, 2, 'Mordheim is best', 'Ive been playing for a while.'),
+    (1, 2, 'Balance issues', 'Possessed are overpowered in late game.'),
+    (1, 1, 'Middle Earth Larp', 'An event scheduled in Hollola, Finland.')
+RETURNING *;

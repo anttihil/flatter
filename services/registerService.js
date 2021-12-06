@@ -1,5 +1,3 @@
-import { query } from "../db/db";
-
 export const postNewUser = async (req) => {
   try {
     const postedUser = await query(

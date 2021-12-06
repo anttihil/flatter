@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getPost } from "../controllers/postController";
+import { getPost } from "../controllers/postController.js";
 
 const postRouter = Router({ mergeParams: true });
 
