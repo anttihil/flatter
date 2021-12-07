@@ -1,3 +1,19 @@
+export const loginUser = async (req, res) => {
+  try {
+    
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const registerUser = async (req, res) => {
+  try {
+    
+  } catch (error) {
+    next(error)
+  }
+}
+
 //calls the get user service function and sends a response
 export const getUserPosts = async (req, res) => {
   try {
@@ -11,7 +27,7 @@ export const getUserPosts = async (req, res) => {
   }
 };
 
-export const getAllUsersController = async (req, res) => {
+export const getAllUsers = async (req, res) => {
   try {
     const gotUser = await userService.getAllUsers(req);
     res.status(200).json({
@@ -22,7 +38,7 @@ export const getAllUsersController = async (req, res) => {
     console.log(error);
   }
 };
-
+/* 
 //calls the post user service function and sends a response
 export const postUserController = async (req, res) => {
   try {
@@ -60,4 +76,4 @@ export const updateUserController = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
-};
+}; */

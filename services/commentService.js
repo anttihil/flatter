@@ -1,100 +1,90 @@
-//get xth set of newest comments in any category where x is count
-export const getNewestComments = async (req) => {
+//select xth set of newest comments in any category where x is count
+export const selectNewestComments = async (req) => {
   try {
-    const gotNewestComments = await query(
+    const result = await query(
       "SELECT * FROM comments WHERE post_id=$1 ORDER BY create_date DESC LIMIT 10 OFFSET $2",
       [req.params.post_id, 10 * req.params.count]
     );
-    return gotNewestComments;
+    return result;
   } catch (error) {
     console.log(error);
   }
 };
 
-//get xth set of most starred comments where x is count
-export const getStarredComments = async (req) => {
+export const selectStarredComments = async (req) => {
   try {
-    const gotStarredComments = await query(
+    const result = await query(
       "SELECT * FROM comments WHERE post_id=$1 ORDER BY stars DESC LIMIT 10 OFFSET $2",
       [req.params.post_id, 10 * req.params.count]
     );
-    return gotStarredComments;
+    return result;
   } catch (error) {
     console.log(error);
   }
 };
 
-//get a comment by ID
-export const getComment = async (req) => {
+export const selectComment = async (req) => {
   try {
-    const gotComment = await query(
+    const result = await query(
       "SELECT * FROM comments WHERE (comment_id=$1)",
       [req.params.comment_id]
     );
-    return gotComment;
+    return result;
   } catch (error) {
     console.log(error);
   }
 };
 
-//post a new comment to a post
-export const postComment = async (req) => {
+export const insertComment = async (req) => {
   try {
-    const postedComment = await query(
-      "INSERT INTO comments WHERE (post_id=$1) (user_id, category_id, text, create_date) values ($2, $3, $4, to_timestamp($5)) returning *",
+    const result = await query(
+      "INSERT INTO comments WHERE (post_id=$1) (user_id, comment_text) VALUES ($2, $3) RETURNING *",
       [
         req.params.post_id,
         req.body.user_id,
-        req.body.category_id,
-        req.body.text,
-        Date.now() / 1000,
+        req.body.comment_text,
       ]
     );
-    return postedComment;
+    return result;
   } catch (error) {
     console.log(error);
   }
 };
 
-//delete a comment in a post
 export const deleteComment = async (req) => {
   try {
-    const deletedComment = await query(
+    const result = await query(
       "DELETE FROM comments WHERE (comment_id=$1) returning *",
       [req.params.comment_id]
     );
-    return deletedComment;
+    return result;
   } catch (error) {
     console.log(error);
   }
 };
 
-//update the category or text of a comment in a post
-export const updateComment = async (req) => {
+export const updateCommentText = async (req) => {
   try {
-    const updatedComment = await query(
-      "UPDATE comments SET (category_id=$1, text=$2, stars=$3) WHERE (comment_id=$4) RETURNING *",
+    const result = await query(
+      "UPDATE comments SET (comment_text=$1) WHERE (comment_id=$2) RETURNING *",
       [
-        req.body.category_id,
-        req.body.text,
-        req.body.stars,
+        req.body.comment_text,
         req.params.comment_id,
       ]
     );
-    return updatedComment;
+    return result;
   } catch (error) {
     console.log(error);
   }
 };
 
-//update the star count of a comment ("upvote")
-export const upvoteComment = async (req) => {
+export const updateCommentStar = async (req) => {
   try {
-    const upvotedComment = await query(
+    const result = await query(
       "UPDATE comments SET (stars=$1) WHERE (comment_id=$2) RETURNING *",
       [req.body.stars, req.params.comment_id]
     );
-    return upvotedComment;
+    return result;
   } catch (error) {
     console.log(error);
   }

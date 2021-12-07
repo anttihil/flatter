@@ -1,11 +1,11 @@
 import db from "../db/db.js";
-//get a post
-export const getPost = async (req) => {
+//select a post
+export const selectPost = async (req) => {
   try {
-    const gotPost = await db.query("SELECT * FROM posts WHERE post_id=$1", [
+    const result = await db.query("SELECT * FROM posts WHERE post_id=$1", [
       req.params.post_id,
     ]);
-    return gotPost;
+    return result;
   } catch (error) {
     console.log(error);
   }
@@ -14,11 +14,11 @@ export const getPost = async (req) => {
 //create a post
 export const insertPost = async (req) => {
   try {
-    const postedPost = await query(
+    const result = await query(
       "INSERT INTO posts (user_id, category_id, text, create_date) values ($1, $2, $3, to_timestamp($4)) returning *",
       [req.body.user_id, req.body.category_id, req.body.text, Date.now() / 1000]
     );
-    return postedPost;
+    return result;
   } catch (error) {
     console.log(error);
   }
@@ -27,11 +27,11 @@ export const insertPost = async (req) => {
 //delete a post with id
 export const deletePost = async (req) => {
   try {
-    const deletedPost = await query(
+    const result = await query(
       "DELETE FROM posts WHERE post_id=$1 returning *",
       [req.params.id]
     );
-    return deletedPost;
+    return result;
   } catch (error) {
     console.log(error);
   }
@@ -40,11 +40,11 @@ export const deletePost = async (req) => {
 //update a post (category, text or stars)
 export const updatePost = async (req) => {
   try {
-    const updatedPost = await query(
+    const result = await query(
       "UPDATE posts SET category_id=$1, text=$2, stars=$3 WHERE post_id=$4 RETURNING *",
       [req.body.category_id, req.body.text, req.body.stars, req.params.id]
     );
-    return updatedPost;
+    return result;
   } catch (error) {
     console.log(error);
   }
@@ -53,11 +53,11 @@ export const updatePost = async (req) => {
 //update stars in a post ("upvote")
 export const upvotePost = async (req) => {
   try {
-    const updatedStars = await query(
+    const result = await query(
       "UPDATE posts SET stars=$1 WHERE post_id=$2 RETURNING *",
       [req.body.stars, req.params.id]
     );
-    return updatedStars;
+    return result;
   } catch (error) {
     console.log(error);
   }

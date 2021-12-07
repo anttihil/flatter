@@ -1,23 +1,9 @@
-import { insertPost } from "../services/postService.js";
+import { insertPost, selectPost } from "../services/postService.js";
 
-//get a post
-export const getPostController = async (req, res, next) => {
-  await getPost(req)
-    .then((data) => {
-      res
-        .status(200)
-        .render("index", { boards: data.boards, posts: data.posts });
-    })
-    .catch((error) => {
-      next(error);
-    });
-};
 
-export const createPostController = async (req, res, next) => {
-  
-  
 
-  await createPost(req)
+export const createPost = async (req, res, next) => {
+  await insertPost(req)
     .then((data) => {
       res
         .status(200)

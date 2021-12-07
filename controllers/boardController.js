@@ -1,11 +1,12 @@
 import {
-  getNewestPostsInAll,
-  getNewestPostsInBoard,
+  selectNewestPostsInAll,
+  selectNewestPostsInBoard,
 } from "../services/boardService.js";
+import {selectPost} from "../services/postService.js"
 
 //calls the get all board service function and sends a response
 export const getAllBoardsNew = async (req, res, next) => {
-  await getNewestPostsInAll(req)
+  await selectNewestPostsInAll(req)
     .then((data) => {
       console.log(data);
       res
@@ -18,7 +19,7 @@ export const getAllBoardsNew = async (req, res, next) => {
 };
 
 export const getBoardNew = async (req, res, next) => {
-  await getNewestPostsInBoard(req)
+  await selectNewestPostsInBoard(req)
     .then((data) => {
       res
         .status(200)
@@ -27,6 +28,17 @@ export const getBoardNew = async (req, res, next) => {
     .catch((error) => {
       next(error);
     });
+};
+
+//get a post
+export const getPostAndComments = async (req, res, next) => {
+  await selectPost(req)
+    .then((data) => {
+      res
+        .status(200)
+        .render("index", { boards: data.boards, posts: data.posts });
+    })
+    .catch((error) => next(error));
 };
 
 /* 

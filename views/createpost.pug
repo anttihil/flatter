@@ -2,22 +2,26 @@ extends layout
 
 block content 
     main.flex.flex-col.flex-auto.items-center.bg-gray-900.h-screen
-        button //Go back
+        button.go_back.fixed Go back
         .bg-gray-500 //post
-            header Create a post:  
-            form(action="post") 
+            header Write a Post:  
+            form(action="" method="POST").flex.flex-col.space-between-y-2 
+                // Check whether select "required" causes trouble for submission
+                #select-Board(class={board_name === "all" ? "hidden" : ""})   
+                    label(for="board") Select Board:
+                    select(name="board" id="board" required)
+                        for board in boards 
+                            option(value=board.board_name) 
                 div 
-                    label(for="")
-                    input // Board
+                    label(for="title") Post Title:
+                    input(type="text" id="title" required) // Title
                 div 
-                    label(for="")
-                    input // Title
+                    label(for="image") Image URL:
+                    input(type="url" id="image") // Image
                 div 
-                    label(for="")
-                    input // Image
+                    label(for="post_text") Post Text:  
+                    textarea(id="post_text" name="post_text" cols="30" rows="10" placeholder="Type here.") 
                 div 
-                    label(for="")
-                    textarea#(name="", cols="30", rows="10")   
-            footer
-                button // Submit 
-                button // Cancel
+                    button.go_back.fixed Cancel
+                    input(type="submit" value="Submit")
+ 

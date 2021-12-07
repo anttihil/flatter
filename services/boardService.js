@@ -1,6 +1,6 @@
 import db from "../db/db.js";
 
-export const getNewestPostsInAll = (req) =>
+export const selectNewestPostsInAll = (req) =>
   db.tx(async (t) => {
     // `t` and `this` here are the same;
     // this.ctx = transaction config + state context;
@@ -23,8 +23,7 @@ export const getNewestPostsInAll = (req) =>
     return { boards, posts };
   });
 
-/*  */
-export const getNewestPostsInBoard = async (req) =>
+export const selectNewestPostsInBoard = async (req) =>
   db.tx(async (t) => {
     // `t` and `this` here are the same;
     // this.ctx = transaction config + state context;
@@ -45,3 +44,26 @@ export const getNewestPostsInBoard = async (req) =>
     );
     return { boards, posts };
   });
+
+export const selectPostandComments = async (req) =>
+  db.tx(async (t) => {
+    // `t` and `this` here are the same;
+    // this.ctx = transaction config + state context;
+
+    const boards = await t.manyOrNone(
+      `SELECT board_name FROM boards ORDER BY board_name ASC`
+    );
+    const postAndComments = await t.manyOrNone(
+      `SELECT post_title, post_text, user_nickname, post_created_at 
+        FROM posts p
+        INNER JOIN comments c 
+            ON p.post_id = c.post_id 
+        INNER JOIN users s 
+          ON s.user_id = p.user_id
+        WHERE board_name = $1 
+        ORDER BY post_created_at DESC LIMIT 100 OFFSET $2`,
+      [req.params.board_name, 100 * req.params.count]
+    );
+    return { boards, posts };
+  });
+
