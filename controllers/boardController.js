@@ -1,8 +1,9 @@
 import {
   selectNewestPostsInAll,
   selectNewestPostsInBoard,
+  selectPostandComments,
 } from "../services/boardService.js";
-import {selectPost} from "../services/postService.js"
+
 
 //calls the get all board service function and sends a response
 export const getAllBoardsNew = async (req, res, next) => {
@@ -32,7 +33,7 @@ export const getBoardNew = async (req, res, next) => {
 
 //get a post
 export const getPostAndComments = async (req, res, next) => {
-  await selectPost(req)
+  await selectPostandComments(req)
     .then((data) => {
       res
         .status(200)
