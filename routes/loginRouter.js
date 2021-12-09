@@ -1,4 +1,6 @@
 import { Router } from "express";
+import { getLoginPage, logInUser } from "../controllers/loginController.js";
+
 
 const loginRouter = Router();
 

@@ -1,9 +1,9 @@
 import {
+  selectBoards,
   selectNewestPostsInAll,
   selectNewestPostsInBoard,
   selectPostandComments,
 } from "../services/boardService.js";
-
 
 //calls the get all board service function and sends a response
 export const getAllBoardsNew = async (req, res, next) => {
@@ -33,6 +33,77 @@ export const getBoardNew = async (req, res, next) => {
 
 //get a post
 export const getPostAndComments = async (req, res, next) => {
+  await selectPostandComments(req)
+    .then((data) => {
+      res
+        .status(200)
+        .render("index", { boards: data.boards, posts: data.posts });
+    })
+    .catch((error) => next(error));
+};
+
+//get the create post page
+export const getCreatePost = async (req, res, next) => {
+  //First check if the user does not exist or user credentials do not match the session info
+  // then: redirect to login/register
+  // Otherwise, render the creat post page
+  try {
+    const result = await selectBoards(req);
+    console.log(result)
+    res
+        .status(200)
+        .render("createPost", { boards: result}) 
+  } catch (error) {
+    next(error)
+  }
+};
+
+export const submitPost = async (req, res, next) => {
+  // First check if the user does not exist or user credentials do not match the session info
+  // then: redirect to login/register
+  // Otherwise, insert post into the database
+  // Then redirect to the landing page
+  // remember to change the landing page to include a success modal with hidden class switch
+  await insertPost(req)
+    .then((data) => {
+      res
+        .status(200)
+        .render("index", { boards: data.boards, posts: data.posts });
+    })
+    .catch((error) => next(error));
+};
+
+export const editPost = async (req, res, next) => {
+  await selectPostandComments(req)
+    .then((data) => {
+      res
+        .status(200)
+        .render("index", { boards: data.boards, posts: data.posts });
+    })
+    .catch((error) => next(error));
+};
+
+export const submitComment = async (req, res, next) => {
+  await selectPostandComments(req)
+    .then((data) => {
+      res
+        .status(200)
+        .render("index", { boards: data.boards, posts: data.posts });
+    })
+    .catch((error) => next(error));
+};
+
+export const deleteComment = async (req, res, next) => {
+  await selectPostandComments(req)
+    .then((data) => {
+      res
+        .status(200)
+        .render("index", { boards: data.boards, posts: data.posts });
+    })
+    .catch((error) => next(error));
+};
+
+export const updateComment = async (req, res, next) => {
   await selectPostandComments(req)
     .then((data) => {
       res

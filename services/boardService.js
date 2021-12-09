@@ -1,6 +1,10 @@
 import db from "../db/db.js";
 
-export const selectNewestPostsInAll = (req) =>
+export const selectBoards = async (req) => {
+  return await db.any('SELECT board_name FROM boards ORDER BY board_name ASC')
+}
+
+export const selectNewestPostsInAll = async (req) =>
   db.tx(async (t) => {
     // `t` and `this` here are the same;
     // this.ctx = transaction config + state context;

@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS comments
     FOREIGN KEY (reference_id)
         REFERENCES comments (comment_id) 
         ON UPDATE CASCADE
-        ON DELETE DO NOTHING,
+        ON DELETE CASCADE,
     PRIMARY KEY (comment_id)
 );
 

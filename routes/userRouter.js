@@ -2,7 +2,7 @@ import { Router } from "express";
 
 const usersRouter = Router();
 
-usersRouter.route("/:user_name").get(getUserPage);
+//usersRouter.route("/:user_name").get(getUserPage);
 //Below are the http request functions that call the specific Controller (2nd argument) when a request is received at the path in the first argument.
 
 /* usersRouter.get("/:user_id", usersController.getUserController);

@@ -1,27 +1,23 @@
 extends layout 
 
 block content 
-    main.flex.flex-col.flex-auto.items-center.bg-gray-900.h-screen
-        button.go_back.fixed Go back
-        .bg-gray-500 //post
-            header Write a Post:  
-            form(action="" method="POST").flex.flex-col.space-between-y-2 
-                // Check whether select "required" causes trouble for submission
-                #select-Board(class={board_name === "all" ? "hidden" : ""})   
+    div.flex.flex-col.items-center.justify-center.bg-gray-900.h-full
+        .bg-gray-500.p-4.flex.flex-col.items-center.w-96.divide-y-2.space-y-2.divide-gray-700 
+            div.flex.flex-col.h-8.items-center.text-xl.font-fraktur
+                header Create a Post  
+            form(action="" method="POST").flex.flex-col.space-y-2.mt-2.font-serif.w-full.text-sm
+                div  
                     label(for="board") Select Board:
-                    select(name="board" id="board" required)
+                    select(name="board" id="board" required).shadow.w-full
                         for board in boards 
                             option(value=board.board_name) 
                 div 
-                    label(for="title") Post Title:
-                    input(type="text" id="title" required) // Title
+                    label(for="title") Title:
+                    input(type="text" id="title" required).shadow.w-full
                 div 
                     label(for="image") Image URL:
-                    input(type="url" id="image") // Image
+                    input(type="url" id="image").shadow.w-full 
                 div 
-                    label(for="post_text") Post Text:  
-                    textarea(id="post_text" name="post_text" cols="30" rows="10" placeholder="Type here.") 
-                div 
-                    button.go_back.fixed Cancel
-                    input(type="submit" value="Submit")
- 
+                    label(for="post_text") Text:  
+                    textarea.shadow.w-full(id="post_text" name="post_text" cols="30" rows="10" placeholder="Type here.") 
+                input(type="submit" value="Submit").self-end.p-2.shadow.border-2.border-gray-700.border-opacity-50.text-lg.font-fraktur

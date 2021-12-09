@@ -1,0 +1,26 @@
+extends layout 
+
+block content 
+    div.flex.flex-col.items-center.justify-center.bg-gray-900.h-full
+        .bg-gray-500.p-4.flex.flex-col.items-center.w-96.divide-y-2.space-y-2.divide-gray-700 
+            div.flex.flex-col.h-8.items-center.text-xl.font-fraktur
+                header Register  
+            form(action="" method="POST").flex.flex-col.space-y-2.mt-2.font-serif.w-full.text-sm
+                div  
+                    label(for="board") Select Board:
+                    select(name="board" id="board" required).shadow.w-full
+                        for board in boards 
+                            option(value=board.board_name) 
+                div 
+                    label(for="title") Email:
+                    input(type="text" id="title" required).shadow.w-full
+                div 
+                    label(for="title") User name:
+                    input(type="text" id="title" required).shadow.w-full
+                div 
+                    label(for="image") Password:
+                    input(type="password" id="image").shadow.w-full 
+                div 
+                    label(for="post_text") Text:  
+                    textarea.shadow.w-full(id="post_text" name="post_text" cols="30" rows="10" placeholder="Type here.") 
+                input(type="submit" value="Submit").self-end.p-2.shadow.border-2.border-gray-700.border-opacity-50.text-lg.font-fraktur

@@ -21,3 +21,12 @@ VALUES
     (1, 2, 'Balance issues', 'Possessed are overpowered in late game.'),
     (1, 1, 'Middle Earth Larp', 'An event scheduled in Hollola, Finland.')
 RETURNING *;
+
+//Alter table comments to include reference_id
+ALTER TABLE comments
+ADD COLUMN reference_id INT,
+ADD CONSTRAINT fk_reference
+        FOREIGN KEY(reference_id) 
+	    REFERENCES comments(comment_id)
+        ON UPDATE CASCADE
+        ON DELETE NO ACTION;

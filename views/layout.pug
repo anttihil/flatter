@@ -7,8 +7,10 @@ html
     script
       let FF_FOUC_FIX;
   body
-    div.flex.flex-row.w-full
-        include sidebar.pug
-        block content
+    div.flex.min-h-screen.items-stretch
+        aside.flex.flex-col.items-center.flex-none.w-28.bg-gray-600
+          include sidebar.pug
+        main.flex.flex-col.items-center.flex-auto.bg-gray-900
+          block content
   footer 
     block footer-content

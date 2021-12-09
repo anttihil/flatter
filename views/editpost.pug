@@ -1,15 +1,14 @@
 extends layout 
 
 block content 
-    main.flex.flex-col.flex-auto.items-center.bg-gray-900.h-screen
-        button.go_back.fixed Go back
-        .bg-gray-500 //post
+    div.flex.flex-col.flex-auto.items-center.bg-gray-900.h-screen
+        .bg-gray-500
             header Edit Post:  
             form(action="" method="PUT").flex.flex-col.space-between-y-2 
                 // place old title as default value for input
                 div 
                     label(for="title") Post Title:
-                    input(type="text" id="title" required) // Title
+                    input(type="text" id="title" required)
                 div 
                     label(for="image") Image URL:
                     input(type="url" id="image") // Image
@@ -18,5 +17,4 @@ block content
                     label(for="post_text") Post Text:  
                     textarea(id="post_text" name="post_text" cols="30" rows="10" placeholder="Type here.") 
                 div 
-                    button.go_back1 Cancel
                     input(type="submit" value="Submit")
