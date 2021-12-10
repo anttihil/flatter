@@ -1,3 +1,5 @@
+import db from "../config/db.js";
+
 //select xth set of newest comments in any category where x is count
 export const selectNewestComments = async (req) => {
   try {

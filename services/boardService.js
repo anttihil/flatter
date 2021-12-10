@@ -1,4 +1,4 @@
-import db from "../db/db.js";
+import db from "../config/db.js";
 
 export const selectBoards = async (req) => {
   return await db.any('SELECT board_name FROM boards ORDER BY board_name ASC')

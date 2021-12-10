@@ -1,3 +1,5 @@
+import db from "../config/db.js";
+
 export const selectUser = async (req) => {
   try {
     const result = await query("SELECT * FROM users WHERE user_id=$1", [

@@ -1,4 +1,4 @@
-import db from "../db/db.js";
+import db from "../config/db.js";
 //select a post
 export const selectPost = async (req) => {
   try {

@@ -11,14 +11,13 @@ const app = express();
 app.set("views", "views");
 app.set("view engine", "pug");
 
+app.use(express.static("public"));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(helmet())
 app.use(morgan("dev"));
 
 mountRoutes(app);
-
-app.use(express.static("public"));
 
 const port = process.env.PORT || 3001;
 
