@@ -2,7 +2,7 @@ import db from "../config/db.js";
 
 export const selectUser = async (req) => {
   try {
-    const result = await query("SELECT * FROM users WHERE user_id=$1", [
+    const result = await db.oneOrNone("SELECT * FROM users WHERE user_id=$1", [
       req.params.user_id,
     ]);
     return result;

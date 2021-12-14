@@ -16,10 +16,7 @@ boardRouter.route("/").get((req, res) => {
   res.redirect("all/new/0");
 });
 
-boardRouter
-  .route("/createpost")
-  .get(getCreatePost)
-  .post(submitPost);
+boardRouter.route("/createpost").get(getCreatePost).post(submitPost);
 
 boardRouter.route("/all/new/:count(\\d+)").get(getAllBoardsNew);
 boardRouter.route("/:board_name/new/:count(\\d+)").get(getBoardNew);

@@ -37,7 +37,11 @@ export const getPostAndComments = async (req, res, next) => {
     .then((data) => {
       res
         .status(200)
-        .render("index", { boards: data.boards, posts: data.posts });
+        .render("readPost", {
+          boards: data.boards,
+          post: data.post,
+          comments: data.comments,
+        });
     })
     .catch((error) => next(error));
 };
@@ -49,12 +53,10 @@ export const getCreatePost = async (req, res, next) => {
   // Otherwise, render the creat post page
   try {
     const result = await selectBoards(req);
-    console.log(result)
-    res
-        .status(200)
-        .render("createPost", { boards: result}) 
+    console.log(result);
+    res.status(200).render("createPost", { boards: result });
   } catch (error) {
-    next(error)
+    next(error);
   }
 };
 

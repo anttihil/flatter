@@ -1,19 +1,3 @@
-export const loginUser = async (req, res) => {
-  try {
-    
-  } catch (error) {
-    next(error)
-  }
-}
-
-export const registerUser = async (req, res) => {
-  try {
-    
-  } catch (error) {
-    next(error)
-  }
-}
-
 //calls the get user service function and sends a response
 export const getUserPosts = async (req, res) => {
   try {
