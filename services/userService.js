@@ -11,6 +11,27 @@ export const selectUser = async (req) => {
   }
 };
 
+export const selectNewestPostsInAll = async (count) =>
+  // tx is an SQL transaction which can include multiple queries
+  db.tx(async (t) => {
+    const boards = await t.any(
+      `SELECT board_name FROM boards ORDER BY board_name ASC`
+    );
+    console.log(boards);
+    const posts = await t.any(
+      `SELECT board_name, post_id, post_title, post_text, user_nickname, post_created_at 
+      FROM posts p
+      INNER JOIN boards b 
+        ON p.board_id = b.board_id 
+      INNER JOIN users s 
+        ON s.user_id = p.user_id 
+      ORDER BY post_created_at DESC LIMIT 100 OFFSET $1`,
+      [100 * count]
+    );
+    console.log(posts);
+    return { boards, posts };
+  });
+
 export const selectAllUsers = async () => {
   try {
     const result = await query("SELECT * FROM users");

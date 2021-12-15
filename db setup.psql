@@ -5,6 +5,8 @@ CREATE TABLE IF NOT EXISTS users
     user_nickname text NOT NULL UNIQUE,
     user_role text NOT NULL,
     user_password text NOT NULL,
+    user_is_permabanned boolean NOT NULL DEFAULT false,
+    user_banned_until date,
     user_created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id)
 );

@@ -12,28 +12,32 @@ import {
 } from "../controllers/boardController.js";
 const boardRouter = Router();
 
+// default route for board
 boardRouter.route("/").get((req, res) => {
   res.redirect("all/new/0");
 });
 
+// route for creating a post
 boardRouter.route("/createpost").get(getCreatePost).post(submitPost);
 
+// routes for boards
 boardRouter.route("/all/new/:count(\\d+)").get(getAllBoardsNew);
-boardRouter.route("/:board_name/new/:count(\\d+)").get(getBoardNew);
-boardRouter.route("/:board_name/new").get((req, res) => {
-  res.redirect(`/${req.params.board_name}/new/0`);
+boardRouter.route("/:boardName/new/:count(\\d+)").get(getBoardNew);
+boardRouter.route("/:boardName/new").get((req, res) => {
+  res.redirect(`/${req.params.boardName}/new/0`);
 });
 
+// routes for posts
 boardRouter
-  .route("/:board_name/:post_id(\\d+)/:post_name")
+  .route("/:boardName/:postId(\\d+)/:postTitle")
   .get(getPostAndComments)
   .put(editPost)
   .post(submitComment);
+
+// routes for altering comments
 boardRouter
-  .route("/:board_name/:post_id(\\d+)/:post_name/:comment_id(\\d+)")
-  .delete(deleteComment);
-boardRouter
-  .route("/:board_name/:post_id(\\d+)/:post_name/:comment_id(\\d+)")
+  .route("/:boardName/:postId(\\d+)/:postTitle/:commentId(\\d+)")
+  .delete(deleteComment)
   .put(updateComment);
 
 export default boardRouter;

@@ -1,6 +1,15 @@
 import { selectBoards } from "../services/boardService.js";
 import { hash } from "argon2";
 
+export const getAdminDashboard = async (req, res, next) => {
+  try {
+    const result = await selectBoards();
+    res.render("adminDashboard", { boards: result.boards });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getLoginPage = async (req, res, next) => {
   try {
     const result = await selectBoards();
@@ -70,3 +79,5 @@ export const registerUser = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getUnauthorizedPage = (req, res, next) => {};
