@@ -5,8 +5,8 @@ block content
         div(class='w-3/4').bg-dark.p-4.flex.flex-col.items-center.divide-y-2.space-y-2.divide-brown 
             div.flex.flex-col.h-8.items-center.text-xl.font-fraktur.text-light
                 header Create a Post  
-            form(action="" method="POST" class='focus:outline-none focus:ring focus:ring-brown' ).flex.flex-col.space-y-2.mt-2.font-serif.w-full.text-sm.text-light
-                div  
+            form(action="" method="POST" class='focus:outline-none focus:ring focus:ring-brown' ).flex.flex-col.space-y-2.font-serif.w-full.text-sm.text-light
+                .pt-2  
                     label(for="board") Select Board:
                     select(name="board" id="board" required ).shadow.w-full.bg-light.text-dark.p-1
                         for board in boards 
@@ -20,4 +20,4 @@ block content
                 div 
                     label(for="text") Text:  
                     textarea.bg-light.text-dark.shadow.w-full(id="text" name="text" cols="30" rows="10" placeholder="Type here." class='focus:outline-none focus:ring focus:ring-brown') 
-                input(type="submit" value="Submit").self-end.p-2.shadow.border-2.border-main.border-opacity-50.text-lg.font-fraktur.bg-light.text-dark(class="hover:bg-gray")
+                input(type="submit" value="Submit").self-end.p-1.shadow.border-2.border-main.border-opacity-50.text-lg.font-fraktur.bg-light.text-dark(class="hover:bg-gray")

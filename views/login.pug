@@ -6,11 +6,11 @@ block content
             div.flex.flex-col.h-8.items-center.text-xl.font-fraktur.text-light
                 header Log In  
             form(action="" method="POST" class='focus:outline-none focus:ring focus:ring-brown').flex.flex-col.space-y-2.mt-2.font-serif.w-full.text-sm.text-light
-                div 
+                .pt-2 
                     label(for="username") Email
                     input(type="text" id="username" required class='focus:outline-none focus:ring focus:ring-brown').shadow.w-full.bg-light.text-dark
                 div 
                     label(for="password") Password
                     input(type="password" id="password" required class='focus:outline-none focus:ring focus:ring-brown').shadow.w-full.bg-light.text-dark 
-                input(type="submit" value="Submit").self-end.p-2.shadow.border-2.border-dark.border-opacity-50.text-lg.font-fraktur.bg-light.text-dark(class="hover:bg-gray")
+                input(type="submit" value="Submit").self-end.p-1.shadow.border-2.border-dark.border-opacity-50.text-lg.font-fraktur.bg-light.text-dark(class="hover:bg-gray")
                     

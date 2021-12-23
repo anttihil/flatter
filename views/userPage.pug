@@ -3,7 +3,7 @@ extends layout
 block content
     div(class="w-96").flex.flex-col.mt-4.space-y-4.items-stretch
         for post in posts 
-            article.bg-light.text-dark
+            article.bg-dark.text-light
                 div.p-2
                     header.pb-2.text-lg.font-sans.text-xl= post.post_title
                     div.font-serif.text-base= post.post_text 
