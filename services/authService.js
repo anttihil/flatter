@@ -1,5 +1,4 @@
 import db from "../config/db.js";
-import { hash } from "argon2";
 
 export const selectUserForAuthentication = async (email) => {
   return await db.one(

@@ -1,4 +1,5 @@
 import { Router } from "express";
+import passport from "passport";
 import {
   getLoginPage,
   getRegisterPage,
@@ -15,8 +16,8 @@ loginRouter
   .get(getLoginPage)
   .post(
     passport.authenticate("local", {
-      failureRedirect: "/failure",
-      successRedirect: "/success",
+      failureRedirect: "/login/failure",
+      successRedirect: "/login/success",
     })
   );
 

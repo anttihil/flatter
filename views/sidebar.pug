@@ -1,12 +1,10 @@
-nav.fixed.flex.flex-col.items-center.text-gray-200.font-fraktur.space-y-2.divide-y
+nav.antialiased.fixed.flex.flex-col.items-center.text-light.font-fraktur.space-y-2.divide-y.divide-brown
     a.pt-4(href="/login") Login
     a(href= "/board/createpost") Create a Post
     ul.flex.flex-col.items-center Boards:
-        li.text-gray-400 
+        li.text-light.antialiased 
             a(href="/board/all/new/0") All
         for board in boards
-            li.text-gray-400
+            li.text-light.antialiased
                 a(href="/board/" + board.board_name + "/new/0")= board.board_name 
-    div Blog
-    div Gallery
-    div About
+    a(href="/about") About

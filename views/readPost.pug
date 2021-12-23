@@ -1,24 +1,20 @@
 extends layout 
 block content
-    main.flex.flex-col.flex-auto.items-center.bg-gray-900.h-screen
-        div.flex.flex-col 
-            header= post.post_title 
-            div= post.post_content
-            footer.flex
-                button Edit
+    div.flex.flex-col.flex-auto.items-center.bg-main.h-screen.space-y-2
+        article.flex.flex-col.bg-dark.text-light 
+            header.px-2.py-1.font-sans.text-dark.bg-brown= post.post_title
+            div.px-2.py-1.font-serif.text-sm= post.post_text 
+            footer.px-2.py-1.flex.flex-row.font-sans.text-xs.justify-end
+                button Edit 
                 button Delete
-                div= "Posted by " + comment.user_nickname
-                            -   let date_config = {year: 'numeric', month: 'short', day: 'numeric'}
-                            -   let date = comment.comment_created_at.toLocaleDateString("en-US", date_config)
-                div= date
+                -   let dateConfig = {year: 'numeric', month: 'short', day: 'numeric'}
+                -   let date = post.post_created_at.toLocaleDateString("en-US", dateConfig)
+                div= "Posted by " + post.user_nickname + ' on ' + date
         for comment in comments 
-                article.bg-gray-400.text-gray-900
-                    div.p-2
-                        header.pb-2.text-lg.font-sans.text-xl= comment.comment_title
-                        div.font-serif.text-base= comment.comment_text
-                        footer.pt-2.flex.flex-row.font-sans.text-xs.justify-between
-                            div= "Posted by " + comment.user_nickname
-                            -   let date_config = {year: 'numeric', month: 'short', day: 'numeric'}
-                            -   let date = comment.comment_created_at.toLocaleDateString("en-US", date_config)
-                            div= date    
-        
+                article.bg-dark.text-light.p-2
+                    div.px-2.py-1.font-serif.text-sm= comment.comment_text 
+                    footer.px-2.py-1.flex.flex-row.font-sans.text-xs.justify-end
+                    -   let dateConfig = {year: 'numeric', month: 'short', day: 'numeric'}
+                    -   let date = comment.comment_created_at.toLocaleDateString("en-US", dateConfig)
+                    div= "Posted by " + comment.user_nickname + ' on ' + date    
+    

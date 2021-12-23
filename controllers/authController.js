@@ -1,15 +1,6 @@
 import { selectBoards } from "../services/boardService.js";
 import { hash } from "argon2";
 
-export const getAdminDashboard = async (req, res, next) => {
-  try {
-    const result = await selectBoards();
-    res.render("adminDashboard", { boards: result.boards });
-  } catch (error) {
-    next(error);
-  }
-};
-
 export const getLoginPage = async (req, res, next) => {
   try {
     const result = await selectBoards();
@@ -24,7 +15,7 @@ export const getLoginSuccess = async (req, res, next) => {
   try {
     const result = await selectBoards();
     console.log(result);
-    res.status(200).render("loginSuccess", { boards: data.boards });
+    res.status(200).render("loginSuccess", { boards: result });
   } catch (error) {
     next(error);
   }
@@ -34,7 +25,7 @@ export const getLoginFailure = async (req, res, next) => {
   try {
     const result = await selectBoards();
     console.log(result);
-    res.status(200).render("loginFailure", { boards: data.boards });
+    res.status(200).render("loginFailure", { boards: result });
   } catch (error) {
     next(error);
   }

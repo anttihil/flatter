@@ -32,12 +32,18 @@ export const getBoardNew = async (req, res, next) => {
 };
 
 export const getPostAndComments = async (req, res, next) => {
+  try {
+  } catch (error) {
+    next(error);
+  }
+
   await selectPostandComments(req.params.postId)
     .then((data) => {
       res.status(200).render("readPost", {
         boards: data.boards,
         post: data.post,
         comments: data.comments,
+        userId: req.user.id,
       });
     })
     .catch((error) => next(error));

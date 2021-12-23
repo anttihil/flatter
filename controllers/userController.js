@@ -1,26 +1,28 @@
-//calls the get user service function and sends a response
-export const getUserPage = async (req, res) => {
+export const getUserPage = async (req, res, next) => {
   try {
-    if (req.user && req.user.id === req.params.userId) {
-      const result = await getUserActivity(req);
-      res.status(200).render("userDashboard");
-    } else {
-      const result = await getUserActivity(req.params.userId);
-      res.status(200).render("userPage");
-    }
+    const result = await selectUserActivity(req.params.userId);
+    res
+      .status(200)
+      .render("userPage", { boards: result.boards, activity: result.activity });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 };
 
-export const getAllUsers = async (req, res) => {
+export const getUserSettings = async (req, res, next) => {
   try {
-    const gotUser = await userService.getAllUsers(req);
-    res.status(200).json({
-      status: "success",
-      users: gotUser.rows,
-    });
+    const result = await selectBoards();
+    res.status(200).render("userSettings", { boards: result.boards });
   } catch (error) {
-    console.log(error);
+    next(error);
+  }
+};
+
+export const getAdminDashboard = async (req, res, next) => {
+  try {
+    const result = await selectBoards();
+    res.render("adminDashboard", { boards: result.boards });
+  } catch (error) {
+    next(error);
   }
 };

@@ -1,16 +1,18 @@
 import express from "express";
+import expressSession from "express-session";
+import pgSession from "connect-pg-simple";
 import morgan from "morgan";
 import dotenv from "dotenv";
 import mountRoutes from "./routes/index.js";
 import helmet from "helmet";
 import passportSetup from "./config/passport.js";
+import passport from "passport";
 import db from "./config/db.js";
 
 dotenv.config({ path: "./.env" });
 
 const app = express();
-
-passportSetup();
+const sessionStore = pgSession(expressSession);
 
 app.set("views", "views");
 app.set("view engine", "pug");
@@ -23,7 +25,7 @@ app.use(morgan("dev"));
 
 app.use(
   expressSession({
-    store: new pgSession(expressSession)({
+    store: new sessionStore({
       pgPromise: db,
     }),
     secret: process.env.FOO_COOKIE_SECRET,
