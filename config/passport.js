@@ -6,13 +6,20 @@ import {
   selectUserForDeserialize,
 } from "../services/authService.js";
 
+const options = {
+  usernameField: "email",
+  passwordField: "password",
+};
+
 export default function passportSetup() {
-  async function verifyHashedPassword(email, password, done) {
+  async function verifyHashedPassword(username, password, done) {
     try {
-      const queryResult = await selectUserForAuthentication(email);
+      const queryResult = await selectUserForAuthentication(username);
+      console.log(queryResult);
       if (!queryResult) {
+        console.log("no result");
         return done(null, false, {
-          message: "Incorrect username or password.",
+          message: "Incorrect username.",
         });
       }
       const user = {
@@ -22,9 +29,10 @@ export default function passportSetup() {
         role: queryResult.user_role,
       };
       if (await verify(queryResult.user_password, password)) {
+        console.log("verified");
         return done(null, user);
       } else {
-        done(null, false, { message: "Incorrect username or password." });
+        done(null, false, { message: "Incorrect password." });
       }
     } catch (err) {
       return done(err);
@@ -33,7 +41,7 @@ export default function passportSetup() {
 
   // Configure the local strategy for use by Passport.
 
-  passport.use(new Strategy(verifyHashedPassword));
+  passport.use(new Strategy(options, verifyHashedPassword));
 
   /*
 Serialize method fills req.session.passport.user 

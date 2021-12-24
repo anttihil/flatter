@@ -18,6 +18,7 @@ loginRouter
     passport.authenticate("local", {
       failureRedirect: "/login/failure",
       successRedirect: "/login/success",
+      failureMessage: true,
     })
   );
 
@@ -31,4 +32,4 @@ registerRouter.route("/success").get(getRegisterSuccess);
 const errorRouter = Router();
 errorRouter.route("/403").get(getUnauthorizedPage);
 
-export { loginRouter, registerRouter };
+export { loginRouter, registerRouter, errorRouter };

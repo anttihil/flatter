@@ -1,7 +1,7 @@
 import db from "../config/db.js";
 
 export const selectUserForAuthentication = async (email) => {
-  return await db.one(
+  return await db.oneOrNone(
     `SELECT user_id, user_email, user_nickname, user_password, user_role  
     FROM users 
     WHERE user_email = $1`,

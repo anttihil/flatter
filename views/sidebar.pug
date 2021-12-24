@@ -8,3 +8,5 @@ nav.antialiased.fixed.flex.flex-col.items-center.text-light.font-fraktur.space-y
             li.text-light.antialiased
                 a(href="/board/" + board.board_name + "/new/0")= board.board_name 
     a(href="/about") About
+    if user
+        div= "Hello" + user.nickname

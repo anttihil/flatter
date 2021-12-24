@@ -1,22 +1,25 @@
 INSERT INTO 
     users (user_email, user_nickname, user_role, user_password) 
 VALUES
-    ('keke@gmail.com', 'Paroni', 'user', 'salasana')
+    ('bob@gmail.com', 'Bob', 'user', 'salasana')
+    ('alice@gmail.com', 'Alice', 'user', 'salasana')
+    ('charles@gmail.com', 'Charles', 'user', 'salasana')
 RETURNING *;
 
 INSERT INTO 
     boards (board_name) 
 VALUES
-    ('LARP'), 
-    ('Mordheim'),
-    ('Life'),
-    ('Art')
+    ('Terrain'), 
+    ('Painting'),
+    ('Conversion'),
+    ('3D-printing'),
+    ('Mordheim')
 RETURNING *;
 
 INSERT INTO 
     posts (user_id, board_id, post_title, post_text) 
 VALUES
-    (1, 2, 'Hey', 'Lorem Ipsum'), 
+    (1, 2, 'Hey', 'In id maximus lacus. Vivamus non turpis efficitur, dignissim lorem nec, laoreet arcu. Aenean non iaculis dolor. Praesent sed mi tellus. Praesent porttitor lectus accumsan purus auctor ultrices. Duis in vehicula mi, sit amet pellentesque est. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Curabitur ac augue lacus. Praesent vitae nulla finibus, mattis ipsum ut, vulputate quam. Vestibulum ac ante sed justo laoreet auctor. Etiam tortor purus, lacinia et ipsum id, fermentum consequat nibh. Maecenas venenatis ultrices quam, ut scelerisque ligula gravida at. Vivamus non sollicitudin massa. Sed vitae nisi at sem dapibus maximus eget ac tortor. Suspendisse elementum faucibus ante, at tristique dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eu finibus libero. Ut faucibus diam ut lorem vestibulum vestibulum. Aliquam scelerisque aliquam nisi eu euismod. Vestibulum felis odio, egestas eu accumsan non, fermentum sit amet turpis. Donec aliquam dolor non iaculis tempus. Integer tempus augue sed purus finibus imperdiet. Aenean euismod hendrerit justo, non egestas metus efficitur et. Mauris ac iaculis est, ullamcorper pellentesque risus. Nunc neque enim, vehicula luctus ex eget, bibendum laoreet risus. Aliquam laoreet eros sit amet porta maximus. Morbi pulvinar pharetra dapibus. Nullam in arcu varius, aliquet. '), 
     (1, 2, 'Mordheim is best', 'Ive been playing for a while.'),
     (1, 2, 'Balance issues', 'Possessed are overpowered in late game.'),
     (1, 1, 'Middle Earth Larp', 'An event scheduled in Hollola, Finland.')
@@ -30,3 +33,11 @@ ADD CONSTRAINT fk_reference
 	    REFERENCES comments(comment_id)
         ON UPDATE CASCADE
         ON DELETE NO ACTION;
+
+DELETE FROM users
+WHERE user_role = 'admin'
+RETURNING *;
+
+SELECT * FROM users;
+
+SELECT * FROM session;

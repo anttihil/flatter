@@ -71,4 +71,12 @@ export const registerUser = async (req, res, next) => {
   }
 };
 
-export const getUnauthorizedPage = (req, res, next) => {};
+export const getUnauthorizedPage = async (req, res, next) => {
+  try {
+    const result = await selectBoards();
+    console.log(result);
+    res.status(200).render("unauthorizedPage", { boards: result });
+  } catch (error) {
+    next(error);
+  }
+};
