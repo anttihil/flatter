@@ -3,6 +3,7 @@ import {
   selectNewestPostsInAll,
   selectNewestPostsInBoard,
   selectPostandComments,
+  insertPost,
 } from "../services/boardService.js";
 
 //calls the get all board service function and sends a response
@@ -33,20 +34,15 @@ export const getBoardNew = async (req, res, next) => {
 
 export const getPostAndComments = async (req, res, next) => {
   try {
+    const result = selectPostandComments(req.params.postId);
+    res.status(200).render("readPost", {
+      boards: result.boards,
+      post: result.post,
+      comments: result.comments,
+    });
   } catch (error) {
     next(error);
   }
-
-  await selectPostandComments(req.params.postId)
-    .then((data) => {
-      res.status(200).render("readPost", {
-        boards: data.boards,
-        post: data.post,
-        comments: data.comments,
-        userId: req.user.id,
-      });
-    })
-    .catch((error) => next(error));
 };
 
 // requires authorization
@@ -72,14 +68,13 @@ export const submitPost = async (req, res, next) => {
   // remember to change the landing page to include a success modal with hidden class switch
   try {
     const result = await insertPost(
-      req.body.boardName,
-      req.session.passport.user.id,
+      req.body.board,
+      req.user.id,
       req.body.title,
       req.body.text,
       req.body.image
     );
-    console.log(result);
-    res.status(201).redirect(`/board/${result.post_id}/${result.post_name}`);
+    res.status(201).redirect(`/board/${result.post_id}`);
   } catch (error) {
     next(error);
   }

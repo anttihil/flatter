@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS boards
 CREATE TABLE IF NOT EXISTS posts
 (
     post_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
-    user_id INT NOT NULL,
+    user_id INT,
     board_id INT NOT NULL,
     post_title text NOT NULL,
     post_text text NOT NULL,
@@ -31,32 +31,32 @@ CREATE TABLE IF NOT EXISTS posts
     post_created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id)
         REFERENCES users (user_id) 
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
+        ON DELETE SET NULL,
     FOREIGN KEY (board_id)
         REFERENCES boards (board_id) 
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
+        ON DELETE SET NULL,
     PRIMARY KEY (post_id)
 );
 
 CREATE TABLE IF NOT EXISTS comments
 (
     comment_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
-    post_id INT NOT NULL,
+    user_id INT,
+    post_id INT,
     reference_id INT,
     comment_text text NOT NULL,
     comment_image_url text,
     comment_edited_at timestamp with time zone,
     comment_created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id)
+        REFERENCES users (user_id) 
+        ON DELETE SET NULL,
     FOREIGN KEY (post_id)
         REFERENCES posts (post_id) 
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
+        ON DELETE SET NULL,
     FOREIGN KEY (reference_id)
         REFERENCES comments (comment_id) 
-        ON UPDATE CASCADE
-        ON DELETE CASCADE,
+        ON DELETE SET NULL,
     PRIMARY KEY (comment_id)
 );
 

@@ -3,8 +3,11 @@ extends layout
 block content 
     div.flex.flex-col.items-center.justify-center.bg-main.h-full
         .bg-dark.p-4.flex.flex-col.items-center.w-96.divide-y-2.space-y-2.divide-brown 
-            div.flex.flex-col.h-8.items-center.text-xl.font-fraktur.text-light
-                header Log In  
+            article.flex.flex-col.items-center.text-light
+                header.font-fraktur.text-xl Log In
+                if hasMessages
+                    each message in messages 
+                        article.font-serif= message
             form(action="" method="POST" class='focus:outline-none focus:ring focus:ring-brown').flex.flex-col.space-y-2.mt-2.font-serif.w-full.text-sm
                 .pt-2 
                     label(for="email").text-light Email

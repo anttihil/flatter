@@ -11,7 +11,7 @@ export const getLoginPage = async (req, res, next) => {
   }
 };
 
-export const getLoginSuccess = async (req, res, next) => {
+/* export const getLoginSuccess = async (req, res, next) => {
   try {
     const result = await selectBoards();
     console.log(result);
@@ -29,7 +29,7 @@ export const getLoginFailure = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
+}; */
 
 export const getRegisterPage = async (req, res, next) => {
   try {

@@ -29,14 +29,14 @@ boardRouter.route("/:boardName/new").get((req, res) => {
 
 // routes for posts
 boardRouter
-  .route("/:boardName/:postId(\\d+)/:postTitle")
+  .route("/:postId(\\d+)")
   .get(getPostAndComments)
   .put(editPost)
   .post(submitComment);
 
 // routes for altering comments
 boardRouter
-  .route("/:boardName/:postId(\\d+)/:postTitle/:commentId(\\d+)")
+  .route("/:postId(\\d+)/:commentId(\\d+)")
   .delete(deleteComment)
   .put(updateComment);
 

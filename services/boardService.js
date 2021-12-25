@@ -70,20 +70,20 @@ export const selectPostandComments = async (postId) =>
   });
 
 export const insertPost = async (boardName, userId, title, text, image) => {
-  db.tx(async (t) => {
-    const boardId = await t.one(
+  return db.tx(async (t) => {
+    const result1 = await t.one(
       `SELECT board_id
       FROM boards b
       WHERE board_name=$1`,
       [boardName]
     );
-    const result = await t.one(
+    const result2 = await t.one(
       `INSERT INTO posts(user_id, board_id, post_title, post_text, post_image_url)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING post_id, post_title`,
-      [userId, boardId, title, text, image]
+      [userId, result1.board_id, title, text, image]
     );
-    return result;
+    return result2;
   });
 };
 
