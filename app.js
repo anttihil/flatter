@@ -13,7 +13,7 @@ import {
   passportMsgLocals,
   userAuthenticationLocals,
 } from "./middleware/locals.js";
-import { boardAppLocals } from "./config/appLocals";
+import { boardAppLocals } from "./config/appLocals.js";
 
 dotenv.config({ path: "./.env" });
 

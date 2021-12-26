@@ -31,6 +31,12 @@ RETURNING *;
 
 SELECT * FROM users;
 
+SELECT * FROM posts;
+
 SELECT * FROM session;
 
-DROP TABLE *;
+DROP TABLE boards CASCADE;
+DROP TABLE users CASCADE;
+DROP TABLE posts CASCADE;
+DROP TABLE comments CASCADE;
+DROP TABLE session;

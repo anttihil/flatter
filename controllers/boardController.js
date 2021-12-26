@@ -20,7 +20,8 @@ export const getAllBoardsNew = async (req, res, next) => {
 export const getBoardNew = async (req, res, next) => {
   await selectNewestPostsInBoard(req.params.boardName, req.params.count)
     .then((data) => {
-      res.status(200).render("index", { posts: data.posts });
+      console.log(data);
+      res.status(200).render("index", { posts: data });
     })
     .catch((error) => {
       next(error);

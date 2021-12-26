@@ -11,7 +11,7 @@ export async function adminSetup() {
         RETURNING *;`,
       [process.env.ADMIN_EMAIL, process.env.ADMIN_NICKNAME, password]
     );
-    console.log("Init admin:" + result);
+    console.log("Init admin:", result);
   } catch (error) {
     console.error(error);
   }
