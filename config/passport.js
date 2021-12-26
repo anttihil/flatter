@@ -15,9 +15,7 @@ export default function passportSetup() {
   async function verifyHashedPassword(username, password, done) {
     try {
       const queryResult = await selectUserForAuthentication(username);
-      console.log(queryResult);
       if (!queryResult) {
-        console.log("no result");
         return done(null, false, {
           message: "Incorrect username.",
         });
@@ -29,7 +27,6 @@ export default function passportSetup() {
         role: queryResult.user_role,
       };
       if (await verify(queryResult.user_password, password)) {
-        console.log("verified");
         return done(null, user);
       } else {
         done(null, false, { message: "Incorrect password." });

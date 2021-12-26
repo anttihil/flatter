@@ -3,7 +3,7 @@ import boardRouter from "./boardRouter.js";
 import landingRouter from "./landingRouter.js";
 import { loginRouter, registerRouter, errorRouter } from "./authRouter.js";
 import aboutRouter from "./aboutRouter.js";
-import { userAuthenticationLocals } from "../middleware/authentication.js";
+import { userAuthenticationLocals } from "../middleware/locals.js";
 
 export default function mountRoutes(app) {
   app.use("/", landingRouter);

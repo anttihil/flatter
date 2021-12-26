@@ -1,9 +1,7 @@
 export const getUserPage = async (req, res, next) => {
   try {
     const result = await selectUserActivity(req.params.userId);
-    res
-      .status(200)
-      .render("userPage", { boards: result.boards, activity: result.activity });
+    res.status(200).render("userPage", { activity: result.activity });
   } catch (error) {
     next(error);
   }
@@ -11,8 +9,7 @@ export const getUserPage = async (req, res, next) => {
 
 export const getUserSettings = async (req, res, next) => {
   try {
-    const result = await selectBoards();
-    res.status(200).render("userSettings", { boards: result.boards });
+    res.status(200).render("userSettings");
   } catch (error) {
     next(error);
   }
@@ -20,8 +17,7 @@ export const getUserSettings = async (req, res, next) => {
 
 export const getAdminDashboard = async (req, res, next) => {
   try {
-    const result = await selectBoards();
-    res.render("adminDashboard", { boards: result.boards });
+    res.render("adminDashboard");
   } catch (error) {
     next(error);
   }

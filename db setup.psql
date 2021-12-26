@@ -1,21 +1,22 @@
 CREATE TABLE IF NOT EXISTS users
 (
     user_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
-    user_email text NOT NULL UNIQUE,
-    user_nickname text NOT NULL UNIQUE,
-    user_role text NOT NULL,
-    user_password text NOT NULL,
-    user_is_permabanned boolean NOT NULL DEFAULT false,
-    user_banned_until date,
-    user_created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    user_email TEXT NOT NULL UNIQUE,
+    user_nickname TEXT NOT NULL UNIQUE,
+    user_role TEXT NOT NULL,
+    user_password TEXT NOT NULL,
+    user_is_permabanned BOOLEAN NOT NULL DEFAULT false,
+    user_banned_until DATE,
+    user_latest_visit TIMESTAMP WITH TIME ZONE,
+    user_created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id)
 );
 
 CREATE TABLE IF NOT EXISTS boards
 (
     board_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
-    board_name text NOT NULL UNIQUE,
-    board_created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    board_name TEXT NOT NULL UNIQUE,
+    board_created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (board_id)
 );
 
@@ -24,11 +25,11 @@ CREATE TABLE IF NOT EXISTS posts
     post_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
     user_id INT,
     board_id INT NOT NULL,
-    post_title text NOT NULL,
-    post_text text NOT NULL,
-    post_image_url text,
-    post_edited_at timestamp with time zone,
-    post_created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    post_title TEXT NOT NULL,
+    post_text TEXT NOT NULL,
+    post_image_url TEXT,
+    post_edited_at TIMESTAMP WITH TIME ZONE,
+    post_created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id)
         REFERENCES users (user_id) 
         ON DELETE SET NULL,
@@ -44,16 +45,16 @@ CREATE TABLE IF NOT EXISTS comments
     user_id INT,
     post_id INT,
     reference_id INT,
-    comment_text text NOT NULL,
-    comment_image_url text,
-    comment_edited_at timestamp with time zone,
-    comment_created_at timestamp with time zone NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    comment_text TEXT NOT NULL,
+    comment_image_url TEXT,
+    comment_edited_at TIMESTAMP WITH TIME ZONE,
+    comment_created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id)
         REFERENCES users (user_id) 
         ON DELETE SET NULL,
     FOREIGN KEY (post_id)
         REFERENCES posts (post_id) 
-        ON DELETE SET NULL,
+        ON DELETE CASCADE,
     FOREIGN KEY (reference_id)
         REFERENCES comments (comment_id) 
         ON DELETE SET NULL,
@@ -70,3 +71,13 @@ WITH (OIDS=FALSE);
 ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
 
 CREATE INDEX "IDX_session_expire" ON "session" ("expire");
+
+INSERT INTO 
+    boards (board_name) 
+VALUES
+    ('Terrain'), 
+    ('Painting'),
+    ('Modeling'),
+    ('3D-printing'),
+    ('Mordheim')
+RETURNING *;

@@ -4,7 +4,7 @@ export const selectBoards = async () => {
   return await db.any("SELECT board_name FROM boards ORDER BY board_name ASC");
 };
 
-export const selectNewestPostsInAll = async (count) =>
+export const selectNewestPostsInAll2 = async (count) =>
   // tx is an SQL transaction which can include multiple queries
   db.tx(async (t) => {
     const boards = await t.any(
@@ -25,7 +25,20 @@ export const selectNewestPostsInAll = async (count) =>
     return { boards, posts };
   });
 
-export const selectNewestPostsInBoard = async (boardName, count) =>
+export const selectNewestPostsInAll = async (count) => {
+  return await db.any(
+    `SELECT board_name, post_id, post_title, post_text, user_nickname, post_created_at 
+  FROM posts p
+  INNER JOIN boards b 
+    ON p.board_id = b.board_id 
+  INNER JOIN users s 
+    ON s.user_id = p.user_id 
+  ORDER BY post_created_at DESC LIMIT 100 OFFSET $1`,
+    [100 * count]
+  );
+};
+
+export const selectNewestPostsInBoard2 = async (boardName, count) =>
   db.tx(async (t) => {
     const boards = await t.any(
       `SELECT board_name FROM boards ORDER BY board_name ASC`
@@ -44,12 +57,25 @@ export const selectNewestPostsInBoard = async (boardName, count) =>
     return { boards, posts };
   });
 
+export const selectNewestPostsInBoard = async (boardName, count) => {
+  return await db.any(
+    `SELECT board_name, post_id, post_title, post_text, user_nickname, post_created_at 
+    FROM posts p
+    INNER JOIN boards b 
+      ON p.board_id = b.board_id 
+    INNER JOIN users s 
+      ON s.user_id = p.user_id
+    WHERE board_name = $1 
+    ORDER BY post_created_at DESC LIMIT 100 OFFSET $2`,
+    [boardName, 100 * count]
+  );
+};
+
 export const selectPostandComments = async (postId) =>
+  // tx is a postgreSQL transaction which contains many queries.
+  // We use many queries in one transaction for a performance boost.
   db.tx(async (t) => {
-    const boards = await t.any(
-      `SELECT board_name FROM boards ORDER BY board_name ASC`
-    );
-    const post = await t.one(
+    const post = await t.oneOrNone(
       `SELECT post_title, post_text, user_nickname, post_created_at 
         FROM posts p
         INNER JOIN users u 
@@ -66,7 +92,7 @@ export const selectPostandComments = async (postId) =>
         ORDER BY comment_created_at DESC`,
       [postId]
     );
-    return { boards, post, comments };
+    return { post, comments };
   });
 
 export const insertPost = async (boardName, userId, title, text, image) => {
@@ -100,7 +126,8 @@ export const updatePostTitle = async (title, postId) => {
   return await db.one(
     `UPDATE posts
     SET post_title=$1
-    WHERE post_id=$2`,
+    WHERE post_id=$2
+    RETURNING *`,
     [title, postId]
   );
 };
@@ -109,7 +136,8 @@ export const updatePostText = async (text, postId) => {
   return await db.one(
     `UPDATE posts
     SET post_text=$1
-    WHERE post_id=$2`,
+    WHERE post_id=$2
+    RETURNING *`,
     [text, postId]
   );
 };
@@ -123,18 +151,18 @@ export const updateCommentText = async (text, commentId) => {
   );
 };
 
-export const deletePost = async (id) => {
+export const deletePost = async (postId) => {
   return await db.one(
     `DELETE FROM posts
     WHERE post_id=$1`,
-    [id]
+    [postId]
   );
 };
 
-export const deleteComment = async (id) => {
+export const deleteComment = async (commentId) => {
   return await db.one(
     `DELETE FROM comments
     WHERE comments_id=$1`,
-    [id]
+    [commentId]
   );
 };

@@ -11,7 +11,7 @@ INSERT INTO
 VALUES
     ('Terrain'), 
     ('Painting'),
-    ('Conversion'),
+    ('Modeling'),
     ('3D-printing'),
     ('Mordheim')
 RETURNING *;
@@ -25,15 +25,6 @@ VALUES
     (1, 1, 'Middle Earth Larp', 'An event scheduled in Hollola, Finland.')
 RETURNING *;
 
-//Alter table comments to include reference_id
-ALTER TABLE comments
-ADD COLUMN reference_id INT,
-ADD CONSTRAINT fk_reference
-        FOREIGN KEY(reference_id) 
-	    REFERENCES comments(comment_id)
-        ON UPDATE CASCADE
-        ON DELETE NO ACTION;
-
 DELETE FROM users
 WHERE user_role = 'admin'
 RETURNING *;
@@ -41,3 +32,5 @@ RETURNING *;
 SELECT * FROM users;
 
 SELECT * FROM session;
+
+DROP TABLE *;

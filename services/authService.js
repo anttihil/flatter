@@ -9,12 +9,12 @@ export const selectUserForAuthentication = async (email) => {
   );
 };
 
-export const selectUserForDeserialize = async (id) => {
+export const selectUserForDeserialize = async (userId) => {
   return await db.oneOrNone(
     `SELECT user_id, user_email, user_nickname, user_role 
         FROM users 
         WHERE user_id = $1`,
-    [id]
+    [userId]
   );
 };
 
@@ -27,32 +27,32 @@ export const insertUser = async (email, password, nickname, role) => {
   );
 };
 
-export const updateUserPassword = async (password, id) => {
+export const updateUserPassword = async (password, userId) => {
   return await db.one(
     `UPDATE users
       SET user_password=$1
       WHERE user_id=$2  
       RETURNING *`,
-    [password, id]
+    [password, userId]
   );
 };
 
-export const updateUserNickname = async (nickname, id) => {
+export const updateUserNickname = async (nickname, userId) => {
   return await db.one(
     `UPDATE users
         SET user_nickname=$1
         WHERE user_id=$2  
         RETURNING *`,
-    [nickname, id]
+    [nickname, userId]
   );
 };
 
-export const updateUserRole = async (role, id) => {
+export const updateUserRole = async (role, userId) => {
   return await db.one(
     `UPDATE users
         SET user_role=$1
         WHERE user_id=$2  
         RETURNING *`,
-    [role, id]
+    [role, userId]
   );
 };

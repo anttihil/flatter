@@ -1,5 +1,4 @@
 import {
-  selectBoards,
   selectNewestPostsInAll,
   selectNewestPostsInBoard,
   selectPostandComments,
@@ -11,9 +10,7 @@ export const getAllBoardsNew = async (req, res, next) => {
   await selectNewestPostsInAll(req.params.count)
     .then((data) => {
       console.log(data);
-      res
-        .status(200)
-        .render("index", { boards: data.boards, posts: data.posts });
+      res.status(200).render("index", { posts: data.posts });
     })
     .catch((error) => {
       next(error);
@@ -23,9 +20,7 @@ export const getAllBoardsNew = async (req, res, next) => {
 export const getBoardNew = async (req, res, next) => {
   await selectNewestPostsInBoard(req.params.boardName, req.params.count)
     .then((data) => {
-      res
-        .status(200)
-        .render("index", { boards: data.boards, posts: data.posts });
+      res.status(200).render("index", { posts: data.posts });
     })
     .catch((error) => {
       next(error);
@@ -34,9 +29,9 @@ export const getBoardNew = async (req, res, next) => {
 
 export const getPostAndComments = async (req, res, next) => {
   try {
-    const result = selectPostandComments(req.params.postId);
+    const result = await selectPostandComments(req.params.postId);
+    // If result.post is null, render not found page.
     res.status(200).render("readPost", {
-      boards: result.boards,
       post: result.post,
       comments: result.comments,
     });
@@ -49,11 +44,9 @@ export const getPostAndComments = async (req, res, next) => {
 export const getCreatePost = async (req, res, next) => {
   //First check if the user does not exist or user credentials do not match the session info
   // then: redirect to login/register
-  // Otherwise, render the creat post page
+  // Otherwise, render the create post page
   try {
-    const result = await selectBoards();
-    console.log(result);
-    res.status(200).render("createPost", { boards: result });
+    res.status(200).render("createPost");
   } catch (error) {
     next(error);
   }
@@ -96,7 +89,7 @@ export const submitComment = async (req, res, next) => {
   }
 };
 
-// requires authorization
+// requires admin? authorization
 export const deleteComment = async (req, res, next) => {
   try {
   } catch (error) {
