@@ -1,0 +1,12 @@
+mixin centerContainer 
+    div.flex.flex-col.items-center.justify-center.h-full
+        block
+
+mixin cardContainer 
+    div.flex.flex-col.items-center.bg-main.h-full
+        block
+
+mixin formCard(width) 
+    article(class=width).bg-dark.p-4.flex.flex-col.items-center.divide-y-2.space-y-2.divide-brown
+        block 
+

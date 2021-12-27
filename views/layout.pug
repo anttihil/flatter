@@ -1,3 +1,5 @@
+include mixins.pug
+
 doctype html 
 
 html
@@ -9,7 +11,7 @@ html
     div.flex.min-h-screen.items-stretch
         aside.flex.flex-col.items-center.flex-none.w-28.bg-dark
           include sidebar.pug
-        main.flex.flex-col.items-center.flex-auto.bg-main
+        main.flex-auto.bg-main
           block content
   footer 
     block footer-content

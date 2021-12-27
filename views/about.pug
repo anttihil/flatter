@@ -1,13 +1,25 @@
 extends layout 
 
 block content 
-    div.flex.flex-col.items-center.justify-center.bg-main.h-full
-        .bg-dark.p-4.flex.flex-col.items-center.w-96.divide-y-2.space-y-2.divide-brown 
-            .h-8.text-xl.font-fraktur.text-light
-                header About  
+    +centerContainer
+        +formCard("w-1/2") 
+            header.h-8.text-xl.font-fraktur.text-light About  
             article.font-serif.text-light
-                p.my-2 Paroni Kraftworks is a community website for hobbyists who are interested in painting miniatures and building scenery for RPGs and wargames. 
-                p.my-2 I founded this site initially as a place to display my own progress to stimulate discussion, but my future intention is to grow this into a bigger community. 
-                p.my-2 The idea for this site grew out of my interest in web development. Much of the modeling community either relies on antiquated internet forum software or is stuck using large social media platforms such as Youtube or Facebook. 
-                p.my-2 The latter have their uses, but I think is useful for the community if there are up-to-date community sites that are owned by individual hobbyists. That's what Paroni Kraftworks is about. 
-                    
+                p.my-2 
+                |Paroni Kraftworks is a community and resource for hobbyists 
+                |who are interested in painting miniatures and building 
+                |scenery for RPGs and wargames. 
+                p.my-2 
+                |The design idea is for this site is to be as straightforward and easy to
+                |use as possible. 
+                |Visual clutter is kept to the minimum and space in each site view is used
+                |carefully. 
+                p.my-2 
+                |This site grew out of my interest in web development.
+                |Much of the modeling community either relies on antiquated internet forum  
+                |software or is stuck using large social media platforms such as Youtube
+                |or Facebook. 
+                p.my-2 
+                |The latter have their uses, but I think it is useful for the community
+                |if there are up-to-date community sites that are owned and maintained 
+                |by independent hobbyists. 
