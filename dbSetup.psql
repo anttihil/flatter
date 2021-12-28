@@ -1,3 +1,6 @@
+-- run these queries in your database to set up the tables that are needed for the server.
+-- Note that you need to customize INSERT queries below for the board names.
+
 CREATE TABLE IF NOT EXISTS users
 (
     user_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
@@ -72,6 +75,7 @@ ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFE
 
 CREATE INDEX "IDX_session_expire" ON "session" ("expire");
 
+-- Change the values such that they reflect your choice of board names
 INSERT INTO 
     boards (board_name) 
 VALUES
