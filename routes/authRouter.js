@@ -5,6 +5,7 @@ import {
   getRegisterPage,
   getRegisterSuccess,
   getUnauthorizedPage,
+  logoutUser,
   registerUser,
 } from "../controllers/authController.js";
 
@@ -20,6 +21,9 @@ loginRouter
     })
   );
 
+const logoutRouter = Router();
+logoutRouter.route("/").get(logoutUser);
+
 const registerRouter = Router();
 registerRouter.route("/").get(getRegisterPage).post(registerUser);
 registerRouter.route("/success").get(getRegisterSuccess);
@@ -27,4 +31,4 @@ registerRouter.route("/success").get(getRegisterSuccess);
 const errorRouter = Router();
 errorRouter.route("/403").get(getUnauthorizedPage);
 
-export { loginRouter, registerRouter, errorRouter };
+export { loginRouter, logoutRouter, registerRouter, errorRouter };

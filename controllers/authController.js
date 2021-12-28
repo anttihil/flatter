@@ -11,26 +11,6 @@ export const getLoginPage = async (req, res, next) => {
   }
 };
 
-/* export const getLoginSuccess = async (req, res, next) => {
-  try {
-    const result = await selectBoards();
-    console.log(result);
-    res.status(200).render("loginSuccess", { boards: result });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const getLoginFailure = async (req, res, next) => {
-  try {
-    const result = await selectBoards();
-    console.log(result);
-    res.status(200).render("loginFailure", { boards: result });
-  } catch (error) {
-    next(error);
-  }
-}; */
-
 export const getRegisterPage = async (req, res, next) => {
   try {
     const result = await selectBoards();
@@ -48,6 +28,11 @@ export const getRegisterSuccess = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+export const logoutUser = function (req, res, next) {
+  req.logout();
+  res.redirect("/");
 };
 
 export const registerUser = async (req, res, next) => {
