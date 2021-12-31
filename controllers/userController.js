@@ -1,7 +1,11 @@
+import { selectUserActivity } from "../services/userService.js";
+
 export const getUserPage = async (req, res, next) => {
   try {
     const result = await selectUserActivity(req.params.userId);
-    res.status(200).render("userPage", { activity: result.activity });
+    res
+      .status(200)
+      .render("userPage", { posts: result.posts, comments: result.comments });
   } catch (error) {
     next(error);
   }

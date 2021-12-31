@@ -6,6 +6,9 @@ module.exports = {
       fontFamily: {
         fraktur: ["UnifrakturCook", "cursive"],
       },
+      screens: {
+        smp: { max: "767px" },
+      },
     },
     colors: {
       dark: "#151C1F",

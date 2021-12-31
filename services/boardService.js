@@ -12,7 +12,7 @@ export const selectNewestPostsInAll2 = async (count) =>
     );
     console.log(boards);
     const posts = await t.any(
-      `SELECT board_name, post_id, post_title, post_text, user_nickname, post_created_at 
+      `SELECT board_name, post_id, post_title, post_text, user_id, user_nickname, post_created_at 
       FROM posts p
       INNER JOIN boards b 
         ON p.board_id = b.board_id 
@@ -27,7 +27,7 @@ export const selectNewestPostsInAll2 = async (count) =>
 
 export const selectNewestPostsInAll = async (count) => {
   return await db.any(
-    `SELECT board_name, post_id, post_title, post_text, user_nickname, post_created_at 
+    `SELECT board_name, post_id, post_title, post_text, p.user_id, user_nickname, post_created_at 
   FROM posts p
   INNER JOIN boards b 
     ON p.board_id = b.board_id 
@@ -76,7 +76,7 @@ export const selectPostandComments = async (postId) =>
   // We use many queries in one transaction for a performance boost.
   db.tx(async (t) => {
     const post = await t.oneOrNone(
-      `SELECT post_title, post_text, user_nickname, post_created_at 
+      `SELECT post_title, post_text, p.user_id, user_nickname, post_created_at 
         FROM posts p
         INNER JOIN users u 
           ON u.user_id = p.user_id
@@ -84,7 +84,7 @@ export const selectPostandComments = async (postId) =>
       [postId]
     );
     const comments = await t.any(
-      `SELECT comment_text, user_nickname, comment_created_at
+      `SELECT comment_text, c.user_id, user_nickname, comment_created_at
         FROM comments c
         INNER JOIN users u
           ON u.user_id = c.user_id

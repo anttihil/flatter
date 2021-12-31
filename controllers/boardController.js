@@ -32,6 +32,7 @@ export const getPostAndComments = async (req, res, next) => {
   try {
     const result = await selectPostandComments(req.params.postId);
     // If result.post is null, render not found page.
+    console.log(result);
     res.status(200).render("readPost", {
       post: result.post,
       comments: result.comments,

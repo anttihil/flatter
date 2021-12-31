@@ -11,7 +11,7 @@ export const userAuthenticationLocals = (req, res, next) => {
     res.locals.user = {
       nickname: req.user.nickname,
       role: req.user.role,
-      id: req.user.id,
+      id: parseInt(req.user.id),
     };
     next();
   } else {
