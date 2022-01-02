@@ -4,6 +4,23 @@ export const selectBoards = async () => {
   return await db.any("SELECT board_name FROM boards ORDER BY board_name ASC");
 };
 
+// sort could be also active which requires that we join also comments
+// if sort == "active" we can select first from comments
+export async function selectPosts(boardList, page, sort) {
+  const posts = await db.any(
+    `SELECT board_name, post_id, post_title, LEFT(post_text, 300) AS post_text, p.user_id, user_nickname, post_created_at 
+    FROM posts p
+    INNER JOIN boards b 
+      ON p.board_id = b.board_id 
+    INNER JOIN users u 
+      ON u.user_id = p.user_id 
+    WHERE board_name IN ($1:list) 
+    ORDER BY post_created_at DESC LIMIT 100 OFFSET $2`,
+    [boardList, page]
+  );
+  return posts;
+}
+
 export const selectNewestPostsInAll2 = async (count) =>
   // tx is an SQL transaction which can include multiple queries
   db.tx(async (t) => {

@@ -1,32 +1,37 @@
 import {
-  selectNewestPostsInAll,
-  selectNewestPostsInBoard,
   selectPostandComments,
   insertPost,
+  selectPosts,
 } from "../services/boardService.js";
 
-//calls the get all board service function and sends a response
-export const getAllBoardsNew = async (req, res, next) => {
-  await selectNewestPostsInAll(req.params.count)
-    .then((data) => {
-      console.log(data);
-      res.status(200).render("index", { posts: data });
-    })
-    .catch((error) => {
-      next(error);
-    });
-};
+export async function getBoard(req, res, next) {
+  /*
+  there should be ONE selectPosts function that accepts
+  ALL the possible params and query strings as arguments
+  That way we don't have write a tree of conditions
+  with their own query functions. 
 
-export const getBoardNew = async (req, res, next) => {
-  await selectNewestPostsInBoard(req.params.boardName, req.params.count)
-    .then((data) => {
-      console.log(data);
-      res.status(200).render("index", { posts: data });
-    })
-    .catch((error) => {
-      next(error);
-    });
-};
+  Input validation belongs
+  cases to deal with: 
+  allowed values of req.param.boardName: all + app.locals.boards
+  allowed fields of req.query: sort, count
+    allowed values sort: new
+    allowed values count: non-negative integer
+  */
+  try {
+    let boardList = [];
+    if (req.params.boardName === "all") boardList = req.app.locals.boards;
+    else boardList.push(req.params.boardName);
+    console.log(boardList);
+    let page = req.query.page ?? 0;
+    let sort = req.query.sort ?? "new";
+    const posts = await selectPosts(boardList, page, sort);
+    console.log(posts);
+    res.status(200).render("index", { posts: posts });
+  } catch (error) {
+    next(error);
+  }
+}
 
 export const getPostAndComments = async (req, res, next) => {
   try {

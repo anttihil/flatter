@@ -2,17 +2,17 @@ extends layout
 
 block content 
     +cardContainer
-        .bg-dark.text-light.p-4.flex.flex-col.items-center.w-96.divide-y-2.space-y-2.divide-main 
+        .bg-dark.text-light.p-4.flex.flex-col.items-center.divide-y-2.space-y-2.divide-main 
             div.flex.flex-col.h-8.items-center.text-xl.font-fraktur
                 header Register  
             form(action="" method="POST").flex.flex-col.space-y-2.mt-2.font-serif.w-full.text-sm
                 div 
                     label(for="username") Email
-                    input(type="text" id="username" required).shadow.w-full
+                    input(type="text" id="username" required class='focus:outline-none focus:ring focus:ring-brown').shadow.w-full
                 div 
                     label(for="nickname") Username
-                    input(type="text" id="nickname" required).shadow.w-full
+                    input(type="text" id="nickname" required class='focus:outline-none focus:ring focus:ring-brown').shadow.w-full
                 div 
                     label(for="password") Password
-                    input(type="password" id="password" required).shadow.w-full 
-                input(type="submit" value="Submit").self-end.p-2.shadow.border-2.border-main.border-opacity-50.text-lg.font-fraktur
+                    input(type="password" id="password" required class='focus:outline-none focus:ring focus:ring-brown').shadow.w-full 
+                input(type="submit" value="Submit").self-end.p-2.shadow.border-2.border-main.border-opacity-50.text-lg.text-dark.font-fraktur

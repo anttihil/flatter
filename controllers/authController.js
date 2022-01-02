@@ -3,9 +3,7 @@ import { hash } from "argon2";
 
 export const getLoginPage = async (req, res, next) => {
   try {
-    const result = await selectBoards();
-    console.log(result);
-    res.status(200).render("login", { boards: result });
+    res.status(200).render("login");
   } catch (error) {
     next(error);
   }
@@ -13,9 +11,7 @@ export const getLoginPage = async (req, res, next) => {
 
 export const getRegisterPage = async (req, res, next) => {
   try {
-    const result = await selectBoards();
-    console.log(result);
-    res.status(200).render("register", { boards: result });
+    res.status(200).render("register");
   } catch (error) {
     next(error);
   }
@@ -23,8 +19,7 @@ export const getRegisterPage = async (req, res, next) => {
 
 export const getRegisterSuccess = async (req, res, next) => {
   try {
-    const result = await selectBoards();
-    res.status(200).render("registerSuccess", {});
+    res.status(200).render("registerSuccess");
   } catch (error) {
     next(error);
   }
