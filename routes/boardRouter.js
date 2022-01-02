@@ -4,9 +4,10 @@ import {
   getCreatePost,
   submitPost,
   editPost,
+  deletePost,
   submitComment,
   deleteComment,
-  updateComment,
+  editComment,
   getBoard,
 } from "../controllers/boardController.js";
 const boardRouter = Router();
@@ -16,28 +17,28 @@ boardRouter.route("/").get((req, res) => {
   res.redirect("all");
 });
 
-// route for creating a post
-boardRouter.route("/createpost").get(getCreatePost).post(submitPost);
+boardRouter.route("/post/create").get(getCreatePost).post(submitPost);
 
-// routes for boards
-boardRouter.route("/:boardName").get(getBoard);
-/* boardRouter.route("/all/:count(\\d+)").get(getAllBoardsNew);
-boardRouter.route("/:boardName/:count(\\d+)").get(getBoardNew);
-boardRouter.route("/:boardName").get((req, res) => {
-  res.redirect(`/${req.params.boardName}/0`);
-}); */
+boardRouter.route("/post/:postId(\\d+)").get(getPostAndComments);
 
-// routes for posts
+boardRouter.route("/post/:postId(\\d+)/edit").post(editPost);
+
+boardRouter.route("/post/:postId(\\d+)/delete").post(deletePost);
+
+boardRouter.route("/post/:postId(\\d+)/comment/create").post(submitComment);
+
 boardRouter
-  .route("/:postId(\\d+)")
-  .get(getPostAndComments)
-  .put(editPost)
+  .route("/post/:postId(\\d+)/comment/:commentId(\\d+)/edit")
+  .post(editComment);
+
+boardRouter
+  .route("/post/:postId(\\d+)/comment/:commentId(\\d+)/delete")
+  .post(deleteComment);
+
+boardRouter
+  .route("/post/:postId(\\d+)/comment/:commentId(\\d+)/create")
   .post(submitComment);
 
-// routes for altering comments
-boardRouter
-  .route("/:postId(\\d+)/:commentId(\\d+)")
-  .delete(deleteComment)
-  .put(updateComment);
+boardRouter.route("/:boardName").get(getBoard);
 
 export default boardRouter;
