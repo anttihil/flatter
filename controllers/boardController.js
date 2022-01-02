@@ -89,6 +89,15 @@ export const editPost = async (req, res, next) => {
 };
 
 // requires authorization
+export const deletePost = async (req, res, next) => {
+  try {
+  } catch (error) {
+    next(error);
+  }
+};
+
+// requires authorization
+// deal with both replies to posts and to other comments
 export const submitComment = async (req, res, next) => {
   try {
   } catch (error) {
@@ -105,7 +114,7 @@ export const deleteComment = async (req, res, next) => {
 };
 
 // requires authorization
-export const updateComment = async (req, res, next) => {
+export const editComment = async (req, res, next) => {
   try {
   } catch (error) {
     next(error);

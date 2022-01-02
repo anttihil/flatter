@@ -10,3 +10,13 @@ mixin bigCard(width)
     article(class=width).bg-dark.p-4.flex.flex-col.items-center.divide-y.space-y-2.divide-brown.border-2.border-brown
         block 
 
+mixin card 
+    article.p-2.flex.flex-col.bg-dark.text-light.space-y-2.rounded.border-2.border-brown
+        block
+
+mixin bigButton(type, text)
+    input(
+        type=type 
+        value=text
+        class='self-end p-1 shadow border-2 border-main border-opacity-70 text-lg font-fraktur bg-light text-dark hover:bg-gray'
+        )
