@@ -1,0 +1,87 @@
+-- run these queries in your database to set up the tables that are needed for the server.
+-- Note that you need to customize INSERT queries below for the board names.
+
+CREATE TABLE IF NOT EXISTS users
+(
+    user_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
+    user_email TEXT NOT NULL UNIQUE,
+    user_nickname TEXT NOT NULL UNIQUE,
+    user_role TEXT NOT NULL,
+    user_password TEXT NOT NULL,
+    user_is_permabanned BOOLEAN NOT NULL DEFAULT false,
+    user_banned_until DATE,
+    user_latest_visit TIMESTAMP WITH TIME ZONE,
+    user_created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (user_id)
+);
+
+CREATE TABLE IF NOT EXISTS boards
+(
+    board_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
+    board_name TEXT NOT NULL UNIQUE,
+    board_created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (board_id)
+);
+
+CREATE TABLE IF NOT EXISTS posts
+(
+    post_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
+    user_id INT,
+    board_id INT NOT NULL,
+    post_title TEXT NOT NULL,
+    post_text TEXT NOT NULL,
+    post_image_url TEXT,
+    post_edited_at TIMESTAMP WITH TIME ZONE,
+    post_created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id)
+        REFERENCES users (user_id) 
+        ON DELETE SET NULL,
+    FOREIGN KEY (board_id)
+        REFERENCES boards (board_id) 
+        ON DELETE SET NULL,
+    PRIMARY KEY (post_id)
+);
+
+CREATE TABLE IF NOT EXISTS comments
+(
+    comment_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
+    user_id INT,
+    post_id INT,
+    reference_id INT,
+    comment_text TEXT NOT NULL,
+    comment_image_url TEXT,
+    comment_edited_at TIMESTAMP WITH TIME ZONE,
+    comment_created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id)
+        REFERENCES users (user_id) 
+        ON DELETE SET NULL,
+    FOREIGN KEY (post_id)
+        REFERENCES posts (post_id) 
+        ON DELETE CASCADE,
+    FOREIGN KEY (reference_id)
+        REFERENCES comments (comment_id) 
+        ON DELETE SET NULL,
+    PRIMARY KEY (comment_id)
+);
+
+CREATE TABLE "session" (
+  "sid" varchar NOT NULL COLLATE "default",
+	"sess" json NOT NULL,
+	"expire" timestamp(6) NOT NULL
+)
+WITH (OIDS=FALSE);
+
+ALTER TABLE "session" ADD CONSTRAINT "session_pkey" PRIMARY KEY ("sid") NOT DEFERRABLE INITIALLY IMMEDIATE;
+
+CREATE INDEX "IDX_session_expire" ON "session" ("expire");
+
+-- Change the values such that they reflect your choice of board names
+INSERT INTO 
+    boards (board_name) 
+VALUES
+    ('Terrain'), 
+    ('Painting'),
+    ('Modeling'),
+    ('3D-printing'),
+    ('Mordheim')
+RETURNING *;

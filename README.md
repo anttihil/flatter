@@ -1,2 +1,7 @@
 # flatter
-A minimalist message board app built with React and NodeJS. I aim for having a flatter structure with less visual clutter on the front-end. Traditional message boards often have a tree-like structure where finding the active threads is a bit of a hassle. Similarly, comment threads often have a sprawling nested structure. I plan to avoid some of this by implementing a simpler (read:flatter) user interface.
+
+A minimalist message board site built with NodeJS, Express, Pug, and TailwindCSS.
+
+The Express app includes user authentication with Passport. The database is PostgreSQL and is interfaced with node-pg and pg-promise libraries.
+
+On the UI side, the main idea is to keep the visual layout simple, striking and intuitive for the user.

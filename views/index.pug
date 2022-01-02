@@ -1,0 +1,15 @@
+extends layout 
+
+block content
+    +cardContainer
+        if posts
+            for post in posts 
+                article(class="bg-dark text-light p-1 flex flex-col space-y-1 rounded border-2 border-brown")
+                    header(class="px-2 border-b border-brown")
+                        a(href="/board/" + post.post_id class="font-sans")= post.post_title
+                    section(class="px-2 font-serif text-sm")= post.post_text 
+                    footer(class="px-2 flex flex-row font-sans text-xs justify-end space-x-1")
+                        -   let dateConfig = {year: 'numeric', month: 'short', day: 'numeric'}
+                        -   let date = post.post_created_at.toLocaleDateString("en-US", dateConfig)
+                        a(href="/user/" + post.user_id)=post.user_nickname
+                        time='on ' + date

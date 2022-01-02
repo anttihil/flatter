@@ -1,0 +1,58 @@
+extends layout 
+block content
+    +cardContainer
+        article.p-2.flex.flex-col.bg-dark.text-light.space-y-2.rounded.border-2.border-brown 
+            header.px-2.border-b.border-brown.px-2.font-sans= post.post_title
+            section.px-2.py-1.font-serif.text-sm.whitespace-pre-line= post.post_text 
+            footer.px-2.py-1.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
+                div.flex.space-x-2
+                    if user && user.id === post.user_id
+                        button Edit 
+                    button Reply
+                div.flex.space-x-1
+                    -   let dateConfig = {year: 'numeric', month: 'short', day: 'numeric'}
+                    -   let date = post.post_created_at.toLocaleDateString("en-US", dateConfig)
+                    a(href="/user/" + post.user_id)=post.user_nickname
+                    time='on ' + date
+        header Edit Post:  
+            form(action="" method="PUT").flex.flex-col.space-between-y-2 
+                div 
+                    label(for="title") Post Title:
+                    input(type="text" id="title" value=post.post_title required)
+                div 
+                    label(for="image") Image URL:
+                    input(type="url" id="image") // Image
+                div 
+                    label(for="post_text") Post Text:  
+                    textarea(id="post_text" name="post_text" cols="30" rows="10" value=post.post_text required) 
+                div 
+                    input(type="submit" value="Submit")
+        header Edit Post:  
+            form(action="" method="PUT").flex.flex-col.space-between-y-2 
+                div 
+                    label(for="title") Post Title:
+                    input(type="text" id="title" value=post.post_title required)
+                div 
+                    label(for="image") Image URL:
+                    input(type="url" id="image") // Image
+                div 
+                    label(for="post_text") Post Text:  
+                    textarea(id="post_text" name="post_text" cols="30" rows="10" value=post.post_text required) 
+                div 
+                    input(type="submit" value="Submit")   
+        if comments
+            for comment in comments 
+                    article.flex.flex-col.bg-dark.text-light.space-y-2
+                        div.px-2.font-serif.text-sm= comment.comment_text 
+                        footer.px-2.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
+                            div.flex.space-x-2
+                                if (user && user.id === comment.user_id)
+                                    button Edit
+                                button Reply
+                            div.flex.space-x-1
+                                -   let dateConfig = {year: 'numeric', month: 'short', day: 'numeric'}
+                                -   let date = comment.comment_created_at.toLocaleDateString("en-US", dateConfig)
+                                a(href="/user/" + comment.user_id)=comment.user_nickname
+                                time='on ' + date
+                    
+        

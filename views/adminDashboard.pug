@@ -1,0 +1,14 @@
+extends layout 
+
+block content
+    div(class="w-96").flex.flex-col.mt-4.space-y-4.items-stretch
+        for post in posts 
+            article.bg-light.text-dark
+                div.p-2
+                    header.pb-2.text-lg.font-sans.text-xl= post.post_title
+                    div.font-serif.text-base= post.post_text 
+                    footer.pt-2.flex.flex-row.font-sans.text-xs.justify-between
+                        div= "Posted by " + post.user_nickname
+                        -   let dateConfig = {year: 'numeric', month: 'short', day: 'numeric'}
+                        -   let date = post.post_created_at.toLocaleDateString("en-US", dateConfig)
+                        div= date

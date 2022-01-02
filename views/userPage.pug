@@ -1,0 +1,20 @@
+extends layout 
+
+block content
+        div.columns-2.py-1.space-y-1.object-center
+            div.w-full Posts:
+                for post in posts 
+                    article.flex.justify-between.bg-dark.text-light.font-sans
+                            .text-lg= post.post_title 
+                            -   let dateConfig = {year: 'numeric', month: 'short', day: 'numeric'}
+                            -   let date = post.post_created_at.toLocaleDateString("en-US", dateConfig)
+                            .text-lg= date
+            div.w-full Comments:    
+                for comment in comments 
+                    article.flex.justify-between.bg-dark.text-light.font-sans
+                            .text-lg= comment.comment_title 
+                            -   let dateConfig = {year: 'numeric', month: 'short', day: 'numeric'}
+                            -   let date = comment.comment_created_at.toLocaleDateString("en-US", dateConfig)
+                            .text-lg= date
+
+        
