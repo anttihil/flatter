@@ -66,6 +66,10 @@ app.use(passportMsgLocals, userAuthenticationLocals);
 Used in order to clean up the app structure. */
 mountRoutes(app);
 
+app.use(function (req, res, next) {
+  res.status(404).render("404", { url: req.url });
+});
+
 const port = process.env.PORT || 3001;
 
 app.listen(port, () => {

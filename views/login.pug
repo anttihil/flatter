@@ -1,8 +1,8 @@
 extends layout 
 
 block content 
-    +cardContainer
-        article.bg-dark.p-4.flex.flex-col.items-center.divide-y.space-y-2.divide-brown.border-2.border-brown
+    +centerContainer
+        +formCard            
             header.flex.flex-col.items-center.text-light
                 .font-fraktur.text-xl Log In
                 if hasMessages
@@ -15,7 +15,10 @@ block content
                 div 
                     label(for="password").text-light Password
                     input(type="password" name="password" class='focus:outline-none focus:ring focus:ring-brown' required).shadow.w-full.bg-light.text-dark 
-                .flex.justify-between.content-center     
-                    a(href="/register" class="hover:bg-gray").p-1.shadow.border-2.border-main.border-opacity-70.text-lg.font-fraktur.bg-light.text-dark Register
-                    input(type="submit" value="Submit" class='hover:bg-gray').self-end.p-1.shadow.border-2.border-main.border-opacity-70.text-lg.font-fraktur.bg-light.text-dark
-                    
+                .flex.justify-between.content-center.py-2     
+                    a(href="/user/register" class="hover:bg-gray").p-1.shadow.border-2.border-main.border-opacity-70.text-lg.font-fraktur.bg-light.text-dark Register
+                    input(
+                        type="submit" 
+                        value="Submit" 
+                        class='hover:bg-gray self-end p-1 shadow border-2 border-main border-opacity-70 text-lg font-fraktur bg-light text-dark'
+                        )

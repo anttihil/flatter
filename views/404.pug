@@ -1,0 +1,13 @@
+extends layout 
+
+block content 
+    +centerContainer
+        article.bg-dark.p-4.flex.flex-col.text-light.items-center.divide-y.space-y-1.divide-brown.border-2.border-brown
+            header.text-light.font-fraktur.text-lg Error: Not Found
+            section.flex.flex-col.items-center.font-serif.pt-2.space-y-3
+                if url 
+                    article= "The resource at " + url + " was not found."
+                a(
+                    href= "/board"
+                    class='bg-light p-1 border-2 border-main text-dark hover:bg-gray font-fraktur'
+                ) To the board.

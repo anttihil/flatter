@@ -1,22 +1,15 @@
+import { Router } from "express";
 import userRouter from "./userRouter.js";
 import boardRouter from "./boardRouter.js";
-import landingRouter from "./landingRouter.js";
-import {
-  loginRouter,
-  registerRouter,
-  errorRouter,
-  logoutRouter,
-} from "./authRouter.js";
-import aboutRouter from "./aboutRouter.js";
-import { userAuthenticationLocals } from "../middleware/locals.js";
+import { getUnauthorizedPage } from "../controllers/userController.js";
+
+const errorRouter = Router();
+errorRouter.route("/403").get(getUnauthorizedPage);
 
 export default function mountRoutes(app) {
-  app.use("/", landingRouter);
-  app.use("/board", userAuthenticationLocals, boardRouter);
+  app.get("/", (req, res) => res.redirect("/board/all"));
+  app.use("/board", boardRouter);
   app.use("/user", userRouter);
-  app.use("/login", loginRouter);
-  app.use("/register", registerRouter);
-  app.use("/about", aboutRouter);
+  app.get("/about", (req, res) => res.render("about"));
   app.use("/error", errorRouter);
-  app.use("/logout", logoutRouter);
 }

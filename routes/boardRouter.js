@@ -14,7 +14,7 @@ const boardRouter = Router();
 
 // default route for board
 boardRouter.route("/").get((req, res) => {
-  res.redirect("all");
+  res.redirect("/board/all");
 });
 
 boardRouter.route("/post/create").get(getCreatePost).post(submitPost);

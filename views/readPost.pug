@@ -17,52 +17,57 @@ block content
                     time='on ' + date
         +card
             form(
-                action="/post/" + post.post_id + "/edit" 
+                action="/board/post/" + post.post_id + "/edit" 
                 method="post"
-                class='flex flex-col space-y-2 mt-2 font-serif w-full text-sm'
+                class='flex flex-col space-y-2 mt-2 font-serif'
                 )
                 div 
-                    label(for="title") Edit Title:
+                    label(for="edit_title") Edit Title:
                     input(
                         type="text" 
-                        id="title" 
+                        id="edit_title"
+                        name="title" 
                         value=post.post_title 
                         required 
                         class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
                         )
                 div 
-                    label(for="image") Image URL:
+                    label(for="edit_image") Edit Image URL:
                     input(
                         type="url" 
-                        id="image" 
+                        id="edit_image"
+                        name="image" 
                         class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
                         )
                 div 
-                    label(for="post_text") Edit Text:  
+                    label(for="edit_post_text") Edit Text:  
                     textarea(
-                        id="post_text" 
-                        name="post_text" 
+                        id="edit_post_text" 
+                        name="text" 
                         cols="30" 
                         rows="10" 
-                        value=post.post_text 
                         required 
                         class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
-                        )
-                div 
+                        )=post.post_text
+                div.flex.justify-end 
                     +bigButton("submit", "Submit") 
         +card  
-            form(action="/post/" + post.post_id + "/comment/create" method="post").flex.flex-col.space-between-y-2 
+            form(
+                action="/board/post/" + post.post_id + "/comment/create" 
+                method="post"
+                class='flex flex-col space-y-2 mt-2 font-serif'
+                ) 
                 div 
                     label(for="comment_text") Comment:  
                     textarea(
                         id="comment_text" 
-                        name="comment_text" 
+                        name="text" 
                         cols="30" 
                         rows="10" 
                         required 
                         class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
                     )
-                div 
+                div.flex.justify-end 
                     +bigButton("submit", "Submit")     
         if comments
             for comment in comments 
@@ -80,32 +85,39 @@ block content
                                 a(href="/user/" + comment.user_id)=comment.user_nickname
                                 time='on ' + date
                     +card
-                        form(action="/post/"+ post.post_id + "/comment/" + comment.comment_id + "/edit" method="post" ).flex.flex-col.space-y-2.mt-2.font-serif.w-full.text-sm
+                        form(
+                            action="/board/post/"+ post.post_id + "/comment/" + comment.comment_id + "/edit" 
+                            method="post" 
+                            class='flex flex-col space-y-2 mt-2 font-serif'
+                            )
                             div 
                                 label(for="edit_comment_text") Edit Comment:  
                                 textarea(
                                     id="edit_comment_text" 
-                                    name="comment_text" 
+                                    name="text" 
                                     cols="30" 
-                                    rows="10" 
-                                    value=comment.comment_text 
+                                    rows="10"
                                     required 
                                     class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
-                                )
-                            div 
+                                )=comment.comment_text
+                            div.flex.justify-end 
                                 +bigButton("submit", "Submit")  
                     +card  
-                        form(action="/post/"+ post.post_id + "/comment/" + comment.comment_id + "/create" method="post").flex.flex-col.space-between-y-2 
+                        form(
+                            action="/board/post/"+ post.post_id + "/comment/" + comment.comment_id + "/create" 
+                            method="post"
+                            class='flex flex-col space-y-2 mt-2 font-serif'
+                            )
                             div 
                                 label(for="comment_chain_text") Comment:  
                                 textarea(
                                     id="comment_chain_text" 
-                                    name="comment_text" 
+                                    name="text" 
                                     cols="30" 
                                     rows="10" 
                                     required 
                                     class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
                                 )
-                            div 
+                            div.flex.justify-end 
                                 +bigButton("submit", "Submit")   
         

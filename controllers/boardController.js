@@ -2,6 +2,7 @@ import {
   selectPostandComments,
   insertPost,
   selectPosts,
+  insertComment,
 } from "../services/boardService.js";
 
 export async function getBoard(req, res, next) {
@@ -74,7 +75,7 @@ export const submitPost = async (req, res, next) => {
       req.body.text,
       req.body.image
     );
-    res.status(201).redirect(`/board/${result.post_id}`);
+    res.status(201).redirect(`/board/${result.post_Id}`);
   } catch (error) {
     next(error);
   }
@@ -83,6 +84,7 @@ export const submitPost = async (req, res, next) => {
 // requires authorization
 export const editPost = async (req, res, next) => {
   try {
+    res.redirect("back");
   } catch (error) {
     next(error);
   }
@@ -91,6 +93,9 @@ export const editPost = async (req, res, next) => {
 // requires authorization
 export const deletePost = async (req, res, next) => {
   try {
+    const result = await deletePost(req.params.postId);
+    console.log(result);
+    res.redirect("back");
   } catch (error) {
     next(error);
   }
@@ -100,6 +105,17 @@ export const deletePost = async (req, res, next) => {
 // deal with both replies to posts and to other comments
 export const submitComment = async (req, res, next) => {
   try {
+    let commentId;
+    if (!req.params.commentId) commentId = "NULL";
+    else commentId = req.params.commentId;
+    const result = await insertComment(
+      req.user.id,
+      req.params.postId,
+      commentId,
+      req.body.text
+    );
+    console.log(result);
+    res.redirect("back");
   } catch (error) {
     next(error);
   }

@@ -1,16 +1,17 @@
-nav(class="p-2 fixed flex flex-col items-center text-light font-fraktur space-y-2 divide-y divide-brown")
+nav(class="p-2 fixed flex flex-col text-light font-fraktur space-y-2 divide-y divide-brown")
     if user
-        a(href="/user/" + user.id class="flex-none")= "Hello, " + user.nickname
-        form(action="/logout" class="flex-none") 
+        form(action="/user/logout" class="flex-none") 
             button Log Out
     else 
-        a(href="/login" class="flex-none") Log In 
-    a(href= "/board/createpost" class="flex-none") Create a Post
-    ul(class="flex flex-col items-center flex-none") Boards:
-        li(class="text-light pl-2 md:pl-0") 
+        a(href="/user/login" class="flex-none") Log In 
+    
+    ul(class="flex flex-col flex-none text-light") Boards:
+        li.ml-3 
+            a(href= "/board/post/create" class="flex-none") Create a Post
+        li.ml-3 
             a(href="/board/all" class="flex-none") All
         for board in boards
-            li(class="flex-none")
+            li.ml-3
                 a(href="/board/" + board class="flex-none")= board 
     a(href="/about" class='flex-none') About
     

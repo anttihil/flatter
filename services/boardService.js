@@ -139,6 +139,26 @@ export const insertComment = async (userId, postId, referenceId, text) => {
   );
 };
 
+export const insertCommentChain = async (userId, postId, referenceId, text) => {
+  return await db.one(
+    `INSERT INTO posts(user_id, post_id, reference_id, comment_text)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *`,
+    [userId, postId, referenceId, text]
+  );
+};
+
+export const updatePost = async (title, text, postId) => {
+  return await db.one(
+    `UPDATE posts
+    SET post_title=$1,
+        post_text=$2
+    WHERE post_id=$3
+    RETURNING *`,
+    [title, text, postId]
+  );
+};
+
 export const updatePostTitle = async (title, postId) => {
   return await db.one(
     `UPDATE posts
@@ -159,7 +179,7 @@ export const updatePostText = async (text, postId) => {
   );
 };
 
-export const updateCommentText = async (text, commentId) => {
+export const updateComment = async (text, commentId) => {
   return await db.one(
     `UPDATE comments
     SET comment_text=$1
@@ -171,7 +191,8 @@ export const updateCommentText = async (text, commentId) => {
 export const deletePost = async (postId) => {
   return await db.one(
     `DELETE FROM posts
-    WHERE post_id=$1`,
+    WHERE post_id=$1
+    RETURNING *`,
     [postId]
   );
 };
