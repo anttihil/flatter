@@ -1,10 +1,10 @@
 import { Router } from "express";
 import userRouter from "./userRouter.js";
 import boardRouter from "./boardRouter.js";
-import { getUnauthorizedPage } from "../controllers/userController.js";
+import { readUnauthorizedPage } from "../controllers/userController.js";
 
 const errorRouter = Router();
-errorRouter.route("/403").get(getUnauthorizedPage);
+errorRouter.route("/403").get(readUnauthorizedPage);
 
 export default function mountRoutes(app) {
   app.get("/", (req, res) => res.redirect("/board/all"));

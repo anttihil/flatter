@@ -1,15 +1,14 @@
 import { Router } from "express";
 import { isAdmin, isOwnUser } from "../middleware/authorization.js";
 import {
-  getAdminDashboard,
-  getUserPage,
-  getUserSettings,
-  getLoginPage,
-  getRegisterPage,
-  getRegisterSuccess,
-  getUnauthorizedPage,
+  readAdminDashboard,
+  readUserPage,
+  readUserSettings,
+  readLoginPage,
+  readRegisterPage,
+  readRegisterSuccess,
   logoutUser,
-  registerUser,
+  createUser,
 } from "../controllers/userController.js";
 import passport from "passport";
 
@@ -17,7 +16,7 @@ const userRouter = Router();
 
 userRouter
   .route("/login")
-  .get(getLoginPage)
+  .get(readLoginPage)
   .post(
     passport.authenticate("local", {
       failureRedirect: "/login",
@@ -26,10 +25,10 @@ userRouter
     })
   );
 userRouter.route("/logout").get(logoutUser);
-userRouter.route("/register").get(getRegisterPage).post(registerUser);
-userRouter.route("/success").get(getRegisterSuccess);
-userRouter.route("/admin").get(isAdmin, getAdminDashboard);
-userRouter.route("/:userId").get(getUserPage);
-userRouter.route("/:userId/dashboard").get(isOwnUser, getUserSettings);
+userRouter.route("/register").get(readRegisterPage).post(createUser);
+userRouter.route("/success").get(readRegisterSuccess);
+userRouter.route("/admin").get(isAdmin, readAdminDashboard);
+userRouter.route("/:userId").get(readUserPage);
+userRouter.route("/:userId/settings").get(isOwnUser, readUserSettings);
 
 export default userRouter;

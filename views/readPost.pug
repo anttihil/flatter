@@ -1,123 +1,124 @@
 extends layout 
 block content
-    +cardContainer
-        +card 
-            header.px-2.border-b.border-brown.px-2.font-sans= post.post_title
-            section.px-2.py-1.font-serif.text-sm.whitespace-pre-line= post.post_text 
-            footer.px-2.py-1.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
-                div.flex.space-x-2
-                    if user && user.id === post.user_id
-                        button Edit 
-                    if user
-                        button Reply
-                div.flex.space-x-1
-                    -   let dateConfig = {year: 'numeric', month: 'short', day: 'numeric'}
-                    -   let date = post.post_created_at.toLocaleDateString("en-US", dateConfig)
-                    a(href="/user/" + post.user_id)=post.user_nickname
-                    time='on ' + date
-        +card
-            form(
-                action="/board/post/" + post.post_id + "/edit" 
-                method="post"
-                class='flex flex-col space-y-2 mt-2 font-serif'
-                )
-                div 
-                    label(for="edit_title") Edit Title:
-                    input(
-                        type="text" 
-                        id="edit_title"
-                        name="title" 
-                        value=post.post_title 
-                        required 
-                        class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
-                        )
-                div 
-                    label(for="edit_image") Edit Image URL:
-                    input(
-                        type="url" 
-                        id="edit_image"
-                        name="image" 
-                        class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
-                        )
-                div 
-                    label(for="edit_post_text") Edit Text:  
-                    textarea(
-                        id="edit_post_text" 
-                        name="text" 
-                        cols="30" 
-                        rows="10" 
-                        required 
-                        class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
-                        )=post.post_text
-                div.flex.justify-end 
-                    +bigButton("submit", "Submit") 
-        +card  
-            form(
-                action="/board/post/" + post.post_id + "/comment/create" 
-                method="post"
-                class='flex flex-col space-y-2 mt-2 font-serif'
-                ) 
-                div 
-                    label(for="comment_text") Comment:  
-                    textarea(
-                        id="comment_text" 
-                        name="text" 
-                        cols="30" 
-                        rows="10" 
-                        required 
-                        class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
-                    )
-                div.flex.justify-end 
-                    +bigButton("submit", "Submit")     
-        if comments
-            for comment in comments 
-                    +card
-                        section.px-2.font-serif.text-sm= comment.comment_text 
-                        footer.px-2.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
-                            div.flex.space-x-2
-                                if (user && user.id === comment.user_id)
-                                    button Edit
-                                if user
-                                    button Reply
-                            div.flex.space-x-1
-                                -   let dateConfig = {year: 'numeric', month: 'short', day: 'numeric'}
-                                -   let date = comment.comment_created_at.toLocaleDateString("en-US", dateConfig)
-                                a(href="/user/" + comment.user_id)=comment.user_nickname
-                                time='on ' + date
-                    +card
-                        form(
-                            action="/board/post/"+ post.post_id + "/comment/" + comment.comment_id + "/edit" 
-                            method="post" 
-                            class='flex flex-col space-y-2 mt-2 font-serif'
-                            )
-                            div 
-                                label(for="edit_comment_text") Edit Comment:  
-                                textarea(
-                                    id="edit_comment_text" 
-                                    name="text" 
-                                    cols="30" 
-                                    rows="10"
-                                    required 
-                                    class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
-                                )=comment.comment_text
-                            div.flex.justify-end 
-                                +bigButton("submit", "Submit")  
-                    +card  
-                        form(
-                            action="/board/post/"+ post.post_id + "/comment/" + comment.comment_id + "/create" 
-                            method="post"
-                            class='flex flex-col space-y-2 mt-2 font-serif'
-                            )
-                            div 
-                                label(for="comment_chain_text") Comment:  
-                                textarea(
-                                    id="comment_chain_text" 
-                                    name="text" 
-                                    cols="30" 
-                                    rows="10" 
-                                    required 
-                                    class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
-                                )
-                            div.flex.justify-end 
-                                +bigButton("submit", "Submit")   
-        
+	+cardContainer
+		+card 
+			header.px-2.border-b.border-brown.px-2.font-sans= post.post_title
+				section.px-2.py-1.font-serif.text-sm.whitespace-pre-line= post.post_text 
+				footer.px-2.py-1.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
+					div.flex.space-x-2
+						if user && user.id === post.user_id
+							button Edit 
+						if user
+							button Reply
+					div.flex.space-x-1
+						-let dateConfig = {year: 'numeric', month: 'short', day: 'numeric'}
+						-let date = post.post_created_at.toLocaleDateString("en-US", dateConfig)
+						a(href="/user/" + post.user_id)=post.user_nickname
+						time='on ' + date
+		+card
+			form(
+				action="/board/post/" + post.post_id + "/update" 
+				method="post"
+				class='flex flex-col space-y-2 mt-2 font-serif'
+				)
+				div 
+					label(for="update_post_title") Edit Title:
+					input(
+						type="text" 
+						id="update_post_title"
+						name="title" 
+						value=post.post_title 
+						required 
+						class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
+						)
+				div 
+					label(for="update_image") Edit Image URL:
+					input(
+							type="url" 
+							id="update_image"
+							name="image"
+							value=post.post_image 
+							class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
+							)
+				div 
+					label(for="update_post_text") Edit Text:  
+					textarea(
+						id="update_post_text" 
+						name="text" 
+						cols="30" 
+						rows="10" 
+						required 
+						class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
+						)=post.post_text
+				div.flex.justify-end 
+					+bigButton("submit", "Submit") 
+		+card  
+			form(
+				action="/board/post/" + post.post_id + "/comment/create" 
+				method="post"
+				class='flex flex-col space-y-2 mt-2 font-serif'
+				) 
+				div 
+					label(for="comment_text") Comment:  
+					textarea(
+						id="comment_text" 
+						name="text" 
+						cols="30" 
+						rows="10" 
+						required 
+						class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
+					)
+				div.flex.justify-end 
+					+bigButton("submit", "Submit")     
+		if comments
+			for comment in comments 
+				+card
+					section.px-2.font-serif.text-sm= comment.comment_text 
+					footer.px-2.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
+						div.flex.space-x-2
+							if (user && user.id === comment.user_id)
+								button Edit
+							if user
+								button Reply
+						div.flex.space-x-1
+							-let dateConfig = {year: 'numeric', month: 'short', day: 'numeric'}
+							-let date = comment.comment_created_at.toLocaleDateString("en-US", dateConfig)
+							a(href="/user/" + comment.user_id)=comment.user_nickname
+							time='on ' + date
+				+card
+					form(
+						action="/board/post/"+ post.post_id + "/comment/" + comment.comment_id + "/update" 
+						method="post" 
+						class='flex flex-col space-y-2 mt-2 font-serif'
+						)
+						div 
+							label(for="update_comment_text") Edit Comment:  
+							textarea(
+								id="update_comment_text" 
+								name="text" 
+								cols="30" 
+								rows="10"
+								required 
+								class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
+							)=comment.comment_text
+						div.flex.justify-end 
+							+bigButton("submit", "Submit")  
+				+card  
+					form(
+						action="/board/post/"+ post.post_id + "/comment/" + comment.comment_id + "/create" 
+						method="post"
+						class='flex flex-col space-y-2 mt-2 font-serif'
+						)
+						div 
+							label(for="comment_chain_text") Comment:  
+							textarea(
+								id="comment_chain_text" 
+								name="text" 
+								cols="30" 
+								rows="10" 
+								required 
+								class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
+							)
+						div.flex.justify-end 
+							+bigButton("submit", "Submit")   
+		

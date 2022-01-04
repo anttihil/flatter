@@ -56,10 +56,10 @@ passportSetup();
 app.use(passport.initialize());
 app.use(passport.session());
 
-/* A middleware that attaches passport authentication
-messages (e.g. incorrect password) to a response level
-local variables so that they are always available for Pug
-rendering.*/
+/* 
+A middleware that attaches information to response
+local variables so that they are available for rendering views.
+*/
 app.use(passportMsgLocals, userAuthenticationLocals);
 
 /* A function that mounts all the routes to the app. 
@@ -68,6 +68,7 @@ mountRoutes(app);
 
 app.use(function (req, res, next) {
   res.status(404).render("404", { url: req.url });
+  next();
 });
 
 const port = process.env.PORT || 3001;

@@ -2,23 +2,42 @@ import {
   selectPostandComments,
   insertPost,
   selectPosts,
+  updatePost,
+  deletePost,
   insertComment,
+  updateComment,
+  deleteComment,
 } from "../services/boardService.js";
 
-export async function getBoard(req, res, next) {
-  /*
-  there should be ONE selectPosts function that accepts
-  ALL the possible params and query strings as arguments
-  That way we don't have write a tree of conditions
-  with their own query functions. 
+/* 
+Controller naming conventions:
+Creating a resource: CreateX
+Reading a resource: ReadY
+Updating a resource: EditZ
+Deleting a resource: RemoveW
 
-  Input validation belongs
-  cases to deal with: 
-  allowed values of req.param.boardName: all + app.locals.boards
-  allowed fields of req.query: sort, count
-    allowed values sort: new
-    allowed values count: non-negative integer
-  */
+Exception: If there is a more descriptive verb,
+such as login or logout, which is not listed above
+then use that verb instead.
+
+The purpose is to be consistent and prevent conflicts
+with names of service functions.
+*/
+
+export async function readBoard(req, res, next) {
+  /*
+	there should be ONE selectPosts function that accepts
+	ALL the possible params and query strings as arguments
+	That way we don't have write a tree of conditions
+	with their own query functions. 
+
+	Input validation belongs
+	cases to deal with: 
+	allowed values of req.param.boardName: all + app.locals.boards
+	allowed fields of req.query: sort, count
+		allowed values sort: new
+		allowed values count: non-negative integer
+	*/
   try {
     let boardList = [];
     if (req.params.boardName === "all") boardList = req.app.locals.boards;
@@ -34,7 +53,7 @@ export async function getBoard(req, res, next) {
   }
 }
 
-export const getPostAndComments = async (req, res, next) => {
+export const readPostAndComments = async (req, res, next) => {
   try {
     const result = await selectPostandComments(req.params.postId);
     // If result.post is null, render not found page.
@@ -49,7 +68,7 @@ export const getPostAndComments = async (req, res, next) => {
 };
 
 // requires authorization
-export const getCreatePost = async (req, res, next) => {
+export const readCreatePost = async (req, res, next) => {
   //First check if the user does not exist or user credentials do not match the session info
   // then: redirect to login/register
   // Otherwise, render the create post page
@@ -61,13 +80,14 @@ export const getCreatePost = async (req, res, next) => {
 };
 
 // requires authorization
-export const submitPost = async (req, res, next) => {
+export const createPost = async (req, res, next) => {
   // First check if the user does not exist or user credentials do not match the session info
   // then: redirect to login/register
   // Otherwise, insert post into the database
   // Then redirect to the landing page
   // remember to change the landing page to include a success modal with hidden class switch
   try {
+    console.log(req.body);
     const result = await insertPost(
       req.body.board,
       req.user.id,
@@ -75,7 +95,8 @@ export const submitPost = async (req, res, next) => {
       req.body.text,
       req.body.image
     );
-    res.status(201).redirect(`/board/${result.post_Id}`);
+    console.log(result);
+    res.status(201).redirect(`/board/post/${result.post_id}`);
   } catch (error) {
     next(error);
   }
@@ -84,18 +105,27 @@ export const submitPost = async (req, res, next) => {
 // requires authorization
 export const editPost = async (req, res, next) => {
   try {
-    res.redirect("back");
+    console.log("Updated post params", req.params);
+    console.log("Updated post body", req.body);
+    const result = await updatePost(
+      req.params.postId,
+      req.body.title,
+      req.body.text,
+      req.body.image
+    );
+    console.log(result);
+    res.status(201).redirect("back");
   } catch (error) {
     next(error);
   }
 };
 
 // requires authorization
-export const deletePost = async (req, res, next) => {
+export const removePost = async (req, res, next) => {
   try {
-    const result = await deletePost(req.params.postId);
+    const result = await deletePost(req.body.postId);
     console.log(result);
-    res.redirect("back");
+    res.status(200).redirect("back");
   } catch (error) {
     next(error);
   }
@@ -103,27 +133,30 @@ export const deletePost = async (req, res, next) => {
 
 // requires authorization
 // deal with both replies to posts and to other comments
-export const submitComment = async (req, res, next) => {
+export const createComment = async (req, res, next) => {
   try {
-    let commentId;
+    /* let commentId;
     if (!req.params.commentId) commentId = "NULL";
-    else commentId = req.params.commentId;
+    else commentId = req.params.commentId; */
     const result = await insertComment(
       req.user.id,
       req.params.postId,
-      commentId,
-      req.body.text
+      req.body.text,
+      req.params.commentId
     );
     console.log(result);
-    res.redirect("back");
+    res.status(201).redirect("back");
   } catch (error) {
     next(error);
   }
 };
 
 // requires admin? authorization
-export const deleteComment = async (req, res, next) => {
+export const removeComment = async (req, res, next) => {
   try {
+    const result = await deleteComment(req.body.commentId);
+    console.log(result);
+    res.status(200).redirect("back");
   } catch (error) {
     next(error);
   }
@@ -132,6 +165,9 @@ export const deleteComment = async (req, res, next) => {
 // requires authorization
 export const editComment = async (req, res, next) => {
   try {
+    const result = await updateComment(req.params.commentId, req.body.text);
+    console.log(result);
+    res.status(201).redirect("back");
   } catch (error) {
     next(error);
   }

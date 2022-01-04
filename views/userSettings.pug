@@ -1,15 +1,29 @@
 extends layout 
 
 block content
-    div.flex.flex-col.items-center.justify-center.bg-main.h-full
-        .bg-dark.p-4.flex.flex-col.items-center.w-96.divide-y-2.space-y-2.divide-brown 
-            div.flex.flex-col.h-8.items-center.text-xl.font-fraktur.text-light
-                header Log In  
-            form(action="" method="POST" class='focus:outline-none focus:ring focus:ring-brown').flex.flex-col.space-y-2.mt-2.font-serif.w-full.text-sm.text-light
-                div 
-                    label(for="username") Email
-                    input(type="text" id="username" required class='focus:outline-none focus:ring focus:ring-brown').shadow.w-full.bg-light.text-dark
-                div 
-                    label(for="password") Password
-                    input(type="password" id="password" required class='focus:outline-none focus:ring focus:ring-brown').shadow.w-full.bg-light.text-dark 
-                input(type="submit" value="Submit").self-end.p-2.shadow.border-2.border-dark.border-opacity-50.text-lg.font-fraktur.bg-light.text-dark(class="hover:bg-gray")
+	div.flex.flex-col.items-center.justify-center.bg-main.h-full
+		.bg-dark.p-4.flex.flex-col.items-center.w-96.divide-y-2.space-y-2.divide-brown 
+			div.flex.flex-col.h-8.items-center.text-xl.font-fraktur.text-light
+				header Change your Password  
+			form(
+				action="" 
+				method="POST" 
+				class='focus:outline-none focus:ring focus:ring-brown flex flex-col space-y-2 mt-2 font-serif w-full text-sm text-light')
+				div 
+					label(for="username") Email
+					input(
+						type="text" 
+						id="username" 
+						required 
+						class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark')
+				div 
+					label(for="password") Password
+					input(
+						type="password" 
+						id="password" 
+						required 
+						class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark') 
+				input(
+					type="submit" 
+					value="Submit" 
+					class="hover:bg-gray self-end p-2 shadow border-2 border-dark border-opacity-50 text-lg font-fraktur bg-light text-dark")

@@ -2,7 +2,22 @@ import { selectUserActivity } from "../services/userService.js";
 import { selectBoards } from "../services/boardService.js";
 import { hash } from "argon2";
 
-export const getLoginPage = async (req, res, next) => {
+/* 
+Controller naming conventions:
+Creating a resource: CreateX
+Reading a resource: ReadY
+Updating a resource: EditZ
+Deleting a resource: RemoveW
+
+Exception: If there is a more descriptive verb,
+such as login or logout, which is not listed above
+then use that verb instead.
+
+The purpose is to be consistent and prevent conflicts
+with names of service functions.
+*/
+
+export const readLoginPage = async (req, res, next) => {
   try {
     res.status(200).render("login");
   } catch (error) {
@@ -10,7 +25,7 @@ export const getLoginPage = async (req, res, next) => {
   }
 };
 
-export const getRegisterPage = async (req, res, next) => {
+export const readRegisterPage = async (req, res, next) => {
   try {
     res.status(200).render("register");
   } catch (error) {
@@ -18,7 +33,7 @@ export const getRegisterPage = async (req, res, next) => {
   }
 };
 
-export const getRegisterSuccess = async (req, res, next) => {
+export const readRegisterSuccess = async (req, res, next) => {
   try {
     res.status(200).render("registerSuccess");
   } catch (error) {
@@ -31,7 +46,7 @@ export const logoutUser = function (req, res, next) {
   res.redirect("/");
 };
 
-export const registerUser = async (req, res, next) => {
+export const createUser = async (req, res, next) => {
   try {
     const password = await hash(req.body.password);
     const result = await insertUser(
@@ -52,7 +67,7 @@ export const registerUser = async (req, res, next) => {
   }
 };
 
-export const getUnauthorizedPage = async (req, res, next) => {
+export const readUnauthorizedPage = async (req, res, next) => {
   try {
     const result = await selectBoards();
     console.log(result);
@@ -62,7 +77,7 @@ export const getUnauthorizedPage = async (req, res, next) => {
   }
 };
 
-export const getUserPage = async (req, res, next) => {
+export const readUserPage = async (req, res, next) => {
   try {
     const result = await selectUserActivity(req.params.userId);
     res
@@ -73,7 +88,7 @@ export const getUserPage = async (req, res, next) => {
   }
 };
 
-export const getUserSettings = async (req, res, next) => {
+export const readUserSettings = async (req, res, next) => {
   try {
     res.status(200).render("userSettings");
   } catch (error) {
@@ -81,9 +96,9 @@ export const getUserSettings = async (req, res, next) => {
   }
 };
 
-export const getAdminDashboard = async (req, res, next) => {
+export const readAdminDashboard = async (req, res, next) => {
   try {
-    res.render("adminDashboard");
+    res.status(200).render("adminDashboard");
   } catch (error) {
     next(error);
   }

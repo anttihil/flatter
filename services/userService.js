@@ -1,5 +1,13 @@
 import db from "../config/db.js";
 
+/* 
+Naming conventions for database services:
+Creating a resource: insertX
+Reading a resource: selectY
+Update a resource: updateZ
+Deleting a resource: deleteW
+*/
+
 export const selectUserForAuthentication = async (email) => {
   return await db.oneOrNone(
     `SELECT user_id, user_email, user_nickname, user_password, user_role  

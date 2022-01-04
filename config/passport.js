@@ -4,7 +4,7 @@ import { verify } from "argon2";
 import {
   selectUserForAuthentication,
   selectUserForDeserialize,
-} from "../services/authService.js";
+} from "../services/userService.js";
 
 const options = {
   usernameField: "email",

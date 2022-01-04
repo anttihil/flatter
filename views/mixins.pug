@@ -1,22 +1,22 @@
 mixin centerContainer 
-    div(class='flex flex-col items-center justify-center space-y-1 p-y-1 md:p-3')
-        block 
+	div(class='flex flex-col items-center justify-center space-y-1 p-y-1 md:p-3')
+		block 
 
 mixin cardContainer 
-    div(class='flex flex-col items-center space-y-1 p-y-1 md:p-3 items-stretch')
-        block
+	div(class='flex flex-col items-center space-y-1 p-y-1 md:p-3 items-stretch')
+		block
 
 mixin formCard 
-    article(class="md:h-auto h-full bg-dark p-4 flex flex-col items-center divide-y space-y-2 divide-brown border-2 border-brown")
-        block 
+	article(class="md:h-auto h-full bg-dark p-4 flex flex-col items-center divide-y space-y-2 divide-brown border-2 border-brown")
+		block 
 
 mixin card 
-    article.p-2.flex.flex-col.bg-dark.text-light.space-y-2.rounded.border-2.border-brown
-        block
+	article.p-2.flex.flex-col.bg-dark.text-light.space-y-2.rounded.border-2.border-brown
+		block
 
 mixin bigButton(type, text)
-    input(
-        type=type 
-        value=text
-        class='self-end p-1 shadow border-2 border-main border-opacity-70 text-lg font-fraktur bg-light text-dark hover:bg-gray'
-        )
+	input(
+		type=type 
+		value=text
+		class='self-end p-1 shadow border-2 border-main border-opacity-70 text-lg font-fraktur bg-light text-dark hover:bg-gray'
+		)

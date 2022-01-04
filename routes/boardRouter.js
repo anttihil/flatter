@@ -1,15 +1,16 @@
 import { Router } from "express";
 import {
-  getPostAndComments,
-  getCreatePost,
-  submitPost,
+  readPostAndComments,
+  readCreatePost,
+  createPost,
   editPost,
-  deletePost,
-  submitComment,
-  deleteComment,
+  removePost,
+  createComment,
+  removeComment,
   editComment,
-  getBoard,
+  readBoard,
 } from "../controllers/boardController.js";
+
 const boardRouter = Router();
 
 // default route for board
@@ -17,28 +18,28 @@ boardRouter.route("/").get((req, res) => {
   res.redirect("/board/all");
 });
 
-boardRouter.route("/post/create").get(getCreatePost).post(submitPost);
+boardRouter.route("/post/create").get(readCreatePost).post(createPost);
 
-boardRouter.route("/post/:postId(\\d+)").get(getPostAndComments);
+boardRouter.route("/post/:postId(\\d+)").get(readPostAndComments);
 
-boardRouter.route("/post/:postId(\\d+)/edit").post(editPost);
+boardRouter.route("/post/:postId(\\d+)/update").post(editPost);
 
-boardRouter.route("/post/:postId(\\d+)/delete").post(deletePost);
+boardRouter.route("/post/:postId(\\d+)/delete").post(removePost);
 
-boardRouter.route("/post/:postId(\\d+)/comment/create").post(submitComment);
+boardRouter.route("/post/:postId(\\d+)/comment/create").post(createComment);
 
 boardRouter
-  .route("/post/:postId(\\d+)/comment/:commentId(\\d+)/edit")
+  .route("/post/:postId(\\d+)/comment/:commentId(\\d+)/update")
   .post(editComment);
 
 boardRouter
   .route("/post/:postId(\\d+)/comment/:commentId(\\d+)/delete")
-  .post(deleteComment);
+  .post(removeComment);
 
 boardRouter
   .route("/post/:postId(\\d+)/comment/:commentId(\\d+)/create")
-  .post(submitComment);
+  .post(createComment);
 
-boardRouter.route("/:boardName").get(getBoard);
+boardRouter.route("/:boardName").get(readBoard);
 
 export default boardRouter;

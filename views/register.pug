@@ -1,18 +1,18 @@
 extends layout 
 
 block content 
-    +cardContainer
-        .bg-dark.text-light.p-4.flex.flex-col.items-center.divide-y.space-y-2.divide-brown.border-2.border-brown 
-            div.flex.flex-col.items-center.text-xl.font-fraktur
-                header Register  
-            form(action="" method="POST").flex.flex-col.space-y-2.mt-2.font-serif.w-full.text-sm
-                .pt-2
-                    label(for="username") Email
-                    input(type="text" id="username" required class='focus:outline-none focus:ring focus:ring-brown').shadow.w-full.bg-light.text-dark
-                div 
-                    label(for="nickname") Username
-                    input(type="text" id="nickname" required class='focus:outline-none focus:ring focus:ring-brown').shadow.w-full.bg-light.text-dark
-                div 
-                    label(for="password") Password
-                    input(type="password" id="password" required class='focus:outline-none focus:ring focus:ring-brown').shadow.w-full.bg-light.text-dark 
-                input(type="submit" value="Submit" class='hover:bg-gray').self-end.p-1.shadow.border-2.border-main.border-opacity-70.text-lg.font-fraktur.bg-light.text-dark
+	+cardContainer
+		.bg-dark.text-light.p-4.flex.flex-col.items-center.divide-y.space-y-2.divide-brown.border-2.border-brown 
+			div.flex.flex-col.items-center.text-xl.font-fraktur
+				header Register  
+			form(action="" method="POST").flex.flex-col.space-y-2.mt-2.font-serif.w-full.text-sm
+				.pt-2
+					label(for="username") Email
+					input(type="text" id="username" required class='focus:outline-none focus:ring focus:ring-brown').shadow.w-full.bg-light.text-dark
+				div 
+					label(for="nickname") Username
+					input(type="text" id="nickname" required class='focus:outline-none focus:ring focus:ring-brown').shadow.w-full.bg-light.text-dark
+				div 
+					label(for="password") Password
+					input(type="password" id="password" required class='focus:outline-none focus:ring focus:ring-brown').shadow.w-full.bg-light.text-dark 
+				input(type="submit" value="Submit" class='hover:bg-gray').self-end.p-1.shadow.border-2.border-main.border-opacity-70.text-lg.font-fraktur.bg-light.text-dark
