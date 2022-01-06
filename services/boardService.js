@@ -42,12 +42,16 @@ export const selectPostandComments = async (postId) =>
       [postId]
     );
     const comments = await t.any(
-      `SELECT comment_id, reference_id, comment_text, c.user_id, user_nickname, comment_created_at
+      `SELECT c.comment_id, c.comment_text, c.user_id, u.user_nickname, c.comment_created_at, c.reference_id, s.user_nickname as reference_author
         FROM comments c
+        LEFT JOIN comments r
+          ON c.reference_id = r.comment_id
         INNER JOIN users u
           ON u.user_id = c.user_id
+        LEFT JOIN users s
+          ON s.user_id = r.user_id
         WHERE c.post_id = $1
-        ORDER BY comment_created_at ASC`,
+        ORDER BY comment_created_at ASC;`,
       [postId]
     );
     return { post, comments };

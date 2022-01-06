@@ -13,20 +13,22 @@ block content
 				div.flex.space-x-2
 				div.flex.space-x-2
 					if user && user.id === post.user_id
-						button(
+						a(
+							href="#editPostForm"
 							data-action-type="editPost" 
 							data-post-id=post.post_id
 							class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
 							) Edit 
 					if user
-						button(
+						a(
+							href="#commentForm"
 							data-action-type="commentPost"
 							data-post-id=post.post_id
 							class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
 
 							) Comment
-					-let dateConfig = {year: "numeric", month: "short", day: "numeric"}
-					-let date = post.post_created_at.toLocaleDateString("en-US", dateConfig)
+					-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
+					-let date = post.post_created_at.toLocaleString("en-US", dateConfig)
 					.space-x-1
 						a(href="/user/" + post.user_id)=post.user_nickname
 						time="on " + date   
@@ -40,8 +42,8 @@ block content
 						a(
 							href=comment.reference_id ? "#comment" + comment.reference_id : "#post"
 							class="text-main text-xs hover:text-red-800"
-						) 
-							i Original Comment
+						)  
+							i=comment.reference_id ? "@" + comment.reference_author : "@" + post.user_nickname
 						section(
 							id="commentText" + comment.comment_id 
 							class="inline px-2 font-serif text-sm"
@@ -59,18 +61,17 @@ block content
 									) Edit
 							if user
 								a(
-									href="#commentCommentForm"
+									href="#commentForm"
 									data-action-type="commentComment" 
 									data-post-id=post.post_id 
 									data-comment-id=comment.comment_id
 									class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
 									) Comment
-							-let dateConfig = {year: "numeric", month: "short", day: "numeric"}
-							-let date = comment.comment_created_at.toLocaleDateString("en-US", dateConfig)
+							-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
+							-let date = comment.comment_created_at.toLocaleString("en-US", dateConfig)
 							.space-x-1
 								a(href="/user/" + comment.user_id)=comment.user_nickname
 								time="on " + date
-							
 		+card(id="editPostForm").hidden
 				form(
 					action="" 
@@ -107,8 +108,9 @@ block content
 							required 
 							class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
 							)=""
-					div.flex.justify-end 
+					div.flex.justify-end.space-x-2 
 						+bigButton("submit", "Submit")
+						+bigButton("button", "Cancel")(data-action-type="hideForm" data-form-type="editPost") 
 		+card(id="editCommentForm").hidden
 					form(
 						action="" 
@@ -126,8 +128,9 @@ block content
 								required 
 								class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
 							)
-						div.flex.justify-end 
+						div.flex.justify-end.space-x-2 
 							+bigButton("submit", "Submit")
+							+bigButton("button", "Cancel")(data-action-type="hideForm" data-form-type="editComment") 
 		+card(id="commentForm").hidden  
 					form(
 						action=""
@@ -145,6 +148,7 @@ block content
 								required 
 								class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
 							)
-						div.flex.justify-end 
-							+bigButton("submit", "Submit")  
+						div.flex.justify-end.space-x-2 
+							+bigButton("submit", "Submit")
+							+bigButton("button", "Cancel")(data-action-type="hideForm" data-form-type="comment")  
 		

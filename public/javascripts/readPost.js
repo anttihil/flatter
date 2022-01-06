@@ -80,26 +80,43 @@ postContainer.addEventListener("click", function (event) {
       break;
     }
 
+    case "hideForm": {
+      function lookUp(formType) {
+        let lookUpObject = {
+          editPost: editPostForm,
+          comment: commentForm,
+          editComment: editCommentForm,
+        };
+        return lookUpObject[formType];
+      }
+      lookUp(event.target.dataset.formType).classList.add("hidden");
+      break;
+    }
+
     default:
       break;
   }
 });
 
+// when user clicks on a link, we want to visually flash the message
 let timer = null;
 window.addEventListener("hashchange", function () {
   let hash = this.location.hash;
   if (!hash) return;
-  console.log(hash);
+  // we don't want to flash forms because it looks ugly
+  if (["#editCommentForm", "#commentForm", "#editPostForm"].includes(hash))
+    return;
 
   let hashEl = document.querySelector(hash);
-  console.log(hashEl);
-  hashEl.classList.add("bg-light", "text-dark");
+  hashEl.classList.add("bg-main");
 
+  //removes the contrast background CSS AKA produces a visual flash
+  //empties the location hash so user can flash the same message twice in a row
   if (timer !== null) {
     clearTimeout(timer);
   }
   timer = setTimeout(function () {
-    hashEl.classList.remove("bg-light", "text-dark");
-    history.pushState(null, null, " "); // do something
-  }, 500);
+    hashEl.classList.remove("bg-main");
+    history.pushState(null, null, " ");
+  }, 300);
 });
