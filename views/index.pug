@@ -4,7 +4,7 @@ block content
 	+cardContainer
 		if posts
 			for post in posts 
-				article(class="bg-dark text-light p-1 flex flex-col space-y-1 rounded border-2 border-brown")
+				+card
 					header(class="px-2 border-b border-brown")
 						a(href="/board/post/" + post.post_id class="font-sans")= post.post_title
 					section(class="px-2 font-serif text-sm")= post.post_text 

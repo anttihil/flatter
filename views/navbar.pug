@@ -4,12 +4,12 @@ nav(class="p-2 fixed flex flex-col text-light font-fraktur space-y-2 divide-y di
 			button Log Out
 	else 
 		a(href="/user/login" class="flex-none") Log In 
-	ul(class="flex flex-col flex-none text-light") Boards:
-		li.ml-3 
+	ul(class="flex flex-col flex-none text-light")
+		li 
 			a(href= "/board/post/create" class="flex-none") Create a Post
-		li.ml-3 
+		li 
 			a(href="/board/all" class="flex-none") All
 		for board in boards
-			li.ml-3
+			li
 				a(href="/board/" + board class="flex-none")= board 
 	a(href="/about" class='flex-none') About

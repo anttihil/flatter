@@ -22,18 +22,18 @@ boardRouter.route("/post/create").get(readCreatePost).post(createPost);
 
 boardRouter.route("/post/:postId(\\d+)").get(readPostAndComments);
 
-boardRouter.route("/post/:postId(\\d+)/update").post(editPost);
+boardRouter.route("/post/:postId(\\d+)/edit").post(editPost);
 
-boardRouter.route("/post/:postId(\\d+)/delete").post(removePost);
+boardRouter.route("/post/:postId(\\d+)/remove").post(removePost);
 
 boardRouter.route("/post/:postId(\\d+)/comment/create").post(createComment);
 
 boardRouter
-  .route("/post/:postId(\\d+)/comment/:commentId(\\d+)/update")
+  .route("/post/:postId(\\d+)/comment/:commentId(\\d+)/edit")
   .post(editComment);
 
 boardRouter
-  .route("/post/:postId(\\d+)/comment/:commentId(\\d+)/delete")
+  .route("/post/:postId(\\d+)/comment/:commentId(\\d+)/remove")
   .post(removeComment);
 
 boardRouter
