@@ -2,7 +2,7 @@ include mixins.pug
 
 doctype html 
 
-html
+html.scroll-pt-12
 	head
 		title= title
 		link(rel='stylesheet', href='/stylesheets/styles.css')
@@ -11,18 +11,18 @@ html
 		script(defer src='/javascripts/client.js')
 		block pageScript 
 	body(class="flex flex-col min-h-screen bg-gradient-to-r from-main to-gray")
-		header#headerMenu(class="h-8 left-0 top-0 right-0 fixed flex justify-between items-center bg-dark text-light font-fraktur")
+		header#headerMenu(class="h-8 left-0 top-0 right-0 sticky flex justify-between items-center bg-dark text-light font-fraktur")
 			.flex.items-center.py-2.px-3.space-x-2.justify-between
 				button(data-toggle-hide-id="navbar" class='md:hidden')
 					span(data-toggle-hide-id="navbar" class="fas fa-bars fa-lg")
 				div KraftWorld 
 			div
 				if user
-					a(href="/user/" + user.id class="flex-none mr-3")= "User: " + user.nickname
+					a(href="/user/" + user.id class="flex-none mr-3 p-1 rounded-full bg-light text-dark")= "User: " + user.nickname
 				else 
-					div.mr-3 User: Guest  
+					div(class="flex-none mr-3 p-1 rounded-full bg-light text-dark") User: Guest  
 		div(class="flex flex-col md:flex-row md:flex-1")
-				aside#navbar(class="pt-8 pl-3 hidden md:block w-32 fixed inset-y-0 left-0 md:static flex-none flex flex-col items-center bg-dark border-r border-brown")
+				aside#navbar(class="pl-3 hidden md:block w-32 fixed inset-y-0 left-0 md:static flex-none flex flex-col items-center bg-dark border-r border-brown")
 					include navbar.pug
 					div#navOverlay(class='fixed hidden md:hidden inset-0 bg-neutral-900 backdrop-blur-sm opacity-0 transition-opacity')
 				main#main(class="md:flex-1" data-hide-id="navbar")

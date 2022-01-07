@@ -3,152 +3,150 @@ extends layout
 block pageScript
 	script(defer src="/javascripts/readPost.js")
 block content
-	+cardContainer(id="postContainer")
-		+card(id="post" class="scroll-mt-8")
-			header#postTitle.px-2.text-main.font-sans= post.post_title
-			section#postText( 
-				class="px-2 py-1 font-serif text-sm whitespace-pre-line"
-				)= post.post_text 
-			footer.px-2.py-1.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
-				div.flex.space-x-2
-				div.flex.space-x-2
-					if user && user.id === post.user_id
-						a(
-							href="#editPostForm"
-							data-action-type="editPost" 
-							data-post-id=post.post_id
-							class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
-							) Edit 
-					if user
-						a(
-							href="#commentForm"
-							data-action-type="commentPost"
-							data-post-id=post.post_id
-							class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
+	+card(id="post" class="scroll-mt-8")
+		header#postTitle.px-2.text-main.font-sans= post.post_title
+		section#postText( 
+			class="px-2 py-1 font-serif text-sm whitespace-pre-line"
+			)= post.post_text 
+		footer.px-2.py-1.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
+			div.flex.space-x-2
+			div.flex.space-x-2
+				if user && user.id === post.user_id
+					a(
+						href="#editPostForm"
+						data-action-type="editPost" 
+						data-post-id=post.post_id
+						class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
+						) Edit 
+				if user
+					a(
+						href="#commentForm"
+						data-action-type="commentPost"
+						data-post-id=post.post_id
+						class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
 
-							) Comment
-					-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
-					-let date = post.post_created_at.toLocaleString("en-US", dateConfig)
-					.space-x-1
-						a(href="/user/" + post.user_id)=post.user_nickname
-						time="on " + date   
-		if comments
-			for comment in comments 
-				+card(
-					id="comment" + comment.comment_id
-					class="scroll-mt-8"
-					)
-					section.text-sm.font-serif
-						a(
-							href=comment.reference_id ? "#comment" + comment.reference_id : "#post"
-							class="text-main text-xs hover:text-red-800"
-						)  
-							i=comment.reference_id ? "@" + comment.reference_author : "@" + post.user_nickname
-						section(
-							id="commentText" + comment.comment_id 
-							class="inline px-2 font-serif text-sm"
-							)= comment.comment_text 
-					footer.px-2.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
-						div.flex.space-x-2
-						div.flex.space-x-2
-							if (user && user.id === comment.user_id)
-								a(
-									href="#editCommentForm"
-									data-action-type="editComment" 
-									data-post-id=post.post_id 
-									data-comment-id=comment.comment_id
-									class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
-									) Edit
-							if user
-								a(
-									href="#commentForm"
-									data-action-type="commentComment" 
-									data-post-id=post.post_id 
-									data-comment-id=comment.comment_id
-									class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
-									) Comment
-							-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
-							-let date = comment.comment_created_at.toLocaleString("en-US", dateConfig)
-							.space-x-1
-								a(href="/user/" + comment.user_id)=comment.user_nickname
-								time="on " + date
-		+card(id="editPostForm").hidden
-				form(
-					action="" 
-					method="post"
-					class="flex flex-col space-y-2 mt-2 font-serif"
-					name="editPostForm"
-					)
-					div 
-						label(for="editPostTitle") Edit Title:
-						input(
-							type="text" 
-							id="editPostTitle"
-							name="title" 
-							value="" 
-							required 
+						) Comment
+				-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
+				-let date = post.post_created_at.toLocaleString("en-US", dateConfig)
+				.space-x-1
+					a(href="/user/" + post.user_id)=post.user_nickname
+					time="on " + date   
+	if comments
+		for comment in comments 
+			+card(
+				id="comment" + comment.comment_id
+				class="scroll-mt-8"
+				)
+				section.text-sm.font-serif
+					a(
+						href=comment.reference_id ? "#comment" + comment.reference_id : "#post"
+						class="text-main text-xs hover:text-red-800"
+					)  
+						i=comment.reference_id ? "@" + comment.reference_author : "@" + post.user_nickname
+					section(
+						id="commentText" + comment.comment_id 
+						class="inline px-2 font-serif text-sm"
+						)= comment.comment_text 
+				footer.px-2.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
+					div.flex.space-x-2
+					div.flex.space-x-2
+						if (user && user.id === comment.user_id)
+							a(
+								href="#editCommentForm"
+								data-action-type="editComment" 
+								data-post-id=post.post_id 
+								data-comment-id=comment.comment_id
+								class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
+								) Edit
+						if user
+							a(
+								href="#commentForm"
+								data-action-type="commentComment" 
+								data-post-id=post.post_id 
+								data-comment-id=comment.comment_id
+								class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
+								) Comment
+						-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
+						-let date = comment.comment_created_at.toLocaleString("en-US", dateConfig)
+						.space-x-1
+							a(href="/user/" + comment.user_id)=comment.user_nickname
+							time="on " + date
+	+card(id="editPostForm" class="scroll-mt-8 hidden")
+			form(
+				action="" 
+				method="post"
+				class="flex flex-col space-y-2 mt-2 font-serif"
+				name="editPostForm"
+				)
+				div 
+					label(for="editPostTitle") Edit Title:
+					input(
+						type="text" 
+						id="editPostTitle"
+						name="title" 
+						value="" 
+						required 
+						class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
+						)
+				div 
+					label(for="editImage") Edit Image URL:
+					input(
+							type="url" 
+							id="editImage"
+							name="image"
+							value=post.post_image 
 							class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
 							)
+				div 
+					label(for="editPostText") Edit Text:  
+					textarea(
+						id="editPostText" 
+						name="text" 
+						cols="30" 
+						rows="10" 
+						required 
+						class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
+						)=""
+				div.flex.justify-end.space-x-2 
+					+bigButton("submit", "Submit")
+					+bigButton("button", "Cancel")(data-action-type="hideForm" data-form-type="editPost") 
+	+card(id="editCommentForm" class="scroll-mt-8 hidden")
+				form(
+					action="" 
+					method="post" 
+					class="flex flex-col space-y-2 mt-2 font-serif"
+					name="editCommentForm"
+					)
 					div 
-						label(for="editImage") Edit Image URL:
-						input(
-								type="url" 
-								id="editImage"
-								name="image"
-								value=post.post_image 
-								class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
-								)
-					div 
-						label(for="editPostText") Edit Text:  
+						label(for="editCommentText") Edit Comment:  
 						textarea(
-							id="editPostText" 
+							id="editCommentText" 
+							name="text" 
+							cols="30" 
+							rows="10"
+							required 
+							class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
+						)
+					div.flex.justify-end.space-x-2 
+						+bigButton("submit", "Submit")
+						+bigButton("button", "Cancel")(data-action-type="hideForm" data-form-type="editComment") 
+	+card(id="commentForm" class="scroll-mt-8 hidden") 
+				form(
+					action=""
+					method="post"
+					class="flex flex-col space-y-2 mt-2 font-serif"
+					name="commentForm"
+					)
+					div 
+						label(for="commentText") Comment:  
+						textarea(
+							id="commentText" 
 							name="text" 
 							cols="30" 
 							rows="10" 
 							required 
 							class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
-							)=""
+						)
 					div.flex.justify-end.space-x-2 
 						+bigButton("submit", "Submit")
-						+bigButton("button", "Cancel")(data-action-type="hideForm" data-form-type="editPost") 
-		+card(id="editCommentForm").hidden
-					form(
-						action="" 
-						method="post" 
-						class="flex flex-col space-y-2 mt-2 font-serif"
-						name="editCommentForm"
-						)
-						div 
-							label(for="editCommentText") Edit Comment:  
-							textarea(
-								id="editCommentText" 
-								name="text" 
-								cols="30" 
-								rows="10"
-								required 
-								class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
-							)
-						div.flex.justify-end.space-x-2 
-							+bigButton("submit", "Submit")
-							+bigButton("button", "Cancel")(data-action-type="hideForm" data-form-type="editComment") 
-		+card(id="commentForm").hidden  
-					form(
-						action=""
-						method="post"
-						class="flex flex-col space-y-2 mt-2 font-serif"
-						name="commentForm"
-						)
-						div 
-							label(for="commentText") Comment:  
-							textarea(
-								id="commentText" 
-								name="text" 
-								cols="30" 
-								rows="10" 
-								required 
-								class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
-							)
-						div.flex.justify-end.space-x-2 
-							+bigButton("submit", "Submit")
-							+bigButton("button", "Cancel")(data-action-type="hideForm" data-form-type="comment")  
-		
+						+bigButton("button", "Cancel")(data-action-type="hideForm" data-form-type="comment")  

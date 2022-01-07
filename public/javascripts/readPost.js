@@ -1,4 +1,4 @@
-const postContainer = document.getElementById("postContainer");
+const postContainer = document.getElementById("main");
 const commentForm = document.getElementById("commentForm");
 const editPostForm = document.getElementById("editPostForm");
 const editCommentForm = document.getElementById("editCommentForm");
