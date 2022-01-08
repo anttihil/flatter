@@ -1,5 +1,5 @@
 module.exports = {
-  purge: [],
+  content: ["./public/javascripts/*.js", "./views/*.pug"],
   theme: {
     extend: {
       fontFamily: {
