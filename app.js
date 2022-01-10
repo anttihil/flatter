@@ -14,6 +14,7 @@ import {
   userAuthenticationLocals,
 } from "./middleware/locals.js";
 import { boardAppLocals } from "./config/appLocals.js";
+import createError from "http-errors";
 
 dotenv.config({ path: "./.env" });
 
@@ -43,6 +44,7 @@ app.use(
       pgPromise: db,
     }),
     secret: process.env.FOO_COOKIE_SECRET,
+    name: process.env.FOO_COOKIE_NAME,
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 30 * 24 * 60 * 60 * 1000 }, // 30 days
@@ -67,8 +69,18 @@ Used in order to clean up the app structure. */
 mountRoutes(app);
 
 app.use(function (req, res, next) {
-  res.status(404).render("404", { url: req.url });
-  next();
+  next(createError(404, "The resource was not found."));
+});
+
+// error handler
+app.use(function (err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get("env") === "development" ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render("error");
 });
 
 const port = process.env.PORT || 3001;
