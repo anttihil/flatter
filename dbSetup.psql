@@ -5,9 +5,10 @@ CREATE TABLE IF NOT EXISTS users
 (
     user_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
     user_email TEXT NOT NULL UNIQUE,
-    user_nickname TEXT NOT NULL UNIQUE,
+    user_username TEXT NOT NULL UNIQUE,
     user_role TEXT NOT NULL,
     user_password TEXT NOT NULL,
+    user_is_verified BOOLEAN DEFAULT false,
     user_is_permabanned BOOLEAN NOT NULL DEFAULT false,
     user_banned_until DATE,
     user_latest_visit TIMESTAMP WITH TIME ZONE,

@@ -1,20 +1,78 @@
 extends layout 
 
 block content
-		div.columns-2.py-1.space-y-1.object-center
-			div.w-full Posts:
-				for post in posts 
-					article.flex.justify-between.bg-dark.text-light.font-sans
-							.text-lg= post.post_title 
-							-   let dateConfig = {year: 'numeric', month: 'short', day: 'numeric'}
-							-   let date = post.post_created_at.toLocaleDateString("en-US", dateConfig)
-							.text-lg= date
-			div.w-full Comments:    
-				for comment in comments 
-					article.flex.justify-between.bg-dark.text-light.font-sans
-							.text-lg= comment.comment_title 
-							-   let dateConfig = {year: 'numeric', month: 'short', day: 'numeric'}
-							-   let date = comment.comment_created_at.toLocaleDateString("en-US", dateConfig)
-							.text-lg= date
+	article(
+		class="divide-y divide-brown md:h-auto h-full text-light font-sans items-start bg-dark p-6 flex flex-col space-y-2  border-b border-brown")
+		header(class='text-light font-fraktur text-lg') User Dashboard
+		section.p-2
+			header.font-fraktur Change Password
+			form(
+				action="changePassword" 
+				method="post"
+				)
+				div(class="mt-2")
+					label(for="oldPassword" class="font-serif text-sm") Old Password
+					input(
+						type="password" 
+						id="oldPassword" 
+						name="oldPassword" 
+						autocomplete="current-password" 
+						required 
+						class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
+						pattern="[0-9a-zA-Z]{10,24}"
+						)
+				div(class="mt-2")
+					label(for="newPassword" class="font-serif text-sm") New Password
+					input(
+						type="password" 
+						id="newPassword" 
+						name="newPassword" 
+						autocomplete="current-password" 
+						required 
+						class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
+						pattern="[0-9a-zA-Z]{10,24}"
+						)
+				div.flex.justify-end.space-x-2.mt-3 
+					input(
+						type="submit" 
+						value="Submit" 
+						class="hover:bg-gray border-2 border-main border-opacity-70 font-fraktur bg-light text-dark")
+		section.p-2 
+			header.font-fraktur Change Username
+			form(
+				action="changeUsername" 
+				method="post" 
+				)
+				label(for="changeUsername" class="font-serif text-sm") New Username
+				input(
+					name="username" 
+					id="changeUsername" 
+					required 
+					pattern="[a-zA-Z0-9]{1,16}"
+					class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
+					)
+				div.flex.justify-end
+					input(
+							type="submit" 
+							value="Submit" 
+							class="mt-3 hover:bg-gray border-2 border-main border-opacity-70 font-fraktur bg-light text-dark")
+				if message
+					div=message
+		section.p-2.w-full
+			header.font-fraktur.mb-2 Your Posts
+			for post in posts 
+				article.flex.justify-between.font-sans.text-sm
+						a(href="" class="flex-none")= post.post_title 
+						-let dateConfig = {dateStyle:"short", timeStyle:"short" }
+						-let date = post.post_created_at.toLocaleString("en-US", dateConfig)
+						time= date
+		section.p-2.w-full
+			header.font-fraktur.mb-2 Your Comments    
+			for comment in comments 
+				article.flex.justify-between.font-sans.text-sm.overflow-ellipsis
+						a(href="" class="")= comment.comment_text 
+						-let dateConfig = {dateStyle:"short", timeStyle:"short" }
+						-let date = comment.comment_created_at.toLocaleString("en-US", dateConfig)
+						time(class="flex-none")= date
 
 		

@@ -1,24 +1,32 @@
 extends layout 
 
 block content 
-	+centerContainer
-		+formCard            
-			header.flex.flex-col.items-center.text-light
-				.font-fraktur.text-xl Log In
-				if hasMessages
-					each message in messages 
-						article.font-serif= message
-			form(action="" method="POST" class='focus:outline-none focus:ring focus:ring-brown').flex.flex-col.space-y-2.mt-2.font-serif.w-full.text-sm
-				.pt-2 
-					label(for="email").text-light Email
-					input(type="text" name="email" class='focus:outline-none focus:ring focus:ring-brown' required).shadow.w-full.bg-light.text-dark
-				div 
-					label(for="password").text-light Password
-					input(type="password" name="password" class='focus:outline-none focus:ring focus:ring-brown' required).shadow.w-full.bg-light.text-dark 
-				.flex.justify-between.content-center.py-2     
-					a(href="/user/register" class="hover:bg-gray").p-1.shadow.border-2.border-main.border-opacity-70.text-lg.font-fraktur.bg-light.text-dark Register
-					input(
-						type="submit" 
-						value="Submit" 
-						class='hover:bg-gray self-end p-1 shadow border-2 border-main border-opacity-70 text-lg font-fraktur bg-light text-dark'
-						)
+	+formCard            
+		header.flex.flex-col.items-center.text-light
+			.font-fraktur.text-xl Log In
+			if hasMessages
+				each message in messages 
+					article.font-serif= message
+		form(action="" method="POST" class='flex flex-col space-y-2 mt-2 font-serif w-full text-sm')
+			.pt-2 
+				label(for="email").text-light Email
+				input(
+					type="email" 
+					name="email" 
+					class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark' 
+					required)
+			div 
+				label(for="password").text-light Password
+				input(
+					type="password" 
+					name="password" 
+					class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark' 
+					required) 
+			.flex.justify-between.content-center.py-2     
+				a(href="/user/register" class="hover:bg-gray").p-1.border-2.border-main.border-opacity-70.text-lg.font-fraktur.bg-light.text-dark Register
+				a(href="forgotPassword" class="hover:bg-gray border-2 border-main border-opacity-70 font-fraktur bg-light text-dark") Forgot Password 
+				input(
+					type="submit" 
+					value="Submit" 
+					class='hover:bg-gray self-end p-1 shadow border-2 border-main border-opacity-70 text-lg font-fraktur bg-light text-dark'
+					)

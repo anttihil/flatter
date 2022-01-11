@@ -1,4 +1,4 @@
-import { selectUserActivity } from "../services/userService.js";
+import { selectUserActivity, insertUser } from "../services/userService.js";
 import { selectBoards } from "../services/boardService.js";
 import { hash } from "argon2";
 
@@ -48,11 +48,12 @@ export const logoutUser = function (req, res, next) {
 
 export const createUser = async (req, res, next) => {
   try {
+    console.log(req.body.password);
     const password = await hash(req.body.password);
     const result = await insertUser(
       req.body.email,
       password,
-      req.body.nickname,
+      req.body.username,
       "user"
     );
     console.log(result);
@@ -62,16 +63,6 @@ export const createUser = async (req, res, next) => {
       res.render("/register", {
         emailCollision: "This email is in use already.",
       });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const readUnauthorizedPage = async (req, res, next) => {
-  try {
-    const result = await selectBoards();
-    console.log(result);
-    res.status(200).render("unauthorizedPage", { boards: result });
   } catch (error) {
     next(error);
   }

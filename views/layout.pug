@@ -16,7 +16,12 @@ html.scroll-pt-12
 				button(data-toggle-hide-id="navbar" class='md:hidden')
 					span(data-toggle-hide-id="navbar" class="fas fa-bars fa-lg")
 				div KraftWorld 
-			div
+			div.flex.space-x-3.items-center
+				if user
+					form(action="/user/logout" class="flex-none") 
+						button Log Out
+				else 
+					a(href="/user/login" class="flex-none") Log In
 				if user
 					a(href="/user/" + user.id class="flex-none mr-3 p-1 rounded-full bg-light text-dark")= "User: " + user.nickname
 				else 
@@ -29,6 +34,6 @@ html.scroll-pt-12
 					block content
 				aside(class="hidden md:w-32 md:flex-none md:flex md:flex-col items-center bg-dark border-l border-brown")
 					include sidebar.pug
-		div#navOverlay(class='fixed hidden md:hidden inset-0 bg-neutral-900 backdrop-blur-md opacity-0 transition-opacity')
+		div#navOverlay(class='fixed hidden md:hidden inset-0 bg-neutral-900 backdrop-blur-sm opacity-0 transition-opacity duration-300')
 		footer 
 			block footer-content

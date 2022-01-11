@@ -1,9 +1,4 @@
 nav(class="p-2 fixed flex flex-col text-light font-fraktur space-y-2 divide-y divide-brown")
-	if user
-		form(action="/user/logout" class="flex-none") 
-			button Log Out
-	else 
-		a(href="/user/login" class="flex-none") Log In 
 	ul(class="flex flex-col flex-none text-light")
 		li 
 			a(href= "/board/post/create" class="flex-none") Create a Post

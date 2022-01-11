@@ -30,7 +30,7 @@ export const insertUser = async (email, password, nickname, role) => {
   return await db.one(
     `INSERT INTO users(user_email, user_password, user_nickname, user_role) 
     VALUES ($1, $2, $3, $4) 
-    RETURNING *`,
+    RETURNING user_nickname`,
     [email, password, nickname, role]
   );
 };

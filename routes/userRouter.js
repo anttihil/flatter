@@ -19,7 +19,7 @@ userRouter
   .get(readLoginPage)
   .post(
     passport.authenticate("local", {
-      failureRedirect: "/login",
+      failureRedirect: "/user/login",
       successRedirect: "/",
       failureMessage: true,
     })
@@ -27,7 +27,8 @@ userRouter
 userRouter.route("/logout").get(logoutUser);
 userRouter.route("/register").get(readRegisterPage).post(createUser);
 userRouter.route("/success").get(readRegisterSuccess);
-userRouter.route("/admin").get(isAdmin, readAdminDashboard);
+userRouter.route("/admin/dashboard").get(isAdmin, readAdminDashboard);
+userRouter.route("/dashboard").get(readUserPage);
 userRouter.route("/:userId").get(readUserPage);
 userRouter.route("/:userId/settings").get(isOwnUser, readUserSettings);
 
