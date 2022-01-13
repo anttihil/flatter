@@ -23,7 +23,7 @@ html.scroll-pt-12
 				else 
 					a(href="/user/login" class="flex-none") Log In
 				if user
-					a(href="/user/" + user.id class="flex-none mr-3 p-1 rounded-full bg-light text-dark")= "User: " + user.nickname
+					a(href="/user/" + user.id class="flex-none mr-3 p-1 rounded-full bg-light text-dark")= "User: " + user.username
 				else 
 					div(class="flex-none mr-3 p-1 rounded-full bg-light text-dark") User: Guest  
 		div(class="flex flex-col md:flex-row md:flex-1")

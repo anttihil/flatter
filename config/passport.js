@@ -21,12 +21,12 @@ export default function passportSetup() {
         });
       }
       const user = {
-        id: queryResult.user_id,
-        email: queryResult.user_email,
-        nickname: queryResult.user_nickname,
-        role: queryResult.user_role,
+        id: queryResult.id,
+        email: queryResult.email,
+        username: queryResult.username,
+        role: queryResult.role,
       };
-      if (await verify(queryResult.user_password, password)) {
+      if (await verify(queryResult.password, password)) {
         return done(null, user);
       } else {
         done(null, false, { message: "Incorrect password." });
@@ -58,10 +58,10 @@ of further processing in the backend.
     try {
       const queryResult = await selectUserForDeserialize(id);
       const user = {
-        id: queryResult.user_id.toString(),
-        email: queryResult.user_email,
-        nickname: queryResult.user_nickname,
-        role: queryResult.user_role,
+        id: queryResult.id.toString(),
+        email: queryResult.email,
+        username: queryResult.username,
+        role: queryResult.role,
       };
       done(null, user);
     } catch (err) {

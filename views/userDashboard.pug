@@ -1,9 +1,14 @@
 extends layout 
 
+-let dateConfig = {dateStyle:"short", timeStyle:"short" }
+
 block content
 	article(
 		class="divide-y divide-brown md:h-auto h-full text-light font-sans items-start bg-dark p-6 flex flex-col space-y-2  border-b border-brown")
 		header(class='text-light font-fraktur text-lg') User Dashboard
+		section#dashboardNavigation.flex.justify-between.text-xs
+			a(href="#posts") Posts
+			a(href="#comments") Comments
 		section.p-2
 			header.font-fraktur Change Password
 			form(
@@ -19,7 +24,7 @@ block content
 						autocomplete="current-password" 
 						required 
 						class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
-						pattern="[0-9a-zA-Z]{10,24}"
+						pattern="[0-9a-zA-Z]{12,100}"
 						)
 				div(class="mt-2")
 					label(for="newPassword" class="font-serif text-sm") New Password
@@ -30,8 +35,9 @@ block content
 						autocomplete="current-password" 
 						required 
 						class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
-						pattern="[0-9a-zA-Z]{10,24}"
+						pattern="[0-9a-zA-Z]{12,100}"
 						)
+					span.text-xs 12 characters minimum, 100 maximum. Password can contain both upper and lower case letters, and numbers.
 				div.flex.justify-end.space-x-2.mt-3 
 					input(
 						type="submit" 
@@ -48,9 +54,10 @@ block content
 					name="username" 
 					id="changeUsername" 
 					required 
-					pattern="[a-zA-Z0-9]{1,16}"
+					pattern="[a-zA-Z0-9]{1,20}"
 					class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark'
 					)
+				span.text-xs Max 20 characters
 				div.flex.justify-end
 					input(
 							type="submit" 
@@ -62,17 +69,17 @@ block content
 			header.font-fraktur.mb-2 Your Posts
 			for post in posts 
 				article.flex.justify-between.font-sans.text-sm
-						a(href="" class="flex-none")= post.post_title 
-						-let dateConfig = {dateStyle:"short", timeStyle:"short" }
-						-let date = post.post_created_at.toLocaleString("en-US", dateConfig)
+						a(href="/board/post" + post.id class="flex-none")= post.title 
+						-let date = post.last_changed_at.toLocaleString("en-US", dateConfig)
 						time= date
+			a(href="#dashboardNavigation").text-xs Back to the top
 		section.p-2.w-full
 			header.font-fraktur.mb-2 Your Comments    
 			for comment in comments 
 				article.flex.justify-between.font-sans.text-sm.overflow-ellipsis
-						a(href="" class="")= comment.comment_text 
-						-let dateConfig = {dateStyle:"short", timeStyle:"short" }
-						-let date = comment.comment_created_at.toLocaleString("en-US", dateConfig)
+						a(href="/board/post" + comment.post_id + "/#comment" + comment.id class="")= comment.text 
+						-let date = comment.last_changed_at.toLocaleString("en-US", dateConfig)
 						time(class="flex-none")= date
+			a(href="#dashboardNavigation").text-xs Back to the top
 
 		

@@ -1,40 +1,45 @@
 extends layout 
-
+-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
 block pageScript
 	script(defer src="/javascripts/readPost.js")
 block content
 	+card(id="post" class="scroll-mt-8")
-		header#postTitle.px-2.text-main.font-sans= post.post_title
+		header#postTitle.px-2.text-main.font-sans= post.title
 		section#postText( 
 			class="px-2 py-1 font-serif text-sm whitespace-pre-line"
-			)= post.post_text 
+			)= post.text 
 		footer.px-2.py-1.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
 			div.flex.space-x-2
 			div.flex.space-x-2
-				if user && user.id === post.user_id
+				if user && (user.id === post.user_id || user.role === "admin")
 					a(
 						href="#editPostForm"
 						data-action-type="editPost" 
-						data-post-id=post.post_id
+						data-post-id=post.id
 						class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
 						) Edit 
 				if user
 					a(
 						href="#commentForm"
 						data-action-type="commentPost"
-						data-post-id=post.post_id
+						data-post-id=post.id
 						class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
-
 						) Comment
-				-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
-				-let date = post.post_created_at.toLocaleString("en-US", dateConfig)
-				.space-x-1
-					span=post.user_nickname
-					time="on " + date   
+				-let date
+				if post.created_at !== post.last_changed_at
+					-date = post.created_at.toLocaleString("en-US", dateConfig)
+					.space-x-1
+						span=post.username
+						time="edited on " + date
+				else 
+					-date = post.last_changed_at.toLocaleString("en-US", dateConfig)
+					.space-x-1
+						span=post.username
+						time="on " + date
 	if comments
 		for comment in comments 
 			+card(
-				id="comment" + comment.comment_id
+				id="comment" + comment.id
 				class="scroll-mt-8"
 				)
 				section.text-sm.font-serif
@@ -42,35 +47,44 @@ block content
 						href=comment.reference_id ? "#comment" + comment.reference_id : "#post"
 						class="text-main text-xs hover:text-red-800"
 					)  
-						i=comment.reference_id ? "@" + comment.reference_author : "@" + post.user_nickname
+						i=comment.reference_id ? "@" + comment.reference_author : "@" + post.username
 					section(
-						id="commentText" + comment.comment_id 
+						id="commentText" + comment.id 
 						class="inline px-2 font-serif text-sm"
-						)= comment.comment_text 
+						)= comment.text 
 				footer.px-2.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
 					div.flex.space-x-2
 					div.flex.space-x-2
-						if (user && user.id === comment.user_id)
+						if (user && user.role = "admin")
+							form
+								input
+						if (user && (user.id === comment.user_id || user.role === "admin"))
 							a(
 								href="#editCommentForm"
 								data-action-type="editComment" 
-								data-post-id=post.post_id 
-								data-comment-id=comment.comment_id
+								data-post-id=post.id 
+								data-comment-id=comment.id
 								class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
 								) Edit
 						if user
 							a(
 								href="#commentForm"
 								data-action-type="commentComment" 
-								data-post-id=post.post_id 
-								data-comment-id=comment.comment_id
+								data-post-id=post.id 
+								data-comment-id=comment.id
 								class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
 								) Comment
-						-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
-						-let date = comment.comment_created_at.toLocaleString("en-US", dateConfig)
-						.space-x-1
-							span=comment.user_nickname
-							time="on " + date
+						-let date
+							if comment.created_at !== comment.last_changed_at
+								-date = comment.created_at.toLocaleString("en-US", dateConfig)
+								.space-x-1
+									span=comment.username
+									time="edited on " + date
+							else 
+								-date = comment.last_changed_at.toLocaleString("en-US", dateConfig)
+								.space-x-1
+									span=comment.username
+									time="on " + date
 	+card(id="editPostForm" class="scroll-mt-8 hidden")
 			form(
 				action="" 
@@ -94,7 +108,7 @@ block content
 							type="url" 
 							id="editImage"
 							name="image"
-							value=post.post_image 
+							value=post.image 
 							class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
 							)
 				div 

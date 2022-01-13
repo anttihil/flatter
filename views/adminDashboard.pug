@@ -1,15 +1,43 @@
 extends layout 
 
 block content
-	+cardContainer
-		div.flex.flex-col.mt-4.space-y-4.items-stretch
+	article(
+		class="divide-y divide-brown md:h-auto h-full text-light font-sans items-start bg-dark p-6 flex flex-col space-y-2  border-b border-brown")
+		header(class='text-light font-fraktur text-lg') Admin Dashboard
+		section#dashboardNavigation.flex.justify-between.text-xs
+			a(href="#posts") Posts
+			a(href="#comments") Comments
+		section.p-2.w-full
+			header#posts.font-fraktur.mb-2 Posts
 			for post in posts 
-				article.bg-light.text-dark
-					div.p-2
-						header.pb-2.text-lg.font-sans.text-xl= post.post_title
-						div.font-serif.text-base= post.post_text 
-						footer.pt-2.flex.flex-row.font-sans.text-xs.justify-between
-							div= "Posted by " + post.user_nickname
-							-let dateConfig = {year: 'numeric', month: 'short', day: 'numeric'}
-							-let date = post.post_created_at.toLocaleDateString("en-US", dateConfig)
-							div= date
+				article.font-sans.text-sm
+						section.flex
+							a(href="/board/post/" + post.id )= post.title
+							a(href=post.image_url) 
+							-let dateConfig = {dateStyle:"short", timeStyle:"short" }
+							-let date = post.last_changed_at.toLocaleString("en-US", dateConfig)
+							time= date
+						section.flex
+							span.font-serif.text-xs=post.text
+			a(href="#dashboardNavigation").text-xs Back to the top
+		section.p-2.w-full
+			header#comments.font-fraktur.mb-2 Comments    
+			for comment in comments 
+				article.flex.justify-between.font-sans.text-sm.overflow-ellipsis
+						a(href="/board/post" + comment.post_id + "/#comment" + comment.id class="")= comment.text 
+						-let dateConfig = {dateStyle:"short", timeStyle:"short" }
+						-let date = comment.last_changed_at.toLocaleString("en-US", dateConfig)
+						time(class="flex-none")= date
+			a(href="#dashboardNavigation").text-xs Back to the top
+		section.p-2.w-full
+			header#users.font-fraktur.mb-2 Users    
+			for user in users 
+				article.flex.justify-between.font-sans.text-sm.overflow-ellipsis
+						span= user.username
+						form.flex(action="user" + user.id)
+							input  
+							input
+						-let dateConfig = {dateStyle:"short", timeStyle:"short" }
+						-let date = comment.last_changed_at.toLocaleString("en-US", dateConfig)
+						time(class="flex-none")= date
+			a(href="#dashboardNavigation").text-xs Back to the top

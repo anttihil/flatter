@@ -3,66 +3,67 @@
 
 CREATE TABLE IF NOT EXISTS users
 (
-    user_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
-    user_email TEXT NOT NULL UNIQUE,
-    user_username TEXT NOT NULL UNIQUE,
-    user_role TEXT NOT NULL,
-    user_password TEXT NOT NULL,
-    user_is_verified BOOLEAN DEFAULT false,
-    user_is_permabanned BOOLEAN NOT NULL DEFAULT false,
-    user_banned_until DATE,
-    user_latest_visit TIMESTAMP WITH TIME ZONE,
-    user_created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (user_id)
+    id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    username TEXT NOT NULL UNIQUE,
+    role TEXT NOT NULL,
+    password TEXT NOT NULL,
+    is_verified BOOLEAN DEFAULT false,
+    is_permabanned BOOLEAN NOT NULL DEFAULT false,
+    is_banned_until DATE,
+    latest_visit TIMESTAMP WITH TIME ZONE,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS boards
 (
-    board_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
-    board_name TEXT NOT NULL UNIQUE,
-    board_created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (board_id)
+    id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
+    name TEXT NOT NULL UNIQUE,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS posts
 (
-    post_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
+    id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
     user_id INT,
     board_id INT NOT NULL,
-    post_title TEXT NOT NULL,
-    post_text TEXT NOT NULL,
-    post_image_url TEXT,
-    post_edited_at TIMESTAMP WITH TIME ZONE,
-    post_created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    title TEXT NOT NULL,
+    text TEXT NOT NULL,
+    image_url TEXT,
+    locked BOOLEAN DEFAULT FALSE,
+    last_changed_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id)
-        REFERENCES users (user_id) 
+        REFERENCES users (id) 
         ON DELETE SET NULL,
     FOREIGN KEY (board_id)
-        REFERENCES boards (board_id) 
+        REFERENCES boards (id) 
         ON DELETE SET NULL,
-    PRIMARY KEY (post_id)
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS comments
 (
-    comment_id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
+    id INT GENERATED ALWAYS AS IDENTITY NOT NULL,
     user_id INT,
     post_id INT,
     reference_id INT,
-    comment_text TEXT NOT NULL,
-    comment_image_url TEXT,
-    comment_edited_at TIMESTAMP WITH TIME ZONE,
-    comment_created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    text TEXT NOT NULL,
+    image_url TEXT,
+    last_changed_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id)
-        REFERENCES users (user_id) 
+        REFERENCES users (id) 
         ON DELETE SET NULL,
     FOREIGN KEY (post_id)
-        REFERENCES posts (post_id) 
+        REFERENCES posts (id) 
         ON DELETE CASCADE,
     FOREIGN KEY (reference_id)
-        REFERENCES comments (comment_id) 
+        REFERENCES comments (id) 
         ON DELETE SET NULL,
-    PRIMARY KEY (comment_id)
+    PRIMARY KEY (id)
 );
 
 CREATE TABLE "session" (
@@ -78,7 +79,7 @@ CREATE INDEX "IDX_session_expire" ON "session" ("expire");
 
 -- Change the values such that they reflect your choice of board names
 INSERT INTO 
-    boards (board_name) 
+    boards (name) 
 VALUES
     ('Terrain'), 
     ('Painting'),

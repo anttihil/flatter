@@ -7,9 +7,9 @@ export function passportMsgLocals(req, res, next) {
 }
 
 export const userAuthenticationLocals = (req, res, next) => {
-  if (req.user && req.user.nickname && req.user.role) {
+  if (req.user && req.user.username && req.user.role) {
     res.locals.user = {
-      nickname: req.user.nickname,
+      username: req.user.username,
       role: req.user.role,
       id: parseInt(req.user.id),
     };

@@ -8,85 +8,109 @@ Update a resource: updateZ
 Deleting a resource: deleteW
 */
 
+export const insertUser = async (email, password, username, role) => {
+  return await db.one(
+    `INSERT INTO users(email, password, username, role) 
+    VALUES ($1, $2, $3, $4) 
+    RETURNING username`,
+    [email, password, username, role]
+  );
+};
+
+export async function selectAllUsers() {
+  return await db.any(`
+  SELECT id, username, email, is_verified, is_permabanned, is_banned_until  
+  FROM users`);
+}
+
+export const selectUserActivity = async (userId) =>
+  // tx is an SQL transaction which can include multiple queries
+  db.tx(async (t) => {
+    const posts = await t.any(
+      `SELECT id, title, LEFT(text, 150) AS text, image_url, last_changed_at, COUNT(id) AS amount 
+      FROM posts
+      WHERE user_id = $1
+      ORDER BY last_changed_at DESC`,
+      [userId]
+    );
+    const comments = await t.any(
+      `SELECT id, LEFT(text, 150) AS text, last_changed_at, COUNT(id) AS amount
+      FROM comments
+      WHERE user_id = $1
+      ORDER BY last_changed_at DESC`,
+      [userId]
+    );
+    return { posts, comments };
+  });
+
+export const selectAllUserActivity = async (userId) =>
+  // tx is an SQL transaction which can include multiple queries
+  db.tx(async (t) => {
+    const posts = await t.any(
+      `SELECT p.id, u.username, p.user_id, p.title, LEFT(p.text, 150) AS text, p.image_url, p.last_changed_at, COUNT(p.id) AS amount 
+      FROM posts p
+      INNER JOIN users u
+        ON p.user_id = u.id
+      GROUP BY p.id
+      ORDER BY last_changed_at DESC`,
+      [userId]
+    );
+    const comments = await t.any(
+      `SELECT c.id, u.username, c.user_id, LEFT(c.text, 150) AS text, c.last_changed_at, COUNT(c.id) AS amount
+      FROM comments c
+      INNER JOIN users u
+        ON c.user_id = u.id
+      GROUP BY c.id
+      ORDER BY last_changed_at DESC`,
+      [userId]
+    );
+    return { posts, comments };
+  });
+
 export const selectUserForAuthentication = async (email) => {
   return await db.oneOrNone(
-    `SELECT user_id, user_email, user_nickname, user_password, user_role  
+    `SELECT id, email, username, password, role  
     FROM users 
-    WHERE user_email = $1`,
+    WHERE email = $1`,
     [email]
   );
 };
 
 export const selectUserForDeserialize = async (userId) => {
   return await db.oneOrNone(
-    `SELECT user_id, user_email, user_nickname, user_role 
-        FROM users 
-        WHERE user_id = $1`,
+    `SELECT id, email, username, role 
+      FROM users 
+      WHERE id = $1`,
     [userId]
-  );
-};
-
-export const insertUser = async (email, password, nickname, role) => {
-  return await db.one(
-    `INSERT INTO users(user_email, user_password, user_nickname, user_role) 
-    VALUES ($1, $2, $3, $4) 
-    RETURNING user_nickname`,
-    [email, password, nickname, role]
   );
 };
 
 export const updateUserPassword = async (password, userId) => {
   return await db.one(
     `UPDATE users
-      SET user_password=$1
-      WHERE user_id=$2  
-      RETURNING *`,
+      SET password=$1
+      WHERE id=$2  
+    RETURNING id`,
     [password, userId]
-  );
-};
-
-export const updateUserNickname = async (nickname, userId) => {
-  return await db.one(
-    `UPDATE users
-        SET user_nickname=$1
-        WHERE user_id=$2  
-        RETURNING *`,
-    [nickname, userId]
   );
 };
 
 export const updateUserRole = async (role, userId) => {
   return await db.one(
     `UPDATE users
-        SET user_role=$1
-        WHERE user_id=$2  
-        RETURNING *`,
+      SET role=$1
+      WHERE id=$2  
+    RETURNING id`,
     [role, userId]
   );
 };
 
-export const selectUserActivity = async (userId) =>
-  // tx is an SQL transaction which can include multiple queries
-  db.tx(async (t) => {
-    const posts = await t.any(
-      `SELECT post_id, post_title, post_text, post_created_at, COUNT(post_id) 
-      FROM posts p
-      WHERE p.user_id = $1
-      GROUP BY post_id
-      ORDER BY post_created_at DESC`,
-      [userId]
-    );
-    const comments = await t.any(
-      `SELECT comment_id, comment_text, comment_created_at, COUNT(comment_id) 
-      FROM comments c
-      WHERE c.user_id = $1
-      GROUP BY comment_id
-      ORDER BY comment_created_at DESC`,
-      [userId]
-    );
-    return { posts, comments };
-  });
-
-export const selectUser = async (userId) => {
-  return await db.oneOrNone("SELECT * FROM users WHERE user_id=$1", [userId]);
+export const updateUserUsername = async (username, userId) => {
+  return await db.one(
+    `UPDATE users
+      SET username=$1
+      WHERE id=$2  
+    RETURNING id`,
+    [username, userId]
+  );
 };

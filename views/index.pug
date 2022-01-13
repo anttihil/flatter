@@ -5,11 +5,11 @@ block content
 			for post in posts 
 				+card
 					header(class="px-2")
-						a(href="/board/post/" + post.post_id class="font-sans text-lg")= post.post_title
-					section(class="px-2 font-serif text-sm")= post.post_text 
+						a(href="/board/post/" + post.id class="font-sans text-lg")= post.title
+					section(class="px-2 font-serif text-sm")= post.text 
 					footer(class="px-2 flex flex-row font-sans text-xs justify-end space-x-1")
 						-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
-						-let date = post.post_created_at.toLocaleString("en-US", dateConfig)
+						-let date = post.created_at.toLocaleString("en-US", dateConfig)
 						.space-x-1
-							span=post.user_nickname
+							span=post.username
 							time="on " + date 

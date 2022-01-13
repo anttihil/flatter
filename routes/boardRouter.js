@@ -10,6 +10,12 @@ import {
   editComment,
   readBoard,
 } from "../controllers/boardController.js";
+import {
+  isUser,
+  isAdmin,
+  isCommentOwner,
+  isPostOwner,
+} from "../middleware/authorization.js";
 
 const boardRouter = Router();
 
@@ -18,27 +24,29 @@ boardRouter.route("/").get((req, res) => {
   res.redirect("/board/all");
 });
 
-boardRouter.route("/post/create").get(readCreatePost).post(createPost);
+boardRouter.route("/post/create").get(readCreatePost).post(isUser, createPost);
 
 boardRouter.route("/post/:postId(\\d+)").get(readPostAndComments);
 
-boardRouter.route("/post/:postId(\\d+)/edit").post(editPost);
+boardRouter.route("/post/:postId(\\d+)/edit").post(isPostOwner, editPost);
 
-boardRouter.route("/post/:postId(\\d+)/remove").post(removePost);
+boardRouter.route("/post/:postId(\\d+)/remove").post(isAdmin, removePost);
 
-boardRouter.route("/post/:postId(\\d+)/comment/create").post(createComment);
+boardRouter
+  .route("/post/:postId(\\d+)/comment/create")
+  .post(isUser, createComment);
 
 boardRouter
   .route("/post/:postId(\\d+)/comment/:commentId(\\d+)/edit")
-  .post(editComment);
+  .post(isCommentOwner, editComment);
 
 boardRouter
   .route("/post/:postId(\\d+)/comment/:commentId(\\d+)/remove")
-  .post(removeComment);
+  .post(isAdmin, removeComment);
 
 boardRouter
   .route("/post/:postId(\\d+)/comment/:commentId(\\d+)/create")
-  .post(createComment);
+  .post(isUser, createComment);
 
 boardRouter.route("/:boardName").get(readBoard);
 
