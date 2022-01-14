@@ -17,10 +17,18 @@ block content
 							option(value=board).text-dark=board
 				div 
 					label(for="title_input") Title:
-					input(type="text" name="title" id="title_input" required placeholder=" Title text" class='focus:outline-none focus:ring focus:ring-brown').shadow.w-full.bg-light.text-dark
+					input(
+						type="text" 
+						name="title" 
+						id="title_input" 
+						required 
+						placeholder=" Title text"
+						maxlength="150" 
+						class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark')
+					span.text-xs Max length 150 characters.
 				div 
 					label(for="image_input") Image URL:
-					input(type="url" name="image" id="image_input" placeholder=" https://imgur.com/someimage" class='focus:outline-none focus:ring focus:ring-brown').shadow.w-full.bg-light.text-dark
+					input(type="url" name="image" id="image_input" placeholder=" https://imgur.com/someimage" class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark')
 				div 
 					label(for="text_input") Text:  
 					textarea(
@@ -30,5 +38,6 @@ block content
 					rows="10" 
 					placeholder=" Your post content here." 
 					class='focus:outline-none focus:ring focus:ring-brown  bg-light text-dark shadow w-full'
+					maxlength="60000"
 					)
 				+bigButton("submit", "Submit")

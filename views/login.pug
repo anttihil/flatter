@@ -22,11 +22,7 @@ block content
 					name="password"
 					class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark' 
 					required) 
-			.flex.justify-between.content-center.py-2     
-				a(href="register" class="hover:bg-gray").p-1.border-2.border-main.border-opacity-70.text-lg.font-fraktur.bg-light.text-dark Register
-				a(href="forgotPassword" class="hover:bg-gray border-2 border-main border-opacity-70 font-fraktur bg-light text-dark") Forgot Password 
-				input(
-					type="submit" 
-					value="Submit" 
-					class='hover:bg-gray self-end p-1 shadow border-2 border-main border-opacity-70 text-lg font-fraktur bg-light text-dark'
-					)
+			.flex.justify-between.pt-2     
+				+hrefButton("register", "Register")
+				+hrefButton("forgotPassword", "Forgot Password")
+				+button("submit", "Login")

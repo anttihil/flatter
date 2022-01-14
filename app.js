@@ -2,12 +2,13 @@ import express from "express";
 import expressSession from "express-session";
 import pgSession from "connect-pg-simple";
 import morgan from "morgan";
-import dotenv from "dotenv";
+import log from "./config/logging.js";
 import mountRoutes from "./routes/index.js";
 import helmet from "helmet";
 import passportSetup from "./config/passport.js";
 import passport from "passport";
 import db from "./config/db.js";
+import dotenv from "dotenv";
 import { adminSetup } from "./config/adminSetup.js";
 import {
   passportMsgLocals,
@@ -36,7 +37,7 @@ app.set("view engine", "pug");
 
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
-app.use(morgan("dev"));
+app.use(morgan("dev", { stream: { write: (msg) => log.http(msg) } }));
 
 app.use(
   expressSession({
@@ -83,8 +84,4 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-const port = process.env.PORT || 3001;
-
-app.listen(port, () => {
-  console.log(`The server is up and listening on port ${port}`);
-});
+export default app;

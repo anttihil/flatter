@@ -23,16 +23,16 @@ html.scroll-pt-12
 				else 
 					a(href="/user/login" class="flex-none") Log In
 				if user
-					a(href="/user/" + user.id class="flex-none mr-3 p-1 rounded-full bg-light text-dark")= "User: " + user.username
+					a(href="/user/dashboard" class="flex-none mr-3 p-1 rounded-full bg-light text-dark")= "User: " + user.username
 				else 
 					div(class="flex-none mr-3 p-1 rounded-full bg-light text-dark") User: Guest  
 		div(class="flex flex-col md:flex-row md:flex-1")
-				aside#navbar(class="hidden pl-3 w-32 fixed z-10 md:z-auto md:block md:static inset-y-0 left-0 flex-none bg-dark border-r border-brown")
+				aside#navbar(class="hidden flex-none pl-3 w-32 fixed z-10 md:z-auto md:block md:static inset-y-0 left-0 bg-dark border-r border-brown")
 					include navbar.pug
 					
 				main#main(class="md:flex-1" data-hide-id="navbar")
 					block content
-				aside(class="hidden md:w-32 md:flex-none md:flex md:flex-col items-center bg-dark border-l border-brown")
+				aside(class="hidden md:w-32 flex-none md:static md:flex md:flex-col items-center inset-y-0 right-0 bg-dark border-l border-brown")
 					include sidebar.pug
 		div#navOverlay(class='fixed hidden md:hidden inset-0 bg-neutral-900 backdrop-blur-sm opacity-0 transition-opacity duration-300')
 		footer 

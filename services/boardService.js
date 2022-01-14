@@ -13,7 +13,8 @@ export const deletePost = async (postId) => {
     `DELETE FROM posts
     WHERE id=$1
     RETURNING id`,
-    [postId]
+    [postId],
+    (a) => a.id.toString()
   );
 };
 
@@ -22,7 +23,8 @@ export const deleteComment = async (commentId) => {
     `DELETE FROM comments
     WHERE id=$1
     RETURNING id`,
-    [commentId]
+    [commentId],
+    (a) => a.id.toString()
   );
 };
 
@@ -32,7 +34,8 @@ export const insertComment = async (userId, postId, text, referenceId) => {
     `INSERT INTO comments(user_id, post_id, text, reference_id)
       VALUES ($1, $2, $3, $4)
       RETURNING id`,
-    [userId, postId, text, referenceId]
+    [userId, postId, text, referenceId],
+    (a) => a.id.toString()
   );
 };
 
@@ -43,13 +46,15 @@ export const insertPost = async (boardName, userId, title, text, image) => {
       `SELECT id
       FROM boards
       WHERE name=$1`,
-      [boardName]
+      [boardName],
+      (a) => a.id
     );
     const result2 = await t.one(
       `INSERT INTO posts(user_id, board_id, title, text, image_url)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING id`,
-      [userId, result1.board_id, title, text, image]
+      [userId, result1, title, text, image],
+      (a) => a.id.toString()
     );
     return result2;
   });
@@ -59,21 +64,12 @@ export const selectBoards = async () => {
   return await db.any("SELECT name FROM boards ORDER BY name ASC");
 };
 
-// sort could be also active which requires that we join also comments
-// if sort == "active" we can select first from comments
-export async function selectPosts(boardList, page, sort) {
-  const posts = await db.any(
-    `SELECT b.name AS board, p.id, p.title, LEFT(text, 300) AS text, p.user_id as userId, u.username, last_changed_at, created_at
-    FROM posts p
-    INNER JOIN boards b 
-      ON p.board_id = b.id 
-    INNER JOIN users u 
-      ON u.id = p.user_id 
-    WHERE b.name IN ($1:list) 
-    ORDER BY p.created_at DESC LIMIT 100 OFFSET $2`,
-    [boardList, page]
+export async function selectCommentOwner(commentId) {
+  return await db.oneOrNone(
+    `SELECT user_id FROM comments WHERE id=$1`,
+    [commentId],
+    (a) => a && a.user_id.toString()
   );
-  return posts;
 }
 
 export const selectPostandComments = async (postId) =>
@@ -81,7 +77,7 @@ export const selectPostandComments = async (postId) =>
   // We use many queries in one transaction for a performance boost.
   db.tx(async (t) => {
     const post = await t.oneOrNone(
-      `SELECT id, title, text, p.user_id, username, created_at 
+      `SELECT p.id, p.title, p.text, p.user_id, u.username, p.created_at, p.last_changed_at
         FROM posts p
         INNER JOIN users u 
           ON u.id = p.user_id
@@ -98,11 +94,36 @@ export const selectPostandComments = async (postId) =>
         LEFT JOIN users s
           ON s.id = r.user_id
         WHERE c.post_id = $1
-        ORDER BY created_at ASC;`,
+        ORDER BY c.created_at ASC;`,
       [postId]
     );
     return { post, comments };
   });
+
+export async function selectPostOwner(postId) {
+  return await db.oneOrNone(
+    `SELECT user_id FROM posts WHERE id=$1`,
+    [postId],
+    (a) => a && a.user_id.toString()
+  );
+}
+
+// sort could be also active which requires that we join also comments
+// if sort == "active" we can select first from comments
+export async function selectPosts(boardList, page, sort) {
+  const posts = await db.any(
+    `SELECT b.name AS board, p.id, LEFT(p.title, 150) AS title, LEFT(p.text, 300) AS text, p.user_id as userId, u.username, p.last_changed_at, p.created_at
+    FROM posts p
+    INNER JOIN boards b 
+      ON p.board_id = b.id 
+    INNER JOIN users u 
+      ON u.id = p.user_id 
+    WHERE b.name IN ($1:list) 
+    ORDER BY p.created_at DESC LIMIT 100 OFFSET $2`,
+    [boardList, page]
+  );
+  return posts;
+}
 
 // image is optional
 export const updatePost = async (postId, title, text, image) => {
@@ -113,7 +134,8 @@ export const updatePost = async (postId, title, text, image) => {
         text=$3
     WHERE id=$4
     RETURNING id`,
-    [title, image, text, postId]
+    [title, image, text, postId],
+    (a) => a.id.toString()
   );
 };
 
@@ -123,7 +145,8 @@ export const updatePostImage = async (postId, image) => {
     SET image_url=$1
     WHERE id=$2
     RETURNING id`,
-    [image, postId]
+    [image, postId],
+    (a) => a.id.toString()
   );
 };
 
@@ -133,7 +156,8 @@ export const updatePostText = async (postId, text) => {
     SET text=$1
     WHERE id=$2
     RETURNING id`,
-    [text, postId]
+    [text, postId],
+    (a) => a.id.toString()
   );
 };
 
@@ -143,7 +167,8 @@ export const updatePostTitle = async (postId, title) => {
     SET title=$1
     WHERE id=$2
     RETURNING id`,
-    [title, postId]
+    [title, postId],
+    (a) => a.id.toString()
   );
 };
 
@@ -153,6 +178,7 @@ export const updateComment = async (commentId, text) => {
     SET text=$1
     WHERE id=$2
     RETURNING id`,
-    [text, commentId]
+    [text, commentId],
+    (a) => a.id.toString()
   );
 };

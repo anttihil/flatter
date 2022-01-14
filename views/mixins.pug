@@ -29,3 +29,14 @@ mixin bigButton(type, text)
 		class='self-end p-1 shadow border-2 border-main border-opacity-70 text-lg font-fraktur bg-light text-dark hover:bg-gray'
 		)&attributes(attributes)
 	
+mixin hrefButton(href, text)
+	a(
+		href=href 
+		class="hover:bg-gray p-1 border-2 border-main border-opacity-70 font-fraktur bg-light text-dark"
+		)&attributes(attributes)=text
+
+mixin button(type, text)
+	button(
+		type=type 
+		class="hover:bg-gray p-1 border-2 border-main border-opacity-70 font-fraktur bg-light text-dark"
+		)&attributes(attributes)=text

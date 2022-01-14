@@ -1,8 +1,9 @@
 extends layout 
--let dateConfig = {dateStyle:"medium", timeStyle:"short" }
+
 block pageScript
 	script(defer src="/javascripts/readPost.js")
 block content
+	-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
 	+card(id="post" class="scroll-mt-8")
 		header#postTitle.px-2.text-main.font-sans= post.title
 		section#postText( 
@@ -55,9 +56,10 @@ block content
 				footer.px-2.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
 					div.flex.space-x-2
 					div.flex.space-x-2
-						if (user && user.role = "admin")
-							form
+						if (user && user.role === "admin")
+							form()
 								input
+								button(type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray")
 						if (user && (user.id === comment.user_id || user.role === "admin"))
 							a(
 								href="#editCommentForm"

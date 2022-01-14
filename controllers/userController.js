@@ -1,5 +1,6 @@
 import { selectUserActivity, insertUser } from "../services/userService.js";
 import { hash } from "argon2";
+import log from "../config/logging.js";
 
 /* 
 Controller naming conventions:
@@ -18,29 +19,28 @@ with names of service functions.
 
 export const createUser = async (req, res, next) => {
   try {
-    console.log(`Creating user ${req.body.username}`);
-    const password = await hash(req.body.password);
-    const result = await insertUser(
+    log.info(`Creating user ${req.body.username}`);
+    const hashedPassword = await hash(req.body.password);
+    const username = await insertUser(
       req.body.email,
-      password,
+      hashedPassword,
       req.body.username,
       "user"
     );
-    if (result) {
-      console.log(`Created user #${result.id}.`);
-      res.status(200).redirect("register/success");
-    } else
-      res.render("/register", {
-        message: "This email is in use already.",
-      });
+    log.info(`Created user ${username}.`);
+    res.status(200).redirect("register/success");
   } catch (error) {
     next(error);
   }
 };
 
 export const logoutUser = function (req, res, next) {
-  req.logout();
-  res.redirect("/");
+  try {
+    req.logout();
+    res.redirect("/");
+  } catch (error) {
+    next(error);
+  }
 };
 
 export const readAdminDashboard = (req, res, next) => {
@@ -77,7 +77,7 @@ export const readRegisterSuccess = (req, res, next) => {
 
 export const readUserDashboard = async (req, res, next) => {
   try {
-    const result = await selectUserActivity(req.params.userId);
+    const result = await selectUserActivity(req.user.id);
     res.status(200).render("userDashboard", {
       posts: result.posts,
       comments: result.comments,

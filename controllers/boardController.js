@@ -1,4 +1,5 @@
 import createHttpError from "http-errors";
+import log from "../config/logging.js";
 import {
   selectPostandComments,
   insertPost,
@@ -32,15 +33,13 @@ export const createComment = async (req, res, next) => {
     /* let commentId;
     if (!req.params.commentId) commentId = "NULL";
     else commentId = req.params.commentId; */
-    const result = await insertComment(
+    const commentId = await insertComment(
       req.user.id,
       req.params.postId,
       req.body.text,
       req.params.commentId
     );
-    if (result) {
-      console.log(result.id);
-    }
+    log.info(`Created comment #${commentId}`);
     res.status(201).redirect("back");
   } catch (error) {
     next(error);
@@ -55,20 +54,18 @@ export const createPost = async (req, res, next) => {
   // Then redirect to the landing page
   // remember to change the landing page to include a success modal with hidden class switch
   try {
-    console.log(
+    log.info(
       `User #${req.user.username} is creating a post in ${req.body.board}`
     );
-    const result = await insertPost(
+    const postId = await insertPost(
       req.body.board,
       req.user.id,
       req.body.title,
       req.body.text,
       req.body.image
     );
-    if (result) {
-      console.log(`Created post #${result.id}`);
-    }
-    res.status(201).redirect(`/board/post/${result.id}`);
+    log.info(`Created post #${postId}`);
+    res.status(201).redirect(`/board/post/${postId}`);
   } catch (error) {
     next(error);
   }
@@ -77,11 +74,9 @@ export const createPost = async (req, res, next) => {
 // requires authorization
 export const editComment = async (req, res, next) => {
   try {
-    console.log(`Updating comment #${req.body.commentId}`);
-    const result = await updateComment(req.params.commentId, req.body.text);
-    if (result) {
-      console.log(`Updated comment #${req.body.commentId} successfully`);
-    }
+    log.info(`Updating comment #${req.params.commentId}`);
+    const commentId = await updateComment(req.params.commentId, req.body.text);
+    log.info(`Updated comment #${commentId}`);
     res.status(201).redirect("back");
   } catch (error) {
     next(error);
@@ -91,18 +86,16 @@ export const editComment = async (req, res, next) => {
 // requires authorization
 export const editPost = async (req, res, next) => {
   try {
-    console.log(
+    log.info(
       `Updating post #${req.params.postId}, title:${req.body.title}, image: ${req.body.image}, text:${req.body.text}`
     );
-    const result = await updatePost(
+    const postId = await updatePost(
       req.params.postId,
       req.body.title,
       req.body.text,
       req.body.image
     );
-    if (result) {
-      console.log(`Updated post #${req.params.postId} successfully`);
-    }
+    log.info(`Updated post #${postId}`);
     res.status(201).redirect("back");
   } catch (error) {
     next(error);
@@ -133,9 +126,9 @@ export async function readBoard(req, res, next) {
 
     let page = req.query.page ?? 0;
     let sort = req.query.sort ?? "new";
-    console.log(
+    log.info(
       `Selecting posts from ${boardList.join(
-        " "
+        ", "
       )}, page: ${page}, sort: ${sort}`
     );
     const posts = await selectPosts(boardList, page, sort);
@@ -151,9 +144,8 @@ export const readCreatePost = (req, res, next) => {
   // then: redirect to login/register
   // Otherwise, render the create post page
   try {
-    if (req.user) {
-      res.status(200).render("createPost");
-    }
+    log.info("Reading create post page.");
+    res.status(200).render("createPost");
   } catch (error) {
     next(error);
   }
@@ -161,12 +153,9 @@ export const readCreatePost = (req, res, next) => {
 
 export const readPostAndComments = async (req, res, next) => {
   try {
-    console.log(`Selecting post and comments with postId ${req.params.postId}`);
+    log.info(`Selecting post and comments with postId ${req.params.postId}`);
     const result = await selectPostandComments(req.params.postId);
     // If result.post is null, render not found page.
-    if (!result) {
-      console.log("No post found");
-    }
     res.status(200).render("readPost", {
       post: result.post,
       comments: result.comments,
@@ -179,11 +168,9 @@ export const readPostAndComments = async (req, res, next) => {
 // requires admin? authorization
 export const removeComment = async (req, res, next) => {
   try {
-    console.log(`Deleting comment #${req.body.commentId}`);
-    const result = await deleteComment(req.body.commentId);
-    if (result) {
-      console.log(`Deleted comment #${result.id} successfully`);
-    }
+    log.info(`Deleting comment #${req.body.commentId}`);
+    const commentId = await deleteComment(req.body.commentId);
+    log.info(`Deleted comment #${commentId}`);
     res.status(200).redirect("back");
   } catch (error) {
     next(error);
@@ -193,11 +180,9 @@ export const removeComment = async (req, res, next) => {
 // requires authorization
 export const removePost = async (req, res, next) => {
   try {
-    console.log(`Deleting post #${req.body.postId}`);
-    const result = await deletePost(req.body.postId);
-    if (result) {
-      console.log(`Deleted post #${result.id} successfully`);
-    }
+    log.info(`Deleting post #${req.body.postId}`);
+    const postId = await deletePost(req.body.postId);
+    log.info(`Deleted post #${postId}`);
     res.status(200).redirect("back");
   } catch (error) {
     next(error);

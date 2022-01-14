@@ -13,7 +13,8 @@ export const insertUser = async (email, password, username, role) => {
     `INSERT INTO users(email, password, username, role) 
     VALUES ($1, $2, $3, $4) 
     RETURNING username`,
-    [email, password, username, role]
+    [email, password, username, role],
+    (a) => a.username
   );
 };
 
@@ -30,13 +31,15 @@ export const selectUserActivity = async (userId) =>
       `SELECT id, title, LEFT(text, 150) AS text, image_url, last_changed_at, COUNT(id) AS amount 
       FROM posts
       WHERE user_id = $1
+      GROUP BY id
       ORDER BY last_changed_at DESC`,
       [userId]
     );
     const comments = await t.any(
-      `SELECT id, LEFT(text, 150) AS text, last_changed_at, COUNT(id) AS amount
+      `SELECT id, post_id, LEFT(text, 150) AS text, last_changed_at, COUNT(id) AS amount
       FROM comments
       WHERE user_id = $1
+      GROUP BY id
       ORDER BY last_changed_at DESC`,
       [userId]
     );
@@ -91,7 +94,8 @@ export const updateUserPassword = async (password, userId) => {
       SET password=$1
       WHERE id=$2  
     RETURNING id`,
-    [password, userId]
+    [password, userId],
+    (a) => a.id.toString()
   );
 };
 
@@ -101,7 +105,8 @@ export const updateUserRole = async (role, userId) => {
       SET role=$1
       WHERE id=$2  
     RETURNING id`,
-    [role, userId]
+    [role, userId],
+    (a) => a.id.toString()
   );
 };
 
@@ -111,6 +116,7 @@ export const updateUserUsername = async (username, userId) => {
       SET username=$1
       WHERE id=$2  
     RETURNING id`,
-    [username, userId]
+    [username, userId],
+    (a) => a.id.toString()
   );
 };
