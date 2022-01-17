@@ -7,37 +7,55 @@ block content
 		section#dashboardNavigation.flex.justify-between.text-xs
 			a(href="#posts") Posts
 			a(href="#comments") Comments
+			a(href="#users") Users
 		section.p-2.w-full
 			header#posts.font-fraktur.mb-2 Posts
-			for post in posts 
-				article.font-sans.text-sm
-						section.flex
-							a(href="/board/post/" + post.id )= post.title
-							a(href=post.image_url) 
-							-let dateConfig = {dateStyle:"short", timeStyle:"short" }
-							-let date = post.last_changed_at.toLocaleString("en-US", dateConfig)
-							time= date
-						section.flex
-							span.font-serif.text-xs=post.text
+			if posts
+				for post in posts 
+					article.font-sans.text-sm
+							section.flex.justify-between
+								a(href="/board/post/" + post.id )= post.title
+								section.flex
+									a(href=post.image_url) 
+									-let dateConfig = {dateStyle:"short", timeStyle:"short" }
+									-let date = post.last_changed_at.toLocaleString("en-US", dateConfig)
+									time= date
+							section.flex
+								span.font-serif.text-xs=post.text
 			a(href="#dashboardNavigation").text-xs Back to the top
 		section.p-2.w-full
 			header#comments.font-fraktur.mb-2 Comments    
-			for comment in comments 
-				article.flex.justify-between.font-sans.text-sm.overflow-ellipsis
-						a(href="/board/post" + comment.post_id + "/#comment" + comment.id class="")= comment.text 
-						-let dateConfig = {dateStyle:"short", timeStyle:"short" }
-						-let date = comment.last_changed_at.toLocaleString("en-US", dateConfig)
-						time(class="flex-none")= date
+			if comments
+				for comment in comments 
+					article.flex.justify-between.font-sans.text-sm.overflow-ellipsis
+							a(href="/board/post" + comment.post_id + "/#comment" + comment.id class="")= comment.text 
+							-let dateConfig = {dateStyle:"short", timeStyle:"short" }
+							-let date = comment.last_changed_at.toLocaleString("en-US", dateConfig)
+							time(class="flex-none")= date
 			a(href="#dashboardNavigation").text-xs Back to the top
 		section.p-2.w-full
 			header#users.font-fraktur.mb-2 Users    
-			for user in users 
-				article.flex.justify-between.font-sans.text-sm.overflow-ellipsis
-						span= user.username
-						form.flex(action="user" + user.id)
-							input  
-							input
-						-let dateConfig = {dateStyle:"short", timeStyle:"short" }
-						-let date = comment.last_changed_at.toLocaleString("en-US", dateConfig)
-						time(class="flex-none")= date
+			if users
+				for u in users 
+					article.flex.justify-between.font-sans.text-sm.overflow-ellipsis
+							span= u.username
+							section
+								if u.is_permabanned 
+									span Banned
+									form(action="/user/" + u.id + "/unban" method="post") 
+										button( type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray") Ban
+								else 
+									span Not Banned
+									form(action="/user/" + u.id + "/ban" method="post") 
+										button( type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray") Unban 
+							section
+								form.flex(action="/user/" + u.id + "/tempban" method="post")
+									input(type="date")  
+									button( type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray") Change Temp Ban
+							-let dateConfig = {dateStyle:"short", timeStyle:"short" }
+							-let date = u.latest_visit.toLocaleString("en-US", dateConfig)
+							time#latest-visit(class="flex-none")= date
+							-let dateConfig = {dateStyle:"short", timeStyle:"short" }
+							-let date = u.created_at.toLocaleString("en-US", dateConfig)
+							time#created(class="flex-none")= date
 			a(href="#dashboardNavigation").text-xs Back to the top

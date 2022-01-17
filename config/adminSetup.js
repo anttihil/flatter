@@ -5,8 +5,8 @@ import log from "./logging.js";
 export async function adminSetup() {
   try {
     const admin = await db.oneOrNone(
-      `SELECT role FROM users WHERE username=$1`,
-      [process.env.ADMIN_USERNAME]
+      `SELECT id FROM users WHERE username=$1 AND role=$2`,
+      [process.env.ADMIN_USERNAME, "admin"]
     );
     if (!admin) {
       const password = await hash(process.env.ADMIN_PASSWORD);
@@ -17,9 +17,7 @@ export async function adminSetup() {
           RETURNING username;`,
         [process.env.ADMIN_EMAIL, process.env.ADMIN_USERNAME, password]
       );
-      if (result) {
-        log.info("Admin user created.");
-      }
+      log.info("Admin user created.");
     } else {
       log.info("Admin user exists.");
     }

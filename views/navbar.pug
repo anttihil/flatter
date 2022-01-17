@@ -1,10 +1,10 @@
 nav(class="p-2 fixed flex flex-col text-light font-fraktur space-y-2 divide-y divide-brown")
 	ul(class="flex flex-col flex-none text-light")
 		li 
-			a(href= "/board/post/create" class="flex-none") Create a Post
+			a(href= "/board/post/create" class="flex-none hover:text-gray") Create a Post
 		li 
-			a(href="/board/all" class="flex-none") All
+			a(href="/board/all" class="flex-none hover:text-gray") All
 		for board in boards
 			li
-				a(href="/board/" + board class="flex-none")= board 
-	a(href="/about" class='flex-none') About
+				a(href="/board/" + board class="flex-none hover:text-gray")= board 
+	a(href="/about" class='flex-none hover:text-gray') About

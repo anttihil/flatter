@@ -1,4 +1,8 @@
-import { selectUserActivity, insertUser } from "../services/userService.js";
+import {
+  selectUserActivity,
+  insertUser,
+  selectAllUserActivity,
+} from "../services/userService.js";
 import { hash } from "argon2";
 import log from "../config/logging.js";
 
@@ -43,9 +47,14 @@ export const logoutUser = function (req, res, next) {
   }
 };
 
-export const readAdminDashboard = (req, res, next) => {
+export const readAdminDashboard = async (req, res, next) => {
   try {
-    res.status(200).render("adminDashboard");
+    const result = await selectAllUserActivity();
+    res.status(200).render("adminDashboard", {
+      posts: result.posts,
+      comments: result.comments,
+      users: result.users,
+    });
   } catch (error) {
     next(error);
   }

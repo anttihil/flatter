@@ -5,13 +5,22 @@ block pageScript
 block content
 	-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
 	+card(id="post" class="scroll-mt-8")
-		header#postTitle.px-2.text-main.font-sans= post.title
+		header#postTitle.px-2.font-sans= post.title
 		section#postText( 
 			class="px-2 py-1 font-serif text-sm whitespace-pre-line"
 			)= post.text 
 		footer.px-2.py-1.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
 			div.flex.space-x-2
 			div.flex.space-x-2
+				if (user && user.role === "admin")
+					if (!post.is_locked)
+						form(action=post.id + "/lock" method="post")
+							button(type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray") Lock
+					else 
+						form(action=post.id + "/lock" method="post")
+							button(type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray") Unlock
+					form(action=post.id + "/remove" method="post")
+						button(type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray") Delete
 				if user && (user.id === post.user_id || user.role === "admin")
 					a(
 						href="#editPostForm"
@@ -25,15 +34,16 @@ block content
 						data-action-type="commentPost"
 						data-post-id=post.id
 						class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
-						) Comment
-				-let date
-				if post.created_at !== post.last_changed_at
-					-date = post.created_at.toLocaleString("en-US", dateConfig)
+						) Comment	
+				if post.last_changed_at
+					-let date
+					-date = post.last_changed_at.toLocaleString("en-US", dateConfig)
 					.space-x-1
 						span=post.username
 						time="edited on " + date
 				else 
-					-date = post.last_changed_at.toLocaleString("en-US", dateConfig)
+					-let date
+					-date = post.created_at.toLocaleString("en-US", dateConfig)
 					.space-x-1
 						span=post.username
 						time="on " + date
@@ -57,9 +67,8 @@ block content
 					div.flex.space-x-2
 					div.flex.space-x-2
 						if (user && user.role === "admin")
-							form()
-								input
-								button(type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray")
+							form(action=post.id + "/comment/" + comment.id +"/remove" method="post")
+								button(type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray") Delete
 						if (user && (user.id === comment.user_id || user.role === "admin"))
 							a(
 								href="#editCommentForm"
@@ -76,17 +85,18 @@ block content
 								data-comment-id=comment.id
 								class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
 								) Comment
-						-let date
-							if comment.created_at !== comment.last_changed_at
-								-date = comment.created_at.toLocaleString("en-US", dateConfig)
-								.space-x-1
-									span=comment.username
-									time="edited on " + date
-							else 
-								-date = comment.last_changed_at.toLocaleString("en-US", dateConfig)
-								.space-x-1
-									span=comment.username
-									time="on " + date
+						if comment.last_changed_at
+							-let date
+							-date = comment.last_changed_at.toLocaleString("en-US", dateConfig)
+							.space-x-1
+								span=comment.username
+								time="edited on " + date
+						else 
+							-let date
+							-date = comment.created_at.toLocaleString("en-US", dateConfig)
+							.space-x-1
+								span=comment.username
+								time="on " + date
 	+card(id="editPostForm" class="scroll-mt-8 hidden")
 			form(
 				action="" 

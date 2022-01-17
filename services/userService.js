@@ -46,28 +46,29 @@ export const selectUserActivity = async (userId) =>
     return { posts, comments };
   });
 
-export const selectAllUserActivity = async (userId) =>
+export const selectAllUserActivity = async () =>
   // tx is an SQL transaction which can include multiple queries
   db.tx(async (t) => {
+    const users = await t.any(`
+    SELECT id, username, latest_visit, is_permabanned, is_banned_until, created_at
+    FROM users
+    ORDER BY latest_visit DESC
+    `);
     const posts = await t.any(
-      `SELECT p.id, u.username, p.user_id, p.title, LEFT(p.text, 150) AS text, p.image_url, p.last_changed_at, COUNT(p.id) AS amount 
+      `SELECT p.id, u.username, p.user_id, p.title, LEFT(p.text, 150) AS text, p.image_url, p.last_changed_at 
       FROM posts p
       INNER JOIN users u
         ON p.user_id = u.id
-      GROUP BY p.id
-      ORDER BY last_changed_at DESC`,
-      [userId]
+      ORDER BY last_changed_at DESC`
     );
     const comments = await t.any(
-      `SELECT c.id, u.username, c.user_id, LEFT(c.text, 150) AS text, c.last_changed_at, COUNT(c.id) AS amount
+      `SELECT c.id, u.username, c.user_id, LEFT(c.text, 150) AS text, c.last_changed_at
       FROM comments c
       INNER JOIN users u
         ON c.user_id = u.id
-      GROUP BY c.id
-      ORDER BY last_changed_at DESC`,
-      [userId]
+      ORDER BY last_changed_at DESC`
     );
-    return { posts, comments };
+    return { posts, comments, users };
   });
 
 export const selectUserForAuthentication = async (email) => {
@@ -95,7 +96,7 @@ export const updateUserPassword = async (password, userId) => {
       WHERE id=$2  
     RETURNING id`,
     [password, userId],
-    (a) => a.id.toString()
+    (a) => a.id
   );
 };
 
@@ -106,7 +107,7 @@ export const updateUserRole = async (role, userId) => {
       WHERE id=$2  
     RETURNING id`,
     [role, userId],
-    (a) => a.id.toString()
+    (a) => a.id
   );
 };
 
@@ -117,6 +118,6 @@ export const updateUserUsername = async (username, userId) => {
       WHERE id=$2  
     RETURNING id`,
     [username, userId],
-    (a) => a.id.toString()
+    (a) => a.id
   );
 };

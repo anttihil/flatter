@@ -677,12 +677,12 @@ Ensure the default browser behavior of the `hidden` attribute.
   white-space: pre-line;
 }
 
-.rounded-full{
-  border-radius: 9999px;
-}
-
 .rounded{
   border-radius: 0.25rem;
+}
+
+.rounded-full{
+  border-radius: 9999px;
 }
 
 .border-2{
@@ -725,6 +725,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(21 28 31 / var(--tw-bg-opacity));
 }
 
+.bg-gray{
+  --tw-bg-opacity: 1;
+  background-color: rgb(127 132 127 / var(--tw-bg-opacity));
+}
+
 .bg-light{
   --tw-bg-opacity: 1;
   background-color: rgb(243 239 238 / var(--tw-bg-opacity));
@@ -733,11 +738,6 @@ Ensure the default browser behavior of the `hidden` attribute.
 .bg-neutral-900{
   --tw-bg-opacity: 1;
   background-color: rgb(23 23 23 / var(--tw-bg-opacity));
-}
-
-.bg-gray{
-  --tw-bg-opacity: 1;
-  background-color: rgb(127 132 127 / var(--tw-bg-opacity));
 }
 
 .bg-gradient-to-r{
@@ -879,14 +879,18 @@ Ensure the default browser behavior of the `hidden` attribute.
   transition-duration: 300ms;
 }
 
+.hover\:bg-light:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 239 238 / var(--tw-bg-opacity));
+}
+
 .hover\:bg-gray:hover{
   --tw-bg-opacity: 1;
   background-color: rgb(127 132 127 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-light:hover{
-  --tw-bg-opacity: 1;
-  background-color: rgb(243 239 238 / var(--tw-bg-opacity));
+.hover\:bg-opacity-40:hover{
+  --tw-bg-opacity: 0.4;
 }
 
 .hover\:text-gray:hover{
@@ -894,14 +898,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   color: rgb(127 132 127 / var(--tw-text-opacity));
 }
 
-.hover\:text-red-800:hover{
-  --tw-text-opacity: 1;
-  color: rgb(153 27 27 / var(--tw-text-opacity));
-}
-
 .hover\:text-light:hover{
   --tw-text-opacity: 1;
   color: rgb(243 239 238 / var(--tw-text-opacity));
+}
+
+.hover\:text-red-800:hover{
+  --tw-text-opacity: 1;
+  color: rgb(153 27 27 / var(--tw-text-opacity));
 }
 
 .focus\:outline-none:focus{

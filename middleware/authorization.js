@@ -21,7 +21,7 @@ export function isAdmin(req, res, next) {
 
 export function isOwnUser(req, res, next) {
   if (req.user) {
-    if (req.user.id === req.body.userId) {
+    if (req.user.id === +req.body.userId) {
       next();
     } else {
       next(
@@ -65,7 +65,7 @@ export async function isPostOwner(req, res, next) {
   try {
     if (req.user) {
       const owner = await selectPostOwner(req.params.postId);
-      if (owner.id === req.user.id) {
+      if (owner === req.user.id) {
         next();
       } else {
         next(

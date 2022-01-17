@@ -8,6 +8,6 @@ export async function boardAppLocals(app) {
     app.locals.boards = boards;
     log.info("Boards set in locals:", app.locals.boards);
   } catch (error) {
-    console.error(error);
+    log.error(error);
   }
 }

@@ -5,7 +5,7 @@ block content
 			for post in posts 
 				+card
 					header(class="px-2")
-						a(href="/board/post/" + post.id class="font-sans text-lg")= post.title
+						a(href="/board/post/" + post.id class="font-sans hover:text-gray")= post.title
 					section(class="px-2 font-serif text-sm")= post.text 
 					footer(class="px-2 flex flex-row font-sans text-xs justify-end space-x-1")
 						-let dateConfig = {dateStyle:"medium", timeStyle:"short" }

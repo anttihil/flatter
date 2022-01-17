@@ -14,7 +14,7 @@ export const deletePost = async (postId) => {
     WHERE id=$1
     RETURNING id`,
     [postId],
-    (a) => a.id.toString()
+    (a) => a.id
   );
 };
 
@@ -24,7 +24,7 @@ export const deleteComment = async (commentId) => {
     WHERE id=$1
     RETURNING id`,
     [commentId],
-    (a) => a.id.toString()
+    (a) => a.id
   );
 };
 
@@ -35,7 +35,7 @@ export const insertComment = async (userId, postId, text, referenceId) => {
       VALUES ($1, $2, $3, $4)
       RETURNING id`,
     [userId, postId, text, referenceId],
-    (a) => a.id.toString()
+    (a) => a.id
   );
 };
 
@@ -54,7 +54,7 @@ export const insertPost = async (boardName, userId, title, text, image) => {
       VALUES ($1, $2, $3, $4, $5)
       RETURNING id`,
       [userId, result1, title, text, image],
-      (a) => a.id.toString()
+      (a) => a.id
     );
     return result2;
   });
@@ -68,7 +68,7 @@ export async function selectCommentOwner(commentId) {
   return await db.oneOrNone(
     `SELECT user_id FROM comments WHERE id=$1`,
     [commentId],
-    (a) => a && a.user_id.toString()
+    (a) => a && a.user_id
   );
 }
 
@@ -104,7 +104,7 @@ export async function selectPostOwner(postId) {
   return await db.oneOrNone(
     `SELECT user_id FROM posts WHERE id=$1`,
     [postId],
-    (a) => a && a.user_id.toString()
+    (a) => a && a.user_id
   );
 }
 
@@ -135,7 +135,19 @@ export const updatePost = async (postId, title, text, image) => {
     WHERE id=$4
     RETURNING id`,
     [title, image, text, postId],
-    (a) => a.id.toString()
+    (a) => a.id
+  );
+};
+
+// image is optional
+export const updatePostLock = async (postId) => {
+  return await db.one(
+    `UPDATE posts
+    SET is_locked = NOT is_locked   
+    WHERE id=$1
+    RETURNING id`,
+    [postId],
+    (a) => a.id
   );
 };
 
@@ -146,7 +158,7 @@ export const updatePostImage = async (postId, image) => {
     WHERE id=$2
     RETURNING id`,
     [image, postId],
-    (a) => a.id.toString()
+    (a) => a.id
   );
 };
 
@@ -157,7 +169,7 @@ export const updatePostText = async (postId, text) => {
     WHERE id=$2
     RETURNING id`,
     [text, postId],
-    (a) => a.id.toString()
+    (a) => a.id
   );
 };
 
@@ -168,7 +180,7 @@ export const updatePostTitle = async (postId, title) => {
     WHERE id=$2
     RETURNING id`,
     [title, postId],
-    (a) => a.id.toString()
+    (a) => a.id
   );
 };
 
@@ -179,6 +191,6 @@ export const updateComment = async (commentId, text) => {
     WHERE id=$2
     RETURNING id`,
     [text, commentId],
-    (a) => a.id.toString()
+    (a) => a.id
   );
 };

@@ -58,7 +58,7 @@ of further processing in the backend.
     try {
       const queryResult = await selectUserForDeserialize(id);
       const user = {
-        id: queryResult.id.toString(),
+        id: queryResult.id,
         email: queryResult.email,
         username: queryResult.username,
         role: queryResult.role,

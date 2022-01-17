@@ -5,6 +5,7 @@ import {
   insertPost,
   selectPosts,
   updatePost,
+  updatePostLock,
   deletePost,
   insertComment,
   updateComment,
@@ -168,8 +169,8 @@ export const readPostAndComments = async (req, res, next) => {
 // requires admin? authorization
 export const removeComment = async (req, res, next) => {
   try {
-    log.info(`Deleting comment #${req.body.commentId}`);
-    const commentId = await deleteComment(req.body.commentId);
+    log.info(`Deleting comment #${req.params.commentId}`);
+    const commentId = await deleteComment(req.params.commentId);
     log.info(`Deleted comment #${commentId}`);
     res.status(200).redirect("back");
   } catch (error) {
@@ -180,11 +181,23 @@ export const removeComment = async (req, res, next) => {
 // requires authorization
 export const removePost = async (req, res, next) => {
   try {
-    log.info(`Deleting post #${req.body.postId}`);
-    const postId = await deletePost(req.body.postId);
+    log.info(`Deleting post #${req.params.postId}`);
+    const postId = await deletePost(req.params.postId);
     log.info(`Deleted post #${postId}`);
-    res.status(200).redirect("back");
+    res.status(200).redirect("/");
   } catch (error) {
     next(error);
   }
 };
+
+export async function toggleLockPost(req, res, next) {
+  // requires admin? authorization
+  try {
+    log.info(`Toggling the lock status of post #${req.params.postId}`);
+    const postId = await updatePostLock(req.params.postId);
+    log.info(`Toggled the lock status of post #${postId}`);
+    res.status(200).redirect("back");
+  } catch (error) {
+    next(error);
+  }
+}

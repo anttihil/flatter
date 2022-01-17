@@ -18,18 +18,19 @@ html.scroll-pt-12
 				div KraftWorld 
 			div.flex.space-x-3.items-center
 				if user
-					form(action="/user/logout" class="flex-none") 
+					form(action="/user/logout" class="flex-none hover:text-gray") 
 						button Log Out
 				else 
-					a(href="/user/login" class="flex-none") Log In
-				if user
-					a(href="/user/dashboard" class="flex-none mr-3 p-1 rounded-full bg-light text-dark")= "User: " + user.username
+					a(href="/user/login" class="flex-none hover:text-gray") Log In
+				if user && user.role === "admin"
+					a(href="/user/admin/dashboard" class="flex-none mr-3 p-1 rounded-full bg-light text-dark hover:text-light hover:bg-opacity-40")= "Dashboard"
+				else if user	
+					a(href="/user/dashboard" class="flex-none mr-3 p-1 rounded-full bg-light text-dark hover:text-gray")= "User: " + user.username
 				else 
-					div(class="flex-none mr-3 p-1 rounded-full bg-light text-dark") User: Guest  
+					div(class="flex-none mr-3 p-1 rounded-full bg-light text-dark hover:text-gray") User: Guest  
 		div(class="flex flex-col md:flex-row md:flex-1")
 				aside#navbar(class="hidden flex-none pl-3 w-32 fixed z-10 md:z-auto md:block md:static inset-y-0 left-0 bg-dark border-r border-brown")
 					include navbar.pug
-					
 				main#main(class="md:flex-1" data-hide-id="navbar")
 					block content
 				aside(class="hidden md:w-32 flex-none md:static md:flex md:flex-col items-center inset-y-0 right-0 bg-dark border-l border-brown")
