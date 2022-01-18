@@ -532,6 +532,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-bottom: 0.25rem;
 }
 
+.mr-auto{
+  margin-right: auto;
+}
+
 .mt-2{
   margin-top: 0.5rem;
 }
@@ -996,8 +1000,8 @@ Ensure the default browser behavior of the `hidden` attribute.
     flex-direction: column;
   }
 
-  .md\:place-items-center{
-    place-items: center;
+  .md\:justify-items-start{
+    justify-items: start;
   }
 
   .md\:gap-2{

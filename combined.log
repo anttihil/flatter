@@ -1052,3 +1052,88 @@ http: [0mGET /board/post/5 [31m500[0m 78.402 ms - 2773[0m
 {"level":"info","message":"The server is up and listening on port 3001","timestamp":"2022-01-17 19:16:14"}
 {"0":"3D-printing","1":"Modeling","2":"Mordheim","3":"Painting","4":"Terrain","level":"info","message":"Boards set in locals:","timestamp":"2022-01-17 19:16:14"}
 {"level":"info","message":"Admin user exists.","timestamp":"2022-01-17 19:16:14"}
+{"level":"info","message":"The server is up and listening on port 3001","timestamp":"2022-01-17 19:28:59"}
+{"level":"info","message":"Admin user exists.","timestamp":"2022-01-17 19:28:59"}
+{"0":"3D-printing","1":"Modeling","2":"Mordheim","3":"Painting","4":"Terrain","level":"info","message":"Boards set in locals:","timestamp":"2022-01-17 19:28:59"}
+{"level":"info","message":"Selecting posts from 3D-printing, Modeling, Mordheim, Painting, Terrain, page: 0, sort: new","timestamp":"2022-01-17 19:29:10"}
+{"level":"http","message":"\u001b[0mGET /board/all \u001b[31m500\u001b[0m 449.093 ms - 2834\u001b[0m\n","timestamp":"2022-01-17 19:29:10"}
+{"level":"http","message":"\u001b[0mGET /favicon.ico \u001b[0m-\u001b[0m - ms - -\u001b[0m\n","timestamp":"2022-01-17 19:29:10"}
+{"level":"info","message":"The server is up and listening on port 3001","timestamp":"2022-01-18 10:18:14"}
+{"0":"3D-printing","1":"Modeling","2":"Mordheim","3":"Painting","4":"Terrain","level":"info","message":"Boards set in locals:","timestamp":"2022-01-18 10:18:14"}
+{"level":"info","message":"Admin user created.","timestamp":"2022-01-18 10:18:14"}
+{"level":"http","message":"\u001b[0mGET / \u001b[36m302\u001b[0m 166.134 ms - 64\u001b[0m\n","timestamp":"2022-01-18 10:26:11"}
+{"level":"info","message":"Selecting posts from 3D-printing, Modeling, Mordheim, Painting, Terrain, page: 0, sort: new","timestamp":"2022-01-18 10:26:11"}
+{"level":"http","message":"\u001b[0mGET /board/all \u001b[32m200\u001b[0m 1577.550 ms - 2359\u001b[0m\n","timestamp":"2022-01-18 10:26:12"}
+{"level":"http","message":"\u001b[0mGET /user/login \u001b[32m200\u001b[0m 105.518 ms - 3589\u001b[0m\n","timestamp":"2022-01-18 10:26:17"}
+{"level":"http","message":"\u001b[0mPOST /user/login \u001b[36m302\u001b[0m 14.109 ms - 46\u001b[0m\n","timestamp":"2022-01-18 10:26:24"}
+{"level":"http","message":"\u001b[0mGET / \u001b[36m302\u001b[0m 2.681 ms - 64\u001b[0m\n","timestamp":"2022-01-18 10:26:24"}
+{"level":"info","message":"Selecting posts from 3D-printing, Modeling, Mordheim, Painting, Terrain, page: 0, sort: new","timestamp":"2022-01-18 10:26:24"}
+{"level":"http","message":"\u001b[0mGET /board/all \u001b[32m200\u001b[0m 76.739 ms - 2445\u001b[0m\n","timestamp":"2022-01-18 10:26:25"}
+{"level":"info","message":"Reading create post page.","timestamp":"2022-01-18 10:26:27"}
+{"level":"http","message":"\u001b[0mGET /board/post/create \u001b[32m200\u001b[0m 73.694 ms - 4244\u001b[0m\n","timestamp":"2022-01-18 10:26:27"}
+{"level":"info","message":"User #Admin is creating a post in Mordheim","timestamp":"2022-01-18 10:26:39"}
+{"level":"info","message":"Created post #1","timestamp":"2022-01-18 10:26:39"}
+{"level":"http","message":"\u001b[0mPOST /board/post/create \u001b[36m302\u001b[0m 130.499 ms - 70\u001b[0m\n","timestamp":"2022-01-18 10:26:39"}
+{"level":"info","message":"Selecting post and comments with postId 1","timestamp":"2022-01-18 10:26:39"}
+{"level":"http","message":"\u001b[0mGET /board/post/1 \u001b[32m200\u001b[0m 198.624 ms - 6853\u001b[0m\n","timestamp":"2022-01-18 10:26:40"}
+{"level":"info","message":"Updating post #1, title:fadfsfasdfa, image: , text:adfasdfasdfsdfadfasdf\r\nhtkgkhgkhkh","timestamp":"2022-01-18 10:26:51"}
+{"level":"info","message":"Updated post #1","timestamp":"2022-01-18 10:26:51"}
+{"level":"http","message":"\u001b[0mPOST /board/post/1/edit \u001b[36m302\u001b[0m 100.360 ms - 112\u001b[0m\n","timestamp":"2022-01-18 10:26:51"}
+{"level":"info","message":"Selecting post and comments with postId 1","timestamp":"2022-01-18 10:26:51"}
+{"level":"http","message":"\u001b[0mGET /board/post/1 \u001b[32m200\u001b[0m 93.564 ms - 6873\u001b[0m\n","timestamp":"2022-01-18 10:26:51"}
+{"level":"info","message":"Created comment #1","timestamp":"2022-01-18 10:29:26"}
+{"level":"http","message":"\u001b[0mPOST /board/post/1/comment/create \u001b[36m302\u001b[0m 100.242 ms - 112\u001b[0m\n","timestamp":"2022-01-18 10:29:26"}
+{"level":"info","message":"Selecting post and comments with postId 1","timestamp":"2022-01-18 10:29:26"}
+{"level":"http","message":"\u001b[0mGET /board/post/1 \u001b[32m200\u001b[0m 85.484 ms - 7992\u001b[0m\n","timestamp":"2022-01-18 10:29:27"}
+{"level":"info","message":"Authorization: Querying for owner of comment #1","timestamp":"2022-01-18 10:29:37"}
+{"level":"info","message":"Authorization: Found owner #1 of comment","timestamp":"2022-01-18 10:29:37"}
+{"level":"info","message":"Updating comment #1","timestamp":"2022-01-18 10:29:37"}
+{"level":"info","message":"Updated comment #1","timestamp":"2022-01-18 10:29:37"}
+{"level":"http","message":"\u001b[0mPOST /board/post/1/comment/1/edit \u001b[36m302\u001b[0m 97.774 ms - 112\u001b[0m\n","timestamp":"2022-01-18 10:29:37"}
+{"level":"info","message":"Selecting post and comments with postId 1","timestamp":"2022-01-18 10:29:37"}
+{"level":"http","message":"\u001b[0mGET /board/post/1 \u001b[32m200\u001b[0m 89.065 ms - 8018\u001b[0m\n","timestamp":"2022-01-18 10:29:37"}
+{"level":"info","message":"Created comment #2","timestamp":"2022-01-18 10:29:50"}
+{"level":"http","message":"\u001b[0mPOST /board/post/1/comment/1/create \u001b[36m302\u001b[0m 124.636 ms - 112\u001b[0m\n","timestamp":"2022-01-18 10:29:50"}
+{"level":"info","message":"Selecting post and comments with postId 1","timestamp":"2022-01-18 10:29:50"}
+{"level":"http","message":"\u001b[0mGET /board/post/1 \u001b[32m200\u001b[0m 175.972 ms - 9135\u001b[0m\n","timestamp":"2022-01-18 10:29:51"}
+{"level":"http","message":"\u001b[0mGET /user/admin/dashboard \u001b[31m500\u001b[0m 246.837 ms - 4120\u001b[0m\n","timestamp":"2022-01-18 10:32:01"}
+{"level":"info","message":"The server is up and listening on port 3001","timestamp":"2022-01-18 11:13:33"}
+{"level":"info","message":"Admin user exists.","timestamp":"2022-01-18 11:13:33"}
+{"0":"3D-printing","1":"Modeling","2":"Mordheim","3":"Painting","4":"Terrain","level":"info","message":"Boards set in locals:","timestamp":"2022-01-18 11:13:33"}
+{"level":"http","message":"\u001b[0mGET /user/admin/dashboard \u001b[31m500\u001b[0m 448.815 ms - 2958\u001b[0m\n","timestamp":"2022-01-18 11:22:26"}
+{"level":"info","message":"The server is up and listening on port 3001","timestamp":"2022-01-18 11:23:22"}
+{"0":"3D-printing","1":"Modeling","2":"Mordheim","3":"Painting","4":"Terrain","level":"info","message":"Boards set in locals:","timestamp":"2022-01-18 11:23:23"}
+{"level":"info","message":"Admin user exists.","timestamp":"2022-01-18 11:23:23"}
+{"level":"http","message":"\u001b[0mGET /user/admin/dashboard \u001b[31m500\u001b[0m 458.023 ms - 4336\u001b[0m\n","timestamp":"2022-01-18 11:23:26"}
+{"level":"info","message":"The server is up and listening on port 3001","timestamp":"2022-01-18 11:25:21"}
+{"level":"info","message":"Admin user exists.","timestamp":"2022-01-18 11:25:22"}
+{"0":"3D-printing","1":"Modeling","2":"Mordheim","3":"Painting","4":"Terrain","level":"info","message":"Boards set in locals:","timestamp":"2022-01-18 11:25:22"}
+{"level":"http","message":"\u001b[0mGET /user/admin/dashboard \u001b[31m500\u001b[0m 545.972 ms - 4336\u001b[0m\n","timestamp":"2022-01-18 11:25:28"}
+{"level":"info","message":"The server is up and listening on port 3001","timestamp":"2022-01-18 11:26:38"}
+{"0":"3D-printing","1":"Modeling","2":"Mordheim","3":"Painting","4":"Terrain","level":"info","message":"Boards set in locals:","timestamp":"2022-01-18 11:26:38"}
+{"level":"info","message":"Admin user exists.","timestamp":"2022-01-18 11:26:38"}
+{"level":"http","message":"\u001b[0mGET /user/admin/dashboard \u001b[32m200\u001b[0m 439.662 ms - 5007\u001b[0m\n","timestamp":"2022-01-18 11:26:40"}
+{"level":"http","message":"\u001b[0mGET /user/admin/dashboard \u001b[32m200\u001b[0m 277.976 ms - 5011\u001b[0m\n","timestamp":"2022-01-18 11:28:30"}
+{"level":"http","message":"\u001b[0mGET /user/admin/dashboard \u001b[32m200\u001b[0m 225.797 ms - 5053\u001b[0m\n","timestamp":"2022-01-18 11:29:38"}
+{"level":"info","message":"Selecting posts from postundefined, page: 0, sort: new","timestamp":"2022-01-18 11:30:40"}
+{"level":"http","message":"\u001b[0mGET /board/postundefined/ \u001b[32m200\u001b[0m 146.843 ms - 2445\u001b[0m\n","timestamp":"2022-01-18 11:30:40"}
+{"level":"info","message":"The server is up and listening on port 3001","timestamp":"2022-01-18 11:32:43"}
+{"0":"3D-printing","1":"Modeling","2":"Mordheim","3":"Painting","4":"Terrain","level":"info","message":"Boards set in locals:","timestamp":"2022-01-18 11:32:43"}
+{"level":"info","message":"Admin user exists.","timestamp":"2022-01-18 11:32:43"}
+{"level":"http","message":"\u001b[0mGET /user/admin/dashboard \u001b[32m200\u001b[0m 444.974 ms - 5037\u001b[0m\n","timestamp":"2022-01-18 11:32:45"}
+{"level":"http","message":"\u001b[0mGET /user/admin/dashboard \u001b[32m200\u001b[0m 285.281 ms - 5039\u001b[0m\n","timestamp":"2022-01-18 11:33:46"}
+{"level":"info","message":"Selecting post and comments with postId 1","timestamp":"2022-01-18 11:33:50"}
+{"level":"http","message":"\u001b[0mGET /board/post/1/ \u001b[32m200\u001b[0m 122.879 ms - 9135\u001b[0m\n","timestamp":"2022-01-18 11:33:51"}
+{"level":"http","message":"\u001b[0mGET /user/admin/dashboard \u001b[36m304\u001b[0m 74.369 ms - -\u001b[0m\n","timestamp":"2022-01-18 11:33:55"}
+{"level":"http","message":"\u001b[0mGET /user/admin/dashboard \u001b[36m304\u001b[0m 199.769 ms - -\u001b[0m\n","timestamp":"2022-01-18 11:36:25"}
+{"level":"http","message":"\u001b[0mGET /user/admin/dashboard \u001b[36m304\u001b[0m 162.925 ms - -\u001b[0m\n","timestamp":"2022-01-18 11:36:38"}
+{"level":"http","message":"\u001b[0mGET /user/admin/dashboard \u001b[36m304\u001b[0m 59.291 ms - -\u001b[0m\n","timestamp":"2022-01-18 11:36:39"}
+{"level":"http","message":"\u001b[0mGET /user/admin/dashboard \u001b[32m200\u001b[0m 218.784 ms - 5039\u001b[0m\n","timestamp":"2022-01-18 11:37:24"}
+{"level":"http","message":"\u001b[0mGET /user/admin/dashboard \u001b[31m500\u001b[0m 208.781 ms - 4376\u001b[0m\n","timestamp":"2022-01-18 11:41:13"}
+{"level":"http","message":"\u001b[0mGET /user/admin/dashboard \u001b[32m200\u001b[0m 177.642 ms - 5087\u001b[0m\n","timestamp":"2022-01-18 11:41:35"}
+{"level":"http","message":"\u001b[0mGET /user/admin/dashboard \u001b[32m200\u001b[0m 166.281 ms - 5087\u001b[0m\n","timestamp":"2022-01-18 11:42:21"}
+{"level":"info","message":"Selecting post and comments with postId 1","timestamp":"2022-01-18 11:42:39"}
+{"level":"http","message":"\u001b[0mGET /board/post/1 \u001b[32m200\u001b[0m 164.481 ms - 9135\u001b[0m\n","timestamp":"2022-01-18 11:42:40"}
+{"level":"info","message":"The server is up and listening on port 3001","timestamp":"2022-01-18 12:11:05"}
+{"level":"info","message":"Admin user exists.","timestamp":"2022-01-18 12:11:05"}
+{"0":"3D-printing","1":"Modeling","2":"Mordheim","3":"Painting","4":"Terrain","level":"info","message":"Boards set in locals:","timestamp":"2022-01-18 12:11:05"}

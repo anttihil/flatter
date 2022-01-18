@@ -95,17 +95,15 @@ block content
 							class=""
 							)= post.title 
 						-let dateConfig = {dateStyle:"short", timeStyle:"short" }
-						-let date = post.last_changed_at.toLocaleString("en-US", dateConfig)
-						time(class="flex-none")= date
+						time(class="flex-none text-xs")= post.last_changed_at ? "Edited " + post.last_changed_at.toLocaleString("en-US", dateConfig) : "Created " + post.created_at.toLocaleString("en-US", dateConfig)
 			a(href="#dashboardNavigation" class="hover:text-light text-brown text-xs") Back to the top
 		section.p-4.w-full
 			header#comments.font-fraktur.mb-4 Your Comment History
 			for comment in comments 
-				article.flex.justify-between.font-sans.text-sm.space-x-3.mb-2
-						a(href="/board/post/" + comment.post_id + "/#comment" + comment.id class="")= comment.text 
+				article.flex.font-sans.text-sm.space-x-3.mb-2
+						a.mr-auto(href="/board/post/" + comment.post_id + "/#comment" + comment.id class="")= comment.text 
 						-let dateConfig = {dateStyle:"short", timeStyle:"short" }
-						-let date = comment.last_changed_at.toLocaleString("en-US", dateConfig)
-						time(class="flex-none")= date
+						time(class="flex-none text-xs")= comment.last_changed_at ? "Edited " + comment.last_changed_at.toLocaleString("en-US", dateConfig) : "Created " + comment.created_at.toLocaleString("en-US", dateConfig)
 			a(href="#dashboardNavigation" class="hover:text-light text-brown text-xs") Back to the top
 
 		

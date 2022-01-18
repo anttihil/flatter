@@ -27,18 +27,18 @@ export const selectAllUserActivity = async () =>
     ORDER BY latest_visit DESC
     `);
     const posts = await t.any(
-      `SELECT p.id, u.username, p.user_id, LEFT(p.title,150) AS title, p.image_url, p.last_changed_at 
+      `SELECT p.id, u.username, p.user_id, LEFT(p.title,150) AS title, p.image_url, p.last_changed_at, p.created_at 
       FROM posts p
       INNER JOIN users u
         ON p.user_id = u.id
-      ORDER BY last_changed_at DESC`
+      ORDER BY GREATEST(p.last_changed_at, p.created_at) DESC`
     );
     const comments = await t.any(
-      `SELECT c.id, u.username, c.user_id, LEFT(c.text, 150) AS text, c.last_changed_at
+      `SELECT c.id, c.post_id, u.username, c.user_id, LEFT(c.text, 150) AS text, c.last_changed_at, c.created_at
       FROM comments c
       INNER JOIN users u
         ON c.user_id = u.id
-      ORDER BY last_changed_at DESC`
+      ORDER BY GREATEST(c.last_changed_at, c.created_at) DESC`
     );
     return { posts, comments, users };
   });
@@ -53,17 +53,17 @@ export const selectUserActivity = async (userId) =>
   // tx is an SQL transaction which can include multiple queries
   db.tx(async (t) => {
     const posts = await t.any(
-      `SELECT id, LEFT(title, 150) AS title, image_url, last_changed_at 
+      `SELECT id, LEFT(title, 150) AS title, image_url, last_changed_at, created_at 
       FROM posts
       WHERE user_id = $1
-      ORDER BY last_changed_at DESC`,
+      ORDER BY GREATEST(last_changed_at, created_at) DESC`,
       [userId]
     );
     const comments = await t.any(
-      `SELECT id, post_id, LEFT(text, 150) AS text, last_changed_at
+      `SELECT id, post_id, LEFT(text, 150) AS text, last_changed_at, created_at
       FROM comments
       WHERE user_id = $1
-      ORDER BY last_changed_at DESC`,
+      ORDER BY GREATEST(last_changed_at, created_at) DESC`,
       [userId]
     );
     return { posts, comments };

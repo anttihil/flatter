@@ -15,7 +15,7 @@ block content
 			if users
 				for u in users 
 					article(
-						class="flex flex-wrap items-center space-x-2 mb-2 md:grid md:grid-cols-5 md:gap-2 md:place-items-center font-sans text-sm"
+						class="flex flex-wrap items-center space-x-2 mb-2 md:grid md:grid-cols-5 md:gap-2 md:justify-items-start font-sans text-sm"
 						)
 							span= u.username
 							form(action="/user/" + u.id + "/ban" method="post" class="") 
@@ -37,30 +37,28 @@ block content
 									class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
 									) Set TempBan
 							-let dateConfig = {dateStyle:"short", timeStyle:"short" }
-							time#latest-visit(class="text-xs")= u.latest_visit ? u.latest_visit.toLocaleString("en-US", dateConfig) : "Never visited"
-							time#created(class="text-xs")= u.created_at ? u.created_at.toLocaleString("en-US", dateConfig) : "No creation date"
+							time#latest-visit(class="text-xs")= u.latest_visit ? "Visited " + u.latest_visit.toLocaleString("en-US", dateConfig) : "Never visited"
+							time#created(class="text-xs")= u.created_at ? "Created " + u.created_at.toLocaleString("en-US", dateConfig) : "No creation date"
 			a(href="#dashboardNavigation" class="hover:text-light text-brown text-xs") Back to the top	
 		section.p-4.w-full
 			header#posts.font-fraktur.mb-4 Posts
 			if posts
 				for post in posts 
-					article.font-sans.text-sm.mb-1
-							section.flex.justify-between.space-x-1
-								a(href="/board/post/" + post.id )= post.title
-								section.flex.flex-none
-									a(href=post.image_url) 
-									-let dateConfig = {dateStyle:"short", timeStyle:"short" }
-									-let date = post.last_changed_at.toLocaleString("en-US", dateConfig)
-									time= date
+					article.flex.font-sans.text-sm.space-x-1.mb-1
+						a.mr-auto(href="/board/post/" + post.id )= post.title				
+						a.text-xs(href=post.image_url)
+						span.text-xs=post.username 
+						-let dateConfig = {dateStyle:"short", timeStyle:"short" }
+						time(class="flex-none text-xs")= post.last_changed_at ? "edited " + post.last_changed_at.toLocaleString("en-US", dateConfig) : "created " + post.created_at.toLocaleString("en-US", dateConfig)
 			a(href="#dashboardNavigation" class="hover:text-light text-brown text-xs") Back to the top
 		section.p-4.w-full
 			header#comments.font-fraktur.mb-4 Comments    
 			if comments
 				for comment in comments 
-					article.flex.justify-between.font-sans.text-sm.space-x-1.mb-1
-							a(href="/board/post" + comment.post_id + "/#comment" + comment.id class="")= comment.text 
+					article.flex.font-sans.text-sm.space-x-1.mb-1
+							a.mr-auto(href="/board/post/" + comment.post_id + "/#comment" + comment.id class="")= comment.text 
+							span.text-xs=comment.username
 							-let dateConfig = {dateStyle:"short", timeStyle:"short" }
-							-let date = comment.last_changed_at.toLocaleString("en-US", dateConfig)
-							time(class="flex-none")= date
+							time(class="flex-none text-xs")= comment.last_changed_at ? "edited " + comment.last_changed_at.toLocaleString("en-US", dateConfig) : "created " + comment.created_at.toLocaleString("en-US", dateConfig)
 			a(href="#dashboardNavigation" class="hover:text-light text-brown text-xs") Back to the top
 		

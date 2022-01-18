@@ -76,6 +76,7 @@ export const logoutUser = function (req, res, next) {
 export const readAdminDashboard = async (req, res, next) => {
   try {
     const result = await selectAllUserActivity();
+    console.log(result);
     res.status(200).render("adminDashboard", {
       posts: result.posts,
       comments: result.comments,

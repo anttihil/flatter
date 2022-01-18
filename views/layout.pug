@@ -5,17 +5,15 @@ doctype html
 html.scroll-pt-12
 	head
 		title= title
-		link(rel='stylesheet', href='/stylesheets/styles.css')
-		link(rel='stylesheet', href="/stylesheets/fontawesome.min.css")
-		link(rel='stylesheet', href="/stylesheets/solid.min.css")
-		script(defer src='/javascripts/client.js')
+		link(rel="stylesheet", href="/stylesheets/styles.css")
+		link(rel="stylesheet", href="/stylesheets/fontawesome.min.css")
+		link(rel="stylesheet", href="/stylesheets/solid.min.css")
+		script(defer src="/javascripts/client.js")
 		block pageScript 
 	body(class="flex flex-col min-h-screen bg-gradient-to-r from-empty1 to-empty2")
-		header#headerMenu(
-			class="z-5 md:z-20 h-8 left-0 top-0 right-0 sticky flex justify-between items-center bg-header text-light shadow-black shadow font-fraktur"
-			)
+		header#headerMenu(class="z-5 md:z-20 h-8 left-0 top-0 right-0 sticky flex justify-between items-center bg-header text-light shadow-black shadow font-fraktur")
 			.flex.items-center.py-2.px-3.space-x-2.justify-between
-				button(data-toggle-hide-id="navbar" class='md:hidden')
+				button(data-toggle-hide-id="navbar" class="md:hidden")
 					span(data-toggle-hide-id="navbar" class="fas fa-bars fa-lg")
 				div.text-lg KraftWorld 
 			div.flex.space-x-3.items-center
@@ -37,6 +35,6 @@ html.scroll-pt-12
 					block content
 				aside(class="hidden md:w-32 flex-none md:static md:flex md:flex-col items-center inset-y-0 right-0 bg-sidebar shadow shadow-black")
 					include sidebar.pug
-		div#navOverlay(class='fixed hidden md:hidden inset-0 bg-neutral-900 backdrop-blur-sm opacity-0 transition-opacity duration-300')
+		div#navOverlay(class="fixed hidden md:hidden inset-0 bg-neutral-900 backdrop-blur-sm opacity-0 transition-opacity duration-300")
 		footer 
 			block footer-content
