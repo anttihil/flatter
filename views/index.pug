@@ -4,12 +4,19 @@ block content
 		if posts
 			for post in posts 
 				+card
-					header(class="px-2")
-						a(href="/board/post/" + post.id class="font-sans hover:text-gray")= post.title
-					section(class="px-2 font-serif text-sm")= post.text 
-					footer(class="px-2 flex flex-row font-sans text-xs justify-end space-x-1")
+					header(class="")
+						a(
+							href="/board/post/" + post.id
+							class="px-2 font-sans hover:text-gray"
+							)= post.title
+						span(class="bg-gray text-xs text-dark rounded hover:bg-light hover:text-gray")=post.is_locked ? "Locked" : ""
+					section(
+						class="px-2 font-serif text-sm"
+						)= post.text 
+					footer(
+						class="px-2 flex flex-row font-sans text-xs justify-end space-x-1"
+						)
 						-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
 						-let date = post.created_at.toLocaleString("en-US", dateConfig)
-						.space-x-1
-							span=post.username
-							time="on " + date 
+						span=post.username
+						time="on " + date 

@@ -10,12 +10,14 @@ html.scroll-pt-12
 		link(rel='stylesheet', href="/stylesheets/solid.min.css")
 		script(defer src='/javascripts/client.js')
 		block pageScript 
-	body(class="flex flex-col min-h-screen bg-gradient-to-r from-main to-gray")
-		header#headerMenu(class="h-8 left-0 top-0 right-0 sticky flex justify-between items-center bg-dark text-light font-fraktur")
+	body(class="flex flex-col min-h-screen bg-gradient-to-r from-empty1 to-empty2")
+		header#headerMenu(
+			class="z-5 md:z-20 h-8 left-0 top-0 right-0 sticky flex justify-between items-center bg-header text-light shadow-black shadow font-fraktur"
+			)
 			.flex.items-center.py-2.px-3.space-x-2.justify-between
 				button(data-toggle-hide-id="navbar" class='md:hidden')
 					span(data-toggle-hide-id="navbar" class="fas fa-bars fa-lg")
-				div KraftWorld 
+				div.text-lg KraftWorld 
 			div.flex.space-x-3.items-center
 				if user
 					form(action="/user/logout" class="flex-none hover:text-gray") 
@@ -27,13 +29,13 @@ html.scroll-pt-12
 				else if user	
 					a(href="/user/dashboard" class="flex-none mr-3 p-1 rounded-full bg-light text-dark hover:text-gray")= "User: " + user.username
 				else 
-					div(class="flex-none mr-3 p-1 rounded-full bg-light text-dark hover:text-gray") User: Guest  
+					div(class="flex-none mr-3 p-1 rounded-full bg-light text-dark") User: Guest  
 		div(class="flex flex-col md:flex-row md:flex-1")
-				aside#navbar(class="hidden flex-none pl-3 w-32 fixed z-10 md:z-auto md:block md:static inset-y-0 left-0 bg-dark border-r border-brown")
+				aside#navbar(class="hidden flex-none pl-3 w-32 fixed z-10 md:z-1 md:block md:static inset-y-0 left-0 bg-sidebar shadow shadow-black")
 					include navbar.pug
 				main#main(class="md:flex-1" data-hide-id="navbar")
 					block content
-				aside(class="hidden md:w-32 flex-none md:static md:flex md:flex-col items-center inset-y-0 right-0 bg-dark border-l border-brown")
+				aside(class="hidden md:w-32 flex-none md:static md:flex md:flex-col items-center inset-y-0 right-0 bg-sidebar shadow shadow-black")
 					include sidebar.pug
 		div#navOverlay(class='fixed hidden md:hidden inset-0 bg-neutral-900 backdrop-blur-sm opacity-0 transition-opacity duration-300')
 		footer 

@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS posts
     title TEXT NOT NULL,
     text TEXT NOT NULL,
     image_url TEXT,
-    locked BOOLEAN DEFAULT FALSE,
+    is_locked BOOLEAN DEFAULT FALSE,
     last_changed_at TIMESTAMP WITH TIME ZONE,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
     FOREIGN KEY (user_id)

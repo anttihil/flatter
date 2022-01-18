@@ -2,60 +2,65 @@ extends layout
 
 block content
 	article(
-		class="divide-y divide-brown md:h-auto h-full text-light font-sans items-start bg-dark p-6 flex flex-col space-y-2  border-b border-brown")
-		header(class='text-light font-fraktur text-lg') Admin Dashboard
-		section#dashboardNavigation.flex.justify-between.text-xs
-			a(href="#posts") Posts
-			a(href="#comments") Comments
-			a(href="#users") Users
-		section.p-2.w-full
-			header#posts.font-fraktur.mb-2 Posts
+		class="divide-y divide-brown md:h-auto h-full text-light font-sans items-start bg-dark flex flex-col space-y-2  border-b border-brown"
+		)
+		header(class='text-light font-fraktur text-xl self-center') Admin Dashboard
+		section#dashboardNavigation(class="self-center flex justify-between text-xs space-x-3 p-2")
+			span Navigation:
+			a(href="#users" class="hover:text-light text-brown") Users
+			a(href="#posts" class="hover:text-light text-brown") Posts
+			a(href="#comments" class="hover:text-light text-brown") Comments
+		section.p-4.w-full
+			header#users.font-fraktur.mb-4 Users    
+			if users
+				for u in users 
+					article(
+						class="flex flex-wrap items-center space-x-2 mb-2 md:grid md:grid-cols-5 md:gap-2 md:place-items-center font-sans text-sm"
+						)
+							span= u.username
+							form(action="/user/" + u.id + "/ban" method="post" class="") 
+								button(
+									type="submit" 
+									class="p-1 bg-gray text-xs text-dark rounded hover:bg-light hover:text-gray ")= u.is_permabanned ? "UnPermaBan" : "PermaBan"	
+							form(
+								action="/user/" + u.id + "/tempban" 
+								method="post" 
+								class="p-1")
+								input(
+									type="date"
+									name="date"
+									value=u.is_banned_until ? u.is_banned_until : "" 
+									class='mr-2 focus:outline-none focus:ring focus:ring-brown bg-light text-dark'
+									)  
+								button(
+									type="submit" 
+									class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
+									) Set TempBan
+							-let dateConfig = {dateStyle:"short", timeStyle:"short" }
+							time#latest-visit(class="text-xs")= u.latest_visit ? u.latest_visit.toLocaleString("en-US", dateConfig) : "Never visited"
+							time#created(class="text-xs")= u.created_at ? u.created_at.toLocaleString("en-US", dateConfig) : "No creation date"
+			a(href="#dashboardNavigation" class="hover:text-light text-brown text-xs") Back to the top	
+		section.p-4.w-full
+			header#posts.font-fraktur.mb-4 Posts
 			if posts
 				for post in posts 
-					article.font-sans.text-sm
-							section.flex.justify-between
+					article.font-sans.text-sm.mb-1
+							section.flex.justify-between.space-x-1
 								a(href="/board/post/" + post.id )= post.title
-								section.flex
+								section.flex.flex-none
 									a(href=post.image_url) 
 									-let dateConfig = {dateStyle:"short", timeStyle:"short" }
 									-let date = post.last_changed_at.toLocaleString("en-US", dateConfig)
 									time= date
-							section.flex
-								span.font-serif.text-xs=post.text
-			a(href="#dashboardNavigation").text-xs Back to the top
-		section.p-2.w-full
-			header#comments.font-fraktur.mb-2 Comments    
+			a(href="#dashboardNavigation" class="hover:text-light text-brown text-xs") Back to the top
+		section.p-4.w-full
+			header#comments.font-fraktur.mb-4 Comments    
 			if comments
 				for comment in comments 
-					article.flex.justify-between.font-sans.text-sm.overflow-ellipsis
+					article.flex.justify-between.font-sans.text-sm.space-x-1.mb-1
 							a(href="/board/post" + comment.post_id + "/#comment" + comment.id class="")= comment.text 
 							-let dateConfig = {dateStyle:"short", timeStyle:"short" }
 							-let date = comment.last_changed_at.toLocaleString("en-US", dateConfig)
 							time(class="flex-none")= date
-			a(href="#dashboardNavigation").text-xs Back to the top
-		section.p-2.w-full
-			header#users.font-fraktur.mb-2 Users    
-			if users
-				for u in users 
-					article.flex.justify-between.font-sans.text-sm.overflow-ellipsis
-							span= u.username
-							section
-								if u.is_permabanned 
-									span Banned
-									form(action="/user/" + u.id + "/unban" method="post") 
-										button( type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray") Ban
-								else 
-									span Not Banned
-									form(action="/user/" + u.id + "/ban" method="post") 
-										button( type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray") Unban 
-							section
-								form.flex(action="/user/" + u.id + "/tempban" method="post")
-									input(type="date")  
-									button( type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray") Change Temp Ban
-							-let dateConfig = {dateStyle:"short", timeStyle:"short" }
-							-let date = u.latest_visit.toLocaleString("en-US", dateConfig)
-							time#latest-visit(class="flex-none")= date
-							-let dateConfig = {dateStyle:"short", timeStyle:"short" }
-							-let date = u.created_at.toLocaleString("en-US", dateConfig)
-							time#created(class="flex-none")= date
-			a(href="#dashboardNavigation").text-xs Back to the top
+			a(href="#dashboardNavigation" class="hover:text-light text-brown text-xs") Back to the top
+		

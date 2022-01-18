@@ -16,23 +16,23 @@ block content
 						for board in boards 
 							option(value=board).text-dark=board
 				div 
-					label(for="title_input") Title:
+					label(for="title-input") Title:
 					input(
 						type="text" 
 						name="title" 
-						id="title_input" 
+						id="title-input" 
 						required 
 						placeholder=" Title text"
 						maxlength="150" 
 						class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark')
 					span.text-xs Max length 150 characters.
 				div 
-					label(for="image_input") Image URL:
-					input(type="url" name="image" id="image_input" placeholder=" https://imgur.com/someimage" class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark')
+					label(for="image-input") Image URL:
+					input(type="url" name="image" id="image-input" placeholder=" https://imgur.com/someimage" class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark')
 				div 
-					label(for="text_input") Text:  
+					label(for="text-input") Text:  
 					textarea(
-					id="text_input" 
+					id="text-input" 
 					name="text" 
 					cols="30" 
 					rows="10" 

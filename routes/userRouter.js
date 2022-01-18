@@ -9,6 +9,8 @@ import {
   readRegisterSuccess,
   logoutUser,
   createUser,
+  toggleUserBan,
+  setUserTempBan,
 } from "../controllers/userController.js";
 import passport from "passport";
 
@@ -25,6 +27,8 @@ userRouter
     })
   );
 
+userRouter.route("/:userId(\\d+)/ban").post(isAdmin, toggleUserBan);
+userRouter.route("/:userId(\\d+)/tempban").post(isAdmin, setUserTempBan);
 userRouter.route("/forgotPassword").get(readForgotPasswordPage);
 userRouter.route("/logout").get(logoutUser);
 userRouter.route("/register/success").get(readRegisterSuccess);

@@ -77,7 +77,7 @@ export const selectPostandComments = async (postId) =>
   // We use many queries in one transaction for a performance boost.
   db.tx(async (t) => {
     const post = await t.oneOrNone(
-      `SELECT p.id, p.title, p.text, p.user_id, u.username, p.created_at, p.last_changed_at
+      `SELECT p.id, p.title, p.text, p.user_id, u.username, p.created_at, p.last_changed_at, p.is_locked
         FROM posts p
         INNER JOIN users u 
           ON u.id = p.user_id
@@ -85,7 +85,7 @@ export const selectPostandComments = async (postId) =>
       [postId]
     );
     const comments = await t.any(
-      `SELECT c.id, c.text, c.user_id, u.username, c.created_at, c.last_changed_at, c.reference_id, s.username as reference_author
+      `SELECT c.id, c.text, c.user_id, u.username, c.created_at, c.last_changed_at, c.reference_id, s.username AS reference_author
         FROM comments c
         LEFT JOIN comments r
           ON c.reference_id = r.id
@@ -112,7 +112,7 @@ export async function selectPostOwner(postId) {
 // if sort == "active" we can select first from comments
 export async function selectPosts(boardList, page, sort) {
   const posts = await db.any(
-    `SELECT b.name AS board, p.id, LEFT(p.title, 150) AS title, LEFT(p.text, 300) AS text, p.user_id as userId, u.username, p.last_changed_at, p.created_at
+    `SELECT b.name AS board, p.id, LEFT(p.title, 150) AS title, LEFT(p.text, 150) AS text, p.user_id as userId, u.username, p.last_changed_at, p.created_at, p.is_locked
     FROM posts p
     INNER JOIN boards b 
       ON p.board_id = b.id 

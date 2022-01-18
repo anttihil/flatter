@@ -18,34 +18,6 @@ export const insertUser = async (email, password, username, role) => {
   );
 };
 
-export async function selectAllUsers() {
-  return await db.any(`
-  SELECT id, username, email, is_verified, is_permabanned, is_banned_until  
-  FROM users`);
-}
-
-export const selectUserActivity = async (userId) =>
-  // tx is an SQL transaction which can include multiple queries
-  db.tx(async (t) => {
-    const posts = await t.any(
-      `SELECT id, title, LEFT(text, 150) AS text, image_url, last_changed_at, COUNT(id) AS amount 
-      FROM posts
-      WHERE user_id = $1
-      GROUP BY id
-      ORDER BY last_changed_at DESC`,
-      [userId]
-    );
-    const comments = await t.any(
-      `SELECT id, post_id, LEFT(text, 150) AS text, last_changed_at, COUNT(id) AS amount
-      FROM comments
-      WHERE user_id = $1
-      GROUP BY id
-      ORDER BY last_changed_at DESC`,
-      [userId]
-    );
-    return { posts, comments };
-  });
-
 export const selectAllUserActivity = async () =>
   // tx is an SQL transaction which can include multiple queries
   db.tx(async (t) => {
@@ -55,7 +27,7 @@ export const selectAllUserActivity = async () =>
     ORDER BY latest_visit DESC
     `);
     const posts = await t.any(
-      `SELECT p.id, u.username, p.user_id, p.title, LEFT(p.text, 150) AS text, p.image_url, p.last_changed_at 
+      `SELECT p.id, u.username, p.user_id, LEFT(p.title,150) AS title, p.image_url, p.last_changed_at 
       FROM posts p
       INNER JOIN users u
         ON p.user_id = u.id
@@ -69,6 +41,32 @@ export const selectAllUserActivity = async () =>
       ORDER BY last_changed_at DESC`
     );
     return { posts, comments, users };
+  });
+
+export async function selectAllUsers() {
+  return await db.any(`
+  SELECT id, username, email, is_verified, is_permabanned, is_banned_until  
+  FROM users`);
+}
+
+export const selectUserActivity = async (userId) =>
+  // tx is an SQL transaction which can include multiple queries
+  db.tx(async (t) => {
+    const posts = await t.any(
+      `SELECT id, LEFT(title, 150) AS title, image_url, last_changed_at 
+      FROM posts
+      WHERE user_id = $1
+      ORDER BY last_changed_at DESC`,
+      [userId]
+    );
+    const comments = await t.any(
+      `SELECT id, post_id, LEFT(text, 150) AS text, last_changed_at
+      FROM comments
+      WHERE user_id = $1
+      ORDER BY last_changed_at DESC`,
+      [userId]
+    );
+    return { posts, comments };
   });
 
 export const selectUserForAuthentication = async (email) => {
@@ -88,6 +86,27 @@ export const selectUserForDeserialize = async (userId) => {
     [userId]
   );
 };
+
+export async function updateUserBan(userId) {
+  return await db.oneOrNone(
+    `UPDATE users
+      SET is_permabanned = NOT is_permabanned
+      WHERE id = $1
+    RETURNING id`,
+    [userId],
+    (a) => a.id
+  );
+}
+
+export async function updateUserTempBan(userId, date) {
+  return await db.oneOrNone(
+    `UPDATE users
+      SET is_banned_until = $1
+      WHERE id = $2
+    RETURNING id, is_banned_until`,
+    [date, userId]
+  );
+}
 
 export const updateUserPassword = async (password, userId) => {
   return await db.one(

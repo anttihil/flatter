@@ -2,6 +2,8 @@ import {
   selectUserActivity,
   insertUser,
   selectAllUserActivity,
+  updateUserBan,
+  updateUserTempBan,
 } from "../services/userService.js";
 import { hash } from "argon2";
 import log from "../config/logging.js";
@@ -20,6 +22,30 @@ then use that verb instead.
 The purpose is to be consistent and prevent conflicts
 with names of service functions.
 */
+
+export async function toggleUserBan(req, res, next) {
+  try {
+    log.info(`Toggling ban status for user #${req.params.userId}`);
+    const id = await updateUserBan(req.params.userId);
+    log.info(`Toggled ban status for user #${id}`);
+    res.redirect("back");
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function setUserTempBan(req, res, next) {
+  try {
+    log.info(
+      `Setting temporary ban date for user #${req.params.userId} as ${req.body.date}`
+    );
+    const result = await updateUserTempBan(req.params.userId, req.body.date);
+    log.info(`Set temporary ban date for user #${result.id} as ${result.date}`);
+    res.redirect("back");
+  } catch (error) {
+    next(error);
+  }
+}
 
 export const createUser = async (req, res, next) => {
   try {

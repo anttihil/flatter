@@ -12,7 +12,8 @@ block content
 				label(for="email").text-light Email
 				input(
 					type="email" 
-					name="email" 
+					name="email"
+					autocomplete="email" 
 					class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark' 
 					required)
 			div 
@@ -20,6 +21,7 @@ block content
 				input(
 					type="password" 
 					name="password"
+					autocomplete="password"
 					class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark' 
 					required) 
 			.flex.justify-between.pt-2     

@@ -1,17 +1,26 @@
 extends layout 
 
-
 block content
-	-let dateConfig = {dateStyle:"short", timeStyle:"short" }
+	
 	article(
-		class="divide-y divide-brown md:h-auto h-full text-light font-sans items-start bg-dark p-6 flex flex-col space-y-2  border-b border-brown"
+		class="divide-y divide-brown md:h-auto h-full text-light font-sans items-start bg-dark flex flex-col space-y-2  border-b border-brown"
 		)
-		header(class='text-light font-fraktur text-xl self-center') User Dashboard
-		section#dashboardNavigation(class="self-center flex justify-between text-xs space-x-3 p-2")
+		header(
+			class="text-light font-fraktur text-xl self-center"
+			) User Dashboard
+		section#dashboardNavigation(
+			class="self-center flex justify-between text-xs space-x-3 p-2"
+			)
 			span Navigation:
-			a(href="#posts" class="hover:text-light text-brown") Posts
-			a(href="#comments" class="hover:text-light text-brown") Comments
-		section.p-2
+			a(
+				href="#posts"
+				class="hover:text-light text-brown"
+				) Posts
+			a(
+				href="#comments" 
+				class="hover:text-light text-brown"
+			) Comments
+		section.p-4.w-full
 			header.font-fraktur Change Password
 			form(
 				action="changePassword" 
@@ -29,60 +38,74 @@ block content
 						pattern="[0-9a-zA-Z]{12,100}"
 						)
 				div(class="mt-2")
-					label(for="newPassword" class="font-serif text-sm") New Password
+					label(
+						for="newPassword"
+						class="font-serif text-sm"
+						) New Password
 					input(
 						type="password" 
 						id="newPassword" 
 						name="newPassword" 
-						autocomplete="current-password" 
+						autocomplete="new-password" 
 						required 
 						class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
 						pattern="[0-9a-zA-Z]{12,100}"
 						)
 					span.text-xs 12 characters minimum, 100 maximum. A password can contain both upper and lower case letters, and numbers.
-				div.flex.justify-end.space-x-2.mt-3 
+				div.flex.justify-end
 					input(
 						type="submit" 
 						value="Submit" 
-						class="hover:bg-gray border-2 border-main border-opacity-70 font-fraktur bg-light text-dark")
-		section.p-2 
+						class="hover:bg-gray border-2 border-main border-opacity-70 font-fraktur bg-light text-dark"
+						)
+		section.p-4.w-full 
 			header.font-fraktur Change Username
 			form(
 				action="changeUsername" 
 				method="post" 
-				class="mt-2"
+				class="mt-2 w-full"
 				)
-				label(for="changeUsername" class="font-serif text-sm") New Username
+				label(
+					for="changeUsername" 
+					class="font-serif text-sm"
+					) New Username
 				input(
+					id="changeUsername"
 					name="username" 
-					id="changeUsername" 
+					autocomplete="username"					 
 					required 
 					pattern="[a-zA-Z0-9]{1,20}"
-					class='focus:outline-none focus:ring focus:ring-brown w-full font-serif bg-light text-dark'
+					class="focus:outline-none focus:ring focus:ring-brown w-full font-serif bg-light text-dark"
 					)
 				span.text-xs Max 20 characters
 				div.flex.justify-end
 					input(
 							type="submit" 
 							value="Submit" 
-							class="mt-3 hover:bg-gray border-2 border-main border-opacity-70 font-fraktur bg-light text-dark")
+							class="justify-end mt-3 hover:bg-gray border-2 border-main border-opacity-70 font-fraktur bg-light text-dark"
+							)
 				if message
 					div=message
-		section.p-2.w-full
-			header#posts.font-fraktur.mb-2 Your Post History
+		section.p-4.w-full
+			header#posts.font-fraktur.mb-4 Your Post History
 			for post in posts 
-				article.flex.justify-between.font-sans.text-sm
-						a(href="/board/post/" + post.id class="flex-none")= post.title 
+				article.flex.justify-between.font-sans.text-sm.space-x-3.mb-2
+						a(
+							href="/board/post/" + post.id 
+							class=""
+							)= post.title 
+						-let dateConfig = {dateStyle:"short", timeStyle:"short" }
 						-let date = post.last_changed_at.toLocaleString("en-US", dateConfig)
-						time= date
-			a(href="#dashboardNavigation").text-xs Back to the top
-		section.p-2.w-full
-			header#comments.font-fraktur.mb-2 Your Comment History
+						time(class="flex-none")= date
+			a(href="#dashboardNavigation" class="hover:text-light text-brown text-xs") Back to the top
+		section.p-4.w-full
+			header#comments.font-fraktur.mb-4 Your Comment History
 			for comment in comments 
-				article.flex.justify-between.font-sans.text-sm.overflow-ellipsis
+				article.flex.justify-between.font-sans.text-sm.space-x-3.mb-2
 						a(href="/board/post/" + comment.post_id + "/#comment" + comment.id class="")= comment.text 
+						-let dateConfig = {dateStyle:"short", timeStyle:"short" }
 						-let date = comment.last_changed_at.toLocaleString("en-US", dateConfig)
 						time(class="flex-none")= date
-			a(href="#dashboardNavigation").text-xs Back to the top
+			a(href="#dashboardNavigation" class="hover:text-light text-brown text-xs") Back to the top
 
 		
