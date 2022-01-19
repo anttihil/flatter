@@ -14,9 +14,8 @@ block content
 						class="px-2 font-serif text-sm"
 						)= post.text 
 					footer(
-						class="px-2 flex flex-row font-sans text-xs justify-end space-x-1"
+						class="px-2 flex flex-row font-sans text-xs justify-end space-x-2"
 						)
-						-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
-						-let date = post.created_at.toLocaleString("en-US", dateConfig)
+						-let dateConfig = {dateStyle:"medium", timeStyle:"short" } 
 						span=post.username
-						time="on " + date 
+						time=post.created_at.toLocaleString("en-US", dateConfig) 

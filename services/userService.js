@@ -8,19 +8,19 @@ Update a resource: updateZ
 Deleting a resource: deleteW
 */
 
-export const insertUser = async (email, password, username, role) => {
-  return await db.one(
+export function insertUser(email, password, username, role) {
+  return db.one(
     `INSERT INTO users(email, password, username, role) 
     VALUES ($1, $2, $3, $4) 
     RETURNING username`,
     [email, password, username, role],
     (a) => a.username
   );
-};
+}
 
-export const selectAllUserActivity = async () =>
+export function selectAllUserActivity() {
   // tx is an SQL transaction which can include multiple queries
-  db.tx(async (t) => {
+  return db.tx(async (t) => {
     const users = await t.any(`
     SELECT id, username, latest_visit, is_permabanned, is_banned_until, created_at
     FROM users
@@ -42,16 +42,25 @@ export const selectAllUserActivity = async () =>
     );
     return { posts, comments, users };
   });
+}
 
-export async function selectAllUsers() {
-  return await db.any(`
+export function selectAllUsers() {
+  return db.any(`
   SELECT id, username, email, is_verified, is_permabanned, is_banned_until  
   FROM users`);
 }
 
-export const selectUserActivity = async (userId) =>
+export function selectEmail(email) {
+  return db.any(`SELECT email FROM users WHERE email = $1`, [email]);
+}
+
+export function selectUsername(username) {
+  return db.any(`SELECT username FROM users WHERE username = $1`, [username]);
+}
+
+export function selectUserActivity(userId) {
   // tx is an SQL transaction which can include multiple queries
-  db.tx(async (t) => {
+  return db.tx(async (t) => {
     const posts = await t.any(
       `SELECT id, LEFT(title, 150) AS title, image_url, last_changed_at, created_at 
       FROM posts
@@ -68,27 +77,28 @@ export const selectUserActivity = async (userId) =>
     );
     return { posts, comments };
   });
+}
 
-export const selectUserForAuthentication = async (email) => {
-  return await db.oneOrNone(
+export function selectUserForAuthentication(email) {
+  return db.oneOrNone(
     `SELECT id, email, username, password, role  
     FROM users 
     WHERE email = $1`,
     [email]
   );
-};
+}
 
-export const selectUserForDeserialize = async (userId) => {
-  return await db.oneOrNone(
+export function selectUserForDeserialize(userId) {
+  return db.oneOrNone(
     `SELECT id, email, username, role 
       FROM users 
       WHERE id = $1`,
     [userId]
   );
-};
+}
 
-export async function updateUserBan(userId) {
-  return await db.oneOrNone(
+export function updateUserBan(userId) {
+  return db.oneOrNone(
     `UPDATE users
       SET is_permabanned = NOT is_permabanned
       WHERE id = $1
@@ -98,8 +108,8 @@ export async function updateUserBan(userId) {
   );
 }
 
-export async function updateUserTempBan(userId, date) {
-  return await db.oneOrNone(
+export function updateUserTempBan(userId, date) {
+  return db.oneOrNone(
     `UPDATE users
       SET is_banned_until = $1
       WHERE id = $2
@@ -108,8 +118,8 @@ export async function updateUserTempBan(userId, date) {
   );
 }
 
-export const updateUserPassword = async (password, userId) => {
-  return await db.one(
+export function updateUserPassword(password, userId) {
+  return db.one(
     `UPDATE users
       SET password=$1
       WHERE id=$2  
@@ -117,10 +127,10 @@ export const updateUserPassword = async (password, userId) => {
     [password, userId],
     (a) => a.id
   );
-};
+}
 
-export const updateUserRole = async (role, userId) => {
-  return await db.one(
+export function updateUserRole(role, userId) {
+  return db.one(
     `UPDATE users
       SET role=$1
       WHERE id=$2  
@@ -128,10 +138,10 @@ export const updateUserRole = async (role, userId) => {
     [role, userId],
     (a) => a.id
   );
-};
+}
 
-export const updateUserUsername = async (username, userId) => {
-  return await db.one(
+export function updateUserUsername(username, userId) {
+  return db.one(
     `UPDATE users
       SET username=$1
       WHERE id=$2  
@@ -139,4 +149,4 @@ export const updateUserUsername = async (username, userId) => {
     [username, userId],
     (a) => a.id
   );
-};
+}

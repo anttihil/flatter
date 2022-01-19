@@ -13,6 +13,8 @@ block content
 					autocomplete="email"
 					required 
 					class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark")
+				if errors?.email
+					span(class="text-red-800 text-xs")=errors.email.msg
 			div 
 				label(for="username") Username
 				input(
@@ -24,6 +26,8 @@ block content
 					pattern="[0-9a-zA-Z]{1,20}" 
 					class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark")
 				span.text-xs Max 20 characters
+				if errors?.username
+					span(class="text-red-800 text-xs")=errors.username.msg
 			div 
 				label(for="password") Password
 				input(
@@ -36,6 +40,8 @@ block content
 					pattern="[0-9a-zA-Z]{12,100}"
 					)
 				span.text-xs 12 characters minimum, 100 maximum. Password can contain both upper and lower case letters, and numbers.
+				if errors?.password
+					span(class="text-red-800 text-xs")=errors.password.msg
 			input(
 				type="submit" 
 				value="Submit" 

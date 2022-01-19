@@ -38,7 +38,7 @@ block content
 									) Set TempBan
 							-let dateConfig = {dateStyle:"short", timeStyle:"short" }
 							time#latest-visit(class="text-xs")= u.latest_visit ? "Visited " + u.latest_visit.toLocaleString("en-US", dateConfig) : "Never visited"
-							time#created(class="text-xs")= u.created_at ? "Created " + u.created_at.toLocaleString("en-US", dateConfig) : "No creation date"
+							time#created(class="text-xs justify-self-end")= u.created_at ? "Created " + u.created_at.toLocaleString("en-US", dateConfig) : "No creation date"
 			a(href="#dashboardNavigation" class="hover:text-light text-brown text-xs") Back to the top	
 		section.p-4.w-full
 			header#posts.font-fraktur.mb-4 Posts

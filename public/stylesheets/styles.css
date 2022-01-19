@@ -689,6 +689,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   align-self: center;
 }
 
+.justify-self-end{
+  justify-self: end;
+}
+
 .whitespace-pre-line{
   white-space: pre-line;
 }
@@ -819,6 +823,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-left: 0.75rem;
 }
 
+.pb-4{
+  padding-bottom: 1rem;
+}
+
 .font-fraktur{
   font-family: UnifrakturCook, cursive;
 }
@@ -864,6 +872,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-dark{
   --tw-text-opacity: 1;
   color: rgb(21 28 31 / var(--tw-text-opacity));
+}
+
+.text-red-800{
+  --tw-text-opacity: 1;
+  color: rgb(153 27 27 / var(--tw-text-opacity));
 }
 
 .text-main{

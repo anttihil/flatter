@@ -6,7 +6,7 @@ export async function boardAppLocals(app) {
     const result = await selectBoards();
     const boards = result.map((object) => object.name);
     app.locals.boards = boards;
-    log.info("Boards set in locals:", app.locals.boards);
+    log.info(`Boards set in locals: ${app.locals.boards.join(", ")}`);
   } catch (error) {
     log.error(error);
   }

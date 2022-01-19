@@ -11,6 +11,7 @@ import {
   updateComment,
   deleteComment,
 } from "../services/boardService.js";
+import { validationResult } from "express-validator";
 
 /* 
 Controller naming conventions:
@@ -31,9 +32,11 @@ with names of service functions.
 // deal with both replies to posts and to other comments
 export const createComment = async (req, res, next) => {
   try {
-    /* let commentId;
-    if (!req.params.commentId) commentId = "NULL";
-    else commentId = req.params.commentId; */
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("readPost", { errors: errors.mapped() });
+    }
+
     const commentId = await insertComment(
       req.user.id,
       req.params.postId,
@@ -55,6 +58,11 @@ export const createPost = async (req, res, next) => {
   // Then redirect to the landing page
   // remember to change the landing page to include a success modal with hidden class switch
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("createPost", { errors: errors.mapped() });
+    }
+
     log.info(
       `User #${req.user.username} is creating a post in ${req.body.board}`
     );
@@ -75,6 +83,11 @@ export const createPost = async (req, res, next) => {
 // requires authorization
 export const editComment = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("readPost", { errors: errors.mapped() });
+    }
+
     log.info(`Updating comment #${req.params.commentId}`);
     const commentId = await updateComment(req.params.commentId, req.body.text);
     log.info(`Updated comment #${commentId}`);
@@ -87,6 +100,11 @@ export const editComment = async (req, res, next) => {
 // requires authorization
 export const editPost = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("readPost", { errors: errors.mapped() });
+    }
+
     log.info(
       `Updating post #${req.params.postId}, title:${req.body.title}, image: ${req.body.image}, text:${req.body.text}`
     );

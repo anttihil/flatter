@@ -3,177 +3,173 @@ extends layout
 block pageScript
 	script(defer src="/javascripts/readPost.js")
 block content
-	-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
-	+card(
-		id="post"
-		class="scroll-mt-8"
-		)
-		header#postTitle
-			span.px-2.font-sans= post.title
-			span(class="bg-gray text-xs text-dark rounded hover:bg-light hover:text-gray")=post.is_locked ? "Locked" : ""
-		section#postText( 
-			class="px-2 py-1 font-serif text-sm whitespace-pre-line"
-			)= post.text 
-		footer.px-2.py-1.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
-			div.flex.space-x-2
-			div.flex.space-x-2
-				if (user && user.role === "admin")
-					form(action=post.id + "/lock" method="post")
-						button(type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray")=post.is_locked ? "Unlock" : "Lock"
-					form(action=post.id + "/remove" method="post")
-						button(type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray") Delete
-				if user && (user.id === post.user_id || user.role === "admin")
-					a(
-						href="#editPostForm"
-						data-action-type="editPost" 
-						data-post-id=post.id
-						class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
-						) Edit 
-				if user
-					a(
-						href="#commentForm"
-						data-action-type="commentPost"
-						data-post-id=post.id
-						class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
-						) Comment	
-				if post.last_changed_at
-					-let date
-					-date = post.last_changed_at.toLocaleString("en-US", dateConfig)
+	if errors
+		+card(id="errorCard" class="scroll-mt-8")
+			for field, key in errors
+				header.self-center.text-lg.font-fraktur.p-2 Errors in form input
+				span(class="self-center text-red-800 font-sans text-sm pb-4")=key + ": " + field.msg
+	if post
+		+card(
+			id="post"
+			class="scroll-mt-8"
+			)
+			header#postTitle
+				span.px-2.font-sans= post.title
+				span(class="bg-gray text-xs text-dark rounded hover:bg-light hover:text-gray")=post.is_locked ? "Locked" : ""
+			section#postText( 
+				class="px-2 py-1 font-serif text-sm whitespace-pre-line"
+				)= post.text 
+			footer.px-2.py-1.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
+				div.flex.space-x-2
+				div.flex.space-x-2
+					if (user && user.role === "admin")
+						form(action=post.id + "/lock" method="post")
+							button(type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray")=post.is_locked ? "Unlock" : "Lock"
+						form(action=post.id + "/remove" method="post")
+							button(type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray") Delete
+					if user && (user.id === post.user_id || user.role === "admin")
+						a(
+							href="#editPostForm"
+							data-action-type="editPost" 
+							data-post-id=post.id
+							class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
+							) Edit 
+					if user
+						a(
+							href="#commentForm"
+							data-action-type="commentPost"
+							data-post-id=post.id
+							class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
+							) Comment	
 					.space-x-1
+						-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
 						span=post.username
-						time="edited on " + date
-				else 
-					-let date
-					-date = post.created_at.toLocaleString("en-US", dateConfig)
-					.space-x-1
-						span=post.username
-						time="on " + date
-	if comments
-		for comment in comments 
-			+card(
-				id="comment" + comment.id
-				class="scroll-mt-8"
-				)
-				section.text-sm.font-serif
-					a(
-						href=comment.reference_id ? "#comment" + comment.reference_id : "#post"
-						class="text-main text-xs hover:text-red-800"
-					)  
-						i=comment.reference_id ? "@" + comment.reference_author : "@" + post.username
-					section(
-						id="commentText" + comment.id 
-						class="inline px-2 font-serif text-sm"
-						)= comment.text 
-				footer.px-2.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
-					div.flex.space-x-2
-					div.flex.space-x-2
-						if (user && user.role === "admin")
-							form(action=post.id + "/comment/" + comment.id +"/remove" method="post")
-								button(type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray") Delete
-						if (user && (user.id === comment.user_id || user.role === "admin"))
-							a(
-								href="#editCommentForm"
-								data-action-type="editComment" 
-								data-post-id=post.id 
-								data-comment-id=comment.id
-								class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
-								) Edit
-						if user
-							a(
-								href="#commentForm"
-								data-action-type="commentComment" 
-								data-post-id=post.id 
-								data-comment-id=comment.id
-								class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
-								) Comment
-						if comment.last_changed_at
-							-let date
-							-date = comment.last_changed_at.toLocaleString("en-US", dateConfig)
-							.space-x-1
-								span=comment.username
-								time="edited on " + date
-						else 
-							-let date
-							-date = comment.created_at.toLocaleString("en-US", dateConfig)
-							.space-x-1
-								span=comment.username
-								time="on " + date
-	+card(id="editPostForm" class="scroll-mt-8 hidden")
-			form(
-				action="" 
-				method="post"
-				class="flex flex-col space-y-2 mt-2 font-serif"
-				name="editPostForm"
-				)
-				div 
-					label(for="editPostTitle") Edit Title:
-					input(
-						type="text" 
-						id="editPostTitle"
-						name="title" 
-						value="" 
-						required 
-						class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
-						)
-				div 
-					label(for="editImage") Edit Image URL:
-					input(
-							type="url" 
-							id="editImage"
-							name="image"
-							value=post.image 
-							class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
-							)
-				div 
-					label(for="editPostText") Edit Text:  
-					textarea(
-						id="editPostText" 
-						name="text" 
-						cols="30" 
-						rows="10" 
-						required 
-						class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
-						)=""
-				div.flex.justify-end.space-x-2 
-					+bigButton("submit", "Submit")
-					+bigButton("button", "Cancel")(data-action-type="hideForm" data-form-type="editPost") 
-	+card(id="editCommentForm" class="scroll-mt-8 hidden")
+						time=post.last_changed_at ? "edited on " + post.last_changed_at.toLocaleString("en-US", dateConfig) : "on " + post.created_at.toLocaleString("en-US", dateConfig)
+		if comments
+			for comment in comments 
+				+card(
+					id="comment" + comment.id
+					class="scroll-mt-8"
+					)
+					section.text-sm.font-serif
+						a(
+							href=comment.reference_id ? "#comment" + comment.reference_id : "#post"
+							class="text-main text-xs hover:text-red-800"
+						)  
+							i=comment.reference_id ? "@" + comment.reference_author : "@" + post.username
+						section(
+							id="commentText" + comment.id 
+							class="inline px-2 font-serif text-sm"
+							)= comment.text 
+					footer.px-2.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
+						div.flex.space-x-2
+						div.flex.space-x-2
+							if (user && user.role === "admin")
+								form(action=post.id + "/comment/" + comment.id +"/remove" method="post")
+									button(type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray") Delete
+							if (user && (user.id === comment.user_id || user.role === "admin"))
+								a(
+									href="#editCommentForm"
+									data-action-type="editComment" 
+									data-post-id=post.id 
+									data-comment-id=comment.id
+									class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
+									) Edit
+							if user
+								a(
+									href="#commentForm"
+									data-action-type="commentComment" 
+									data-post-id=post.id 
+									data-comment-id=comment.id
+									class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
+									) Comment
+						.space-x-1
+							-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
+							span=comment.username
+							time=comment.last_changed_at ? "edited on " + comment.last_changed_at.toLocaleString("en-US", dateConfig) : "on " + comment.created_at.toLocaleString("en-US", dateConfig)
+		+card(id="editPostForm" class="scroll-mt-8 hidden")
 				form(
 					action="" 
-					method="post" 
-					class="flex flex-col space-y-2 mt-2 font-serif"
-					name="editCommentForm"
-					)
-					div 
-						label(for="editCommentText") Edit Comment:  
-						textarea(
-							id="editCommentText" 
-							name="text" 
-							cols="30" 
-							rows="10"
-							required 
-							class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
-						)
-					div.flex.justify-end.space-x-2 
-						+bigButton("submit", "Submit")
-						+bigButton("button", "Cancel")(data-action-type="hideForm" data-form-type="editComment") 
-	+card(id="commentForm" class="scroll-mt-8 hidden") 
-				form(
-					action=""
 					method="post"
 					class="flex flex-col space-y-2 mt-2 font-serif"
-					name="commentForm"
+					name="editPostForm"
 					)
 					div 
-						label(for="commentText") Comment:  
+						label(for="editPostTitle") Edit Title:
+						input(
+							type="text" 
+							id="editPostTitle"
+							name="title" 
+							value="" 
+							required
+							spellcheck="true"
+							maxlength="150" 
+							class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
+							)
+					div 
+						label(for="editImage") Edit Image URL:
+						input(
+								type="url" 
+								id="editImage"
+								name="image"
+								value="" 
+								class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
+								)
+					div 
+						label(for="editPostText") Edit Text:  
 						textarea(
-							id="commentText" 
+							id="editPostText" 
 							name="text" 
 							cols="30" 
 							rows="10" 
-							required 
+							required
+							spellcheck="true"
+							maxlength="60000" 
 							class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
-						)
+							)=""
 					div.flex.justify-end.space-x-2 
 						+bigButton("submit", "Submit")
-						+bigButton("button", "Cancel")(data-action-type="hideForm" data-form-type="comment")  
+						+bigButton("button", "Cancel")(data-action-type="hideForm" data-form-type="editPost") 
+		+card(id="editCommentForm" class="scroll-mt-8 hidden")
+					form(
+						action="" 
+						method="post" 
+						class="flex flex-col space-y-2 mt-2 font-serif"
+						name="editCommentForm"
+						)
+						div 
+							label(for="editCommentText") Edit Comment:  
+							textarea(
+								id="editCommentText" 
+								name="text" 
+								cols="30" 
+								rows="10"
+								required
+								spellcheck="true"
+								maxlength="60000" 
+								class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
+							)
+						div.flex.justify-end.space-x-2 
+							+bigButton("submit", "Submit")
+							+bigButton("button", "Cancel")(data-action-type="hideForm" data-form-type="editComment") 
+		+card(id="commentForm" class="scroll-mt-8 hidden") 
+					form(
+						action=""
+						method="post"
+						class="flex flex-col space-y-2 mt-2 font-serif"
+						name="commentForm"
+						)
+						div 
+							label(for="commentText") Comment:  
+							textarea(
+								id="commentText" 
+								name="text" 
+								cols="30" 
+								rows="10" 
+								required
+								maxlength="60000" 
+								class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
+							)
+						div.flex.justify-end.space-x-2 
+							+bigButton("submit", "Submit")
+							+bigButton("button", "Cancel")(data-action-type="hideForm" data-form-type="comment")  

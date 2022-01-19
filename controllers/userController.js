@@ -7,6 +7,7 @@ import {
 } from "../services/userService.js";
 import { hash } from "argon2";
 import log from "../config/logging.js";
+import { validationResult } from "express-validator";
 
 /* 
 Controller naming conventions:
@@ -49,6 +50,11 @@ export async function setUserTempBan(req, res, next) {
 
 export const createUser = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("register", { errors: errors.mapped() });
+    }
+
     log.info(`Creating user ${req.body.username}`);
     const hashedPassword = await hash(req.body.password);
     const username = await insertUser(
