@@ -1,13 +1,5 @@
 import db from "../config/db.js";
 
-/* 
-Naming conventions for database services:
-Creating a resource: insertX
-Reading a resource: selectY
-Update a resource: updateZ
-Deleting a resource: deleteW
-*/
-
 export function insertUser(email, password, username, role) {
   return db.one(
     `INSERT INTO users(email, password, username, role) 

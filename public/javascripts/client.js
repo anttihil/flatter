@@ -1,3 +1,5 @@
+"use strict";
+
 const navOverlay = document.getElementById("navOverlay");
 const headerMenu = document.getElementById("headerMenu");
 const navbar = document.getElementById("navbar");

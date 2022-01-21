@@ -1,3 +1,5 @@
+"use strict";
+
 const postContainer = document.getElementById("main");
 const commentForm = document.getElementById("commentForm");
 const editPostForm = document.getElementById("editPostForm");

@@ -1,17 +1,15 @@
 import { Router } from "express";
 import { isAdmin, isUser } from "../middleware/authorization.js";
-import {
-  readAdminDashboard,
-  readForgotPasswordPage,
-  readUserDashboard,
-  readLoginPage,
-  readRegisterPage,
-  readRegisterSuccess,
-  logoutUser,
-  createUser,
-  toggleUserBan,
-  setUserTempBan,
-} from "../controllers/userController.js";
+import readAdminDashboard from "../controllers/user/readAdminDashboard.js";
+import readForgotPasswordPage from "../controllers/user/readForgotPasswordPage.js";
+import readUserDashboard from "../controllers/user/readUserDashboard.js";
+import readLoginPage from "../controllers/user/readLoginPage.js";
+import readRegisterPage from "../controllers/user/readRegisterPage.js";
+import readRegisterSuccess from "../controllers/user/readRegisterSuccess.js";
+import logoutUser from "../controllers/user/logoutUser.js";
+import createUser from "../controllers/user/createUser.js";
+import toggleUserBan from "../controllers/user/toggleUserBan.js";
+import setUserTempBan from "../controllers/user/setUserTempBan.js";
 import { selectEmail, selectUsername } from "../services/userService.js";
 import passport from "passport";
 import { body } from "express-validator";
