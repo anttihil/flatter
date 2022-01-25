@@ -1,4 +1,4 @@
-import db from "../config/db.js";
+import db, { pgp } from "../config/db.js";
 
 export function deletePost(postId) {
   return db.one(
@@ -29,6 +29,18 @@ export function insertComment(userId, postId, text, referenceId) {
     [userId, postId, text, referenceId],
     (a) => a.id
   );
+}
+/* 
+Insert helper constructs a multi-row query string that has a custom quantity of columns and values
+It needs as its parameter an array of objects which keys are column names and values are row values.
+[{id: X1, user_id: Y1}, {id:X2, user_id:Y2},...]
+*/
+export function insertImages(imageIds, userId, postId) {
+  const dataObjectArr = imageIds.map((id) => {
+    return { id, user_id: userId, post_id: postId };
+  });
+  const queryString = db.helpers.insert(dataObjectArr, null, "images");
+  return db.many(queryString + "RETURNING id");
 }
 
 // image is an optional parameter

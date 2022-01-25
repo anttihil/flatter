@@ -8,7 +8,7 @@ block content
 		+formCard 
 			div.flex.flex-col.h-8.items-center.text-xl.font-fraktur.text-light
 				header Create a Post  
-			form#postForm(class="flex flex-col space-y-2 font-serif w-full text-sm text-light focus:outline-none focus:ring focus:ring-brown" )
+			form#postForm(action="" enctype="multipart/form-data" method="post" class="flex flex-col space-y-2 font-serif w-full text-sm text-light focus:outline-none focus:ring focus:ring-brown" )
 				.pt-2  
 					label(for="selectBoard") Select Board:
 					select#selectBoard(
@@ -30,7 +30,7 @@ block content
 					span.text-xs Max length 150 characters.
 				div 
 					label#imageLabel(for="imageInput") Choose an Image: .jpg, .gif, or .png 
-					input#imageInput(type="file" name="image" accept="image/jpg, image/jpeg, image/png, image/gif" class="opacity-0 focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark")
+					input#imageInput(type="file" name="image" accept="image/jpg, image/jpeg, image/png, image/gif, image/webp, image/avif" class="opacity-0 focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark")
 				#imagePreview
     			p No files currently selected for upload
 				div 

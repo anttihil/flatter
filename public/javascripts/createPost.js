@@ -16,6 +16,7 @@ const fileTypes = [
   "image/jpg",
   "image/png",
   "image/webp",
+  "image/avif",
 ];
 
 postForm.addEventListener("submit", upload);

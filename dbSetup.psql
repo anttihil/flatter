@@ -66,6 +66,20 @@ CREATE TABLE IF NOT EXISTS comments
     PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS images
+(
+    id UUID NOT NULL,
+    user_id INT,
+    post_id INT,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+    FOREIGN KEY (user_id)
+        REFERENCES users (id) 
+        ON DELETE SET NULL,
+    FOREIGN KEY (post_id)
+        REFERENCES posts (id) 
+        ON DELETE SET NULL,
+);
+
 CREATE TABLE "session" (
   "sid" varchar NOT NULL COLLATE "default",
 	"sess" json NOT NULL,
