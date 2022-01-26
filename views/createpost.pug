@@ -1,47 +1,46 @@
 extends layout 
 
 block pageScript
-	script(defer type="text/javascript" src="https://unpkg.com/imagekit-javascript/dist/imagekit.min.js")
 	script(defer type="text/javascript" src="/javascripts/createPost.js")
 	
 block content 
-		+formCard 
-			div.flex.flex-col.h-8.items-center.text-xl.font-fraktur.text-light
-				header Create a Post  
-			form#postForm(action="" enctype="multipart/form-data" method="post" class="flex flex-col space-y-2 font-serif w-full text-sm text-light focus:outline-none focus:ring focus:ring-brown" )
-				.pt-2  
-					label(for="selectBoard") Select Board:
-					select#selectBoard(
-						name="board" 
-						required 
-						class="shadow w-full bg-light text-dark p-1"
-					)
-						for board in boards 
-							option(value=board).text-dark=board
-				div 
-					label(for="titleInput") Title:
-					input#titleInput(
-						type="text" 
-						name="title" 
-						required 
-						placeholder=" Title text"
-						maxlength="150" 
-						class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark")
-					span.text-xs Max length 150 characters.
-				div 
-					label#imageLabel(for="imageInput") Choose an Image: .jpg, .gif, or .png 
-					input#imageInput(type="file" name="image" accept="image/jpg, image/jpeg, image/png, image/gif, image/webp, image/avif" class="opacity-0 focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark")
-				#imagePreview
-    			p No files currently selected for upload
-				div 
-					label(for="textInput") Text:  
-					textarea#textInput(
-					name="text" 
-					cols="30" 
-					rows="10" 
-					placeholder=" Your post content here." 
-					maxlength="60000"
-					spellcheck="true"
-					class="focus:outline-none focus:ring focus:ring-brown  bg-light text-dark shadow w-full"
-					)
-				+bigButton("submit", "Submit")
+	+formCard 
+		div.flex.flex-col.h-8.items-center.text-xl.font-fraktur.text-light
+			header Create a Post  
+		form#postForm(action="" enctype="multipart/form-data" method="post" class="flex flex-col space-y-2 font-serif w-full text-sm text-light focus:outline-none focus:ring focus:ring-brown" )
+			.pt-2  
+				label(for="selectBoard") Select Board:
+				select#selectBoard(
+					name="board" 
+					required 
+					class="shadow w-full bg-light text-dark p-1"
+				)
+					for board in boards 
+						option(value=board).text-dark=board
+			div 
+				label(for="titleInput") Title:
+				input#titleInput(
+					type="text" 
+					name="title" 
+					required 
+					placeholder=" Title text"
+					maxlength="150" 
+					class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark")
+				span.text-xs Max length 150 characters.
+			div 
+				label#imageLabel(for="imageInput") Choose an Image: .jpg, .gif, or .png 
+				input#imageInput(type="file" name="image" accept="image/jpg, image/jpeg, image/png, image/gif, image/webp, image/avif" class="opacity-0 focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark")
+			#imagePreview
+				p No files currently selected for upload
+			div 
+				label(for="textInput") Text:  
+				textarea#textInput(
+				name="text" 
+				cols="30" 
+				rows="10" 
+				placeholder=" Your post content here." 
+				maxlength="60000"
+				spellcheck="true"
+				class="focus:outline-none focus:ring focus:ring-brown  bg-light text-dark shadow w-full"
+				)
+			+bigButton("submit", "Submit")

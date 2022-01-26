@@ -10,10 +10,8 @@ Access ID and secret are generated in the section
 "API" > "Spaces Access Keys" on your DigitalOcean user page.
 */
 const s3Client = new S3({
-  endpoint: "https://nyc3.digitaloceanspaces.com",
+  endpoint: process.env.SPACES_ENDPOINT,
   region: "us-east-1",
-  accessKeyId: process.env.SPACES_ACCESS_ID,
-  secretAccessKey: process.env.SPACES_SECRET_KEY,
 });
 
 export default s3Client;

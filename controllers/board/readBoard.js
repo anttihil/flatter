@@ -1,7 +1,7 @@
 import log from "../../config/logging.js";
 import { selectPosts } from "../../services/boardService.js";
 
-export async function readBoard(req, res, next) {
+export default async function readBoard(req, res, next) {
   try {
     let boardList = [];
     if (req.params.boardName === "all") {

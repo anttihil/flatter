@@ -1,4 +1,4 @@
-import db, { pgp } from "../config/db.js";
+import db from "../config/db.js";
 
 export function deletePost(postId) {
   return db.one(
@@ -44,7 +44,7 @@ export function insertImages(imageIds, userId, postId) {
 }
 
 // image is an optional parameter
-export function insertPost(boardName, userId, title, text, image) {
+export function insertPost(boardName, userId, title, text) {
   return db.tx(async (t) => {
     const result1 = await t.one(
       `SELECT id
@@ -54,10 +54,10 @@ export function insertPost(boardName, userId, title, text, image) {
       (a) => a.id
     );
     const result2 = await t.one(
-      `INSERT INTO posts(user_id, board_id, title, text, image_url)
-      VALUES ($1, $2, $3, $4, $5)
+      `INSERT INTO posts(user_id, board_id, title, text)
+      VALUES ($1, $2, $3, $4)
       RETURNING id`,
-      [userId, result1, title, text, image],
+      [userId, result1, title, text],
       (a) => a.id
     );
     return result2;

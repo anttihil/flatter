@@ -1,14 +1,5 @@
-"use strict";
-
-const imagekit = new ImageKit({
-  publicKey: "your_public_key",
-  urlEndpoint: "your_url_endpoint", // https://ik.imagekit.io/your_imagekit_id
-  authenticationEndpoint: "http://localhost:3000/signature",
-});
-
-const postForm = getElementById("postForm");
-const imagePreview = getElementById("postFOrm");
-const imageInput = getElementById("imageInput");
+const preview = document.getElementById("imagePreview");
+const imageInput = document.getElementById("imageInput");
 
 const fileTypes = [
   "image/gif",
@@ -18,9 +9,6 @@ const fileTypes = [
   "image/webp",
   "image/avif",
 ];
-
-postForm.addEventListener("submit", upload);
-// Upload function internally uses the ImageKit.io javascript SDK
 
 imageInput.addEventListener("change", updateImageDisplay);
 
@@ -58,25 +46,6 @@ function updateImageDisplay() {
       list.appendChild(listItem);
     }
   }
-}
-
-function upload(e) {
-  e.preventDefault();
-  imagekit.upload(
-    {
-      file: imageInput.files[0],
-      fileName: imageInput.files[0].name || "image.jpg",
-    },
-    function (err, result) {
-      if (err) {
-        alert("Error in file upload. Check console logs for error response");
-        console.log(err);
-      } else {
-        alert("File uploaded. Check console logs for success response");
-        console.log(result);
-      }
-    }
-  );
 }
 
 function validFileType(file) {

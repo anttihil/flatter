@@ -1,4 +1,5 @@
 import sharp from "sharp";
+import log from "../config/logging.js";
 
 export default async function resizeImages(req, res, next) {
   try {
@@ -18,8 +19,7 @@ export default async function resizeImages(req, res, next) {
         return { thumbnail, original };
       })
     );
-    log.info(`The images have been processed.`);
-
+    log.info(`The images have been resized and compressed.`);
     next();
   } catch (error) {
     next(error);

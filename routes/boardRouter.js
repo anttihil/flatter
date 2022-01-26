@@ -1,16 +1,16 @@
 import { Router } from "express";
-import {
-  readPostAndComments,
-  readCreatePost,
-  createPost,
-  editPost,
-  removePost,
-  toggleLockPost,
-  createComment,
-  removeComment,
-  editComment,
-  readBoard,
-} from "../controllers/boardController.js";
+import createComment from "../controllers/board/createComment.js";
+import createPost, {
+  processValidationErrorsForCreatePost,
+} from "../controllers/board/createPost.js";
+import editComment from "../controllers/board/editComment.js";
+import editPost from "../controllers/board/editPost.js";
+import readBoard from "../controllers/board/readBoard.js";
+import readCreatePost from "../controllers/board/readCreatePost.js";
+import readPostAndComments from "../controllers/board/readPostAndComments.js";
+import removeComment from "../controllers/board/removeComment.js";
+import removePost from "../controllers/board/removePost.js";
+import toggleLockPost from "../controllers/board/toggleLockPost.js";
 import {
   isUser,
   isAdmin,
@@ -18,6 +18,10 @@ import {
   isPostOwner,
 } from "../middleware/authorization.js";
 import { body } from "express-validator";
+import uploadPostForm from "../middleware/uploadPostForm.js";
+import checkFileType from "../middleware/checkFileContent.js";
+import resizeImages from "../middleware/resizeImages.js";
+import uploadToSpaces from "../middleware/uploadToSpaces.js";
 
 const boardRouter = Router();
 
@@ -30,9 +34,19 @@ boardRouter
   .get(readCreatePost)
   .post(
     isUser,
+    uploadPostForm,
     body("title").isLength({ max: 150 }),
-    body("image_url").isURL(),
+    body("board").custom((value, { req }) => {
+      if (!req.app.locals.boards.includes(value)) {
+        throw new Error("The board you selected does not exist.");
+      }
+      return true;
+    }),
     body("text").isLength({ max: 60000 }),
+    processValidationErrorsForCreatePost,
+    checkFileType,
+    resizeImages,
+    uploadToSpaces,
     createPost
   );
 boardRouter.route("/post/:postId(\\d+)").get(readPostAndComments);

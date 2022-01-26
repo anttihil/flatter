@@ -3,9 +3,14 @@ import { validationResult } from "express-validator";
 import { insertPost } from "../../services/boardService.js";
 
 export function processValidationErrorsForCreatePost(req, res, next) {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).render("createPost", { errors: errors.mapped() });
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("createPost", { errors: errors.mapped() });
+    }
+    next();
+  } catch (error) {
+    next(error);
   }
 }
 

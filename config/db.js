@@ -1,5 +1,7 @@
 import pgPromise from "pg-promise";
 
+const pgp = pgPromise();
+
 const connection = {
   host: process.env.PGHOST,
   port: process.env.PGPORT,
