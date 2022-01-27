@@ -10,8 +10,10 @@ export default async function readPostAndComments(req, res, next) {
     if (!result?.post) {
       next(createError(404, "The post was not found."));
     } else {
+      console.log(result.images);
       res.status(200).render("readPost", {
         post: result.post,
+        images: result.images,
         comments: result.comments,
       });
     }

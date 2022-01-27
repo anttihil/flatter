@@ -13,7 +13,7 @@ block content
 				select#selectBoard(
 					name="board" 
 					required 
-					class="shadow w-full bg-light text-dark p-1"
+					class="w-full bg-light text-dark p-1"
 				)
 					for board in boards 
 						option(value=board).text-dark=board
@@ -28,8 +28,8 @@ block content
 					class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark")
 				span.text-xs Max length 150 characters.
 			div 
-				label#imageLabel(for="imageInput") Choose an Image: .jpg, .gif, or .png 
-				input#imageInput(type="file" name="image" accept="image/jpg, image/jpeg, image/png, image/gif, image/webp, image/avif" class="opacity-0 focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark")
+				label#imageLabel(for="imageInput" class="hover:bg-light bg-gray p-1 border-2 border-dark border-opacity-50 font-serif text-xs text-dark ") Choose an Image: .jpg, .gif, or .png 
+				input#imageInput(type="file" name="image" accept="image/jpg, image/jpeg, image/png, image/gif, image/webp, image/avif" class="opacity-0 focus:outline-none ")
 			#imagePreview
 				p No files currently selected for upload
 			div 

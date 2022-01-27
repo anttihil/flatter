@@ -9,14 +9,15 @@ export default async function resizeImages(req, res, next) {
 
     req.body.images = await Promise.all(
       req.files.map(async (file) => {
-        const thumbnail = await sharp(file.buffer)
-          .resize({ width: 320, withoutEnlargement: true })
-          .webp()
-          .toBuffer();
-
         const original = await sharp(file.buffer).webp().toBuffer();
 
-        return { thumbnail, original };
+        const thumbnail = await sharp(original).resize({
+          width: 320,
+          height: 320,
+          fit: "inside",
+        });
+
+        return { original, thumbnail };
       })
     );
     log.info(`The images have been resized and compressed.`);

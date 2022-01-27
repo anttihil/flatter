@@ -11,13 +11,12 @@ export default async function editPost(req, res, next) {
     }
 
     log.info(
-      `Updating post #${req.params.postId}, title:${req.body.title}, image: ${req.body.image}, text:${req.body.text}`
+      `Updating post #${req.params.postId}, title:${req.body.title}, text:${req.body.text}`
     );
     const postId = await updatePost(
       req.params.postId,
       req.body.title,
-      req.body.text,
-      req.body.image
+      req.body.text
     );
     log.info(`Updated post #${postId}`);
     res.status(201).redirect("back");

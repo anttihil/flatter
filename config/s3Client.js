@@ -9,6 +9,7 @@ actually directed at.
 Access ID and secret are generated in the section 
 "API" > "Spaces Access Keys" on your DigitalOcean user page.
 */
+
 const s3Client = new S3({
   endpoint: process.env.SPACES_ENDPOINT,
   region: "us-east-1",

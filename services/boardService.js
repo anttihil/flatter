@@ -1,5 +1,5 @@
 import db from "../config/db.js";
-
+import { pgp } from "../config/db.js";
 export function deletePost(postId) {
   return db.one(
     `DELETE FROM posts
@@ -39,7 +39,11 @@ export function insertImages(imageIds, userId, postId) {
   const dataObjectArr = imageIds.map((id) => {
     return { id, user_id: userId, post_id: postId };
   });
-  const queryString = db.helpers.insert(dataObjectArr, null, "images");
+  const queryString = pgp.helpers.insert(
+    dataObjectArr,
+    ["id", "user_id", "post_id"],
+    "images"
+  );
   return db.many(queryString + "RETURNING id");
 }
 
@@ -81,27 +85,51 @@ export function selectPostandComments(postId) {
   // We use many queries in one transaction for a performance boost.
   return db.tx(async (t) => {
     const post = await t.oneOrNone(
-      `SELECT p.id, p.title, p.text, p.user_id, u.username, p.created_at, p.last_changed_at, p.is_locked
-        FROM posts p
-        INNER JOIN users u 
-          ON u.id = p.user_id
-        WHERE p.id = $1`,
+      `
+      SELECT 
+        p.id, 
+        p.title, 
+        p.text, 
+        p.user_id,
+        p.created_at, 
+        p.last_changed_at, 
+        p.is_locked,
+        u.username
+      FROM posts p
+      INNER JOIN users u 
+        ON u.id = p.user_id
+      WHERE p.id = $1`,
+      [postId]
+    );
+    const images = await t.any(
+      `SELECT id 
+        FROM images
+        WHERE post_id = $1`,
       [postId]
     );
     const comments = await t.any(
-      `SELECT c.id, c.text, c.user_id, u.username, c.created_at, c.last_changed_at, c.reference_id, s.username AS reference_author
-        FROM comments c
-        LEFT JOIN comments r
-          ON c.reference_id = r.id
-        INNER JOIN users u
-          ON u.id = c.user_id
-        LEFT JOIN users s
-          ON s.id = r.user_id
-        WHERE c.post_id = $1
-        ORDER BY c.created_at ASC;`,
+      `
+      SELECT 
+        c.id, 
+        c.text, 
+        c.user_id, 
+        c.created_at, 
+        c.last_changed_at, 
+        c.reference_id,
+        u.username, 
+        s.username AS reference_author
+      FROM comments c
+      LEFT JOIN comments r
+        ON c.reference_id = r.id
+      INNER JOIN users u
+        ON u.id = c.user_id
+      LEFT JOIN users s
+        ON s.id = r.user_id
+      WHERE c.post_id = $1
+      ORDER BY c.created_at ASC;`,
       [postId]
     );
-    return { post, comments };
+    return { post, images, comments };
   });
 }
 
@@ -117,28 +145,41 @@ export function selectPostOwner(postId) {
 // if sort == "active" we can select first from comments
 export function selectPosts(boardList, page, sort) {
   return db.any(
-    `SELECT b.name AS board, p.id, LEFT(p.title, 150) AS title, LEFT(p.text, 150) AS text, p.user_id as userId, u.username, p.last_changed_at, p.created_at, p.is_locked
-    FROM posts p
-    INNER JOIN boards b 
+    `SELECT 
+      p.id, 
+      LEFT(p.title, 150) AS title, 
+      LEFT(p.text, 150) AS text, 
+      p.user_id AS userId,  
+      p.last_changed_at, 
+      p.created_at, 
+      p.is_locked,
+      u.username,
+      b.name AS board, 
+      array_agg(i.id) AS images 
+    FROM posts AS p
+    INNER JOIN boards AS b 
       ON p.board_id = b.id 
-    INNER JOIN users u 
-      ON u.id = p.user_id 
-    WHERE b.name IN ($1:list) 
-    ORDER BY p.created_at DESC LIMIT 100 OFFSET $2`,
+    INNER JOIN users AS u 
+      ON u.id = p.user_id
+    LEFT JOIN images AS i
+      ON p.id = i.post_id
+    WHERE b.name IN ($1:list)
+    GROUP BY p.id, b.name, u.username 
+    ORDER BY p.created_at DESC LIMIT 100 OFFSET $2
+    `,
     [boardList, page]
   );
 }
 
 // image is optional
-export function updatePost(postId, title, text, image) {
+export function updatePost(postId, title, text) {
   return db.one(
     `UPDATE posts
     SET title=$1,
-        image_url=$2,
-        text=$3
-    WHERE id=$4
+        text=$2
+    WHERE id=$3
     RETURNING id`,
-    [title, image, text, postId],
+    [title, text, postId],
     (a) => a.id
   );
 }

@@ -8,7 +8,6 @@ import helmet from "helmet";
 import passportSetup from "./config/passport.js";
 import passport from "passport";
 import db from "./config/db.js";
-import dotenv from "dotenv";
 import { adminSetup } from "./config/adminSetup.js";
 import {
   passportMsgLocals,
@@ -16,8 +15,6 @@ import {
 } from "./middleware/locals.js";
 import { boardAppLocals } from "./config/appLocals.js";
 import createError from "http-errors";
-
-dotenv.config({ path: "./.env" });
 
 /* A convenience feature that makes sure that there is an admin user.
 Settings are in the .env file. */
@@ -76,6 +73,7 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
+  log.error(err);
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 

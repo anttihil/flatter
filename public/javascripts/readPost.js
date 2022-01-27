@@ -110,7 +110,7 @@ window.addEventListener("hashchange", function () {
     return;
 
   let hashEl = document.querySelector(hash);
-  hashEl.classList.add("bg-main");
+  hashEl.classList.add("bg-gray");
 
   //removes the contrast background CSS AKA produces a visual flash
   //empties the location hash so user can flash the same message twice in a row
@@ -118,7 +118,7 @@ window.addEventListener("hashchange", function () {
     clearTimeout(timer);
   }
   timer = setTimeout(function () {
-    hashEl.classList.remove("bg-main");
+    hashEl.classList.remove("bg-gray");
     history.pushState(null, null, " ");
   }, 300);
 });

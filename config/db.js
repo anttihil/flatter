@@ -1,6 +1,6 @@
 import pgPromise from "pg-promise";
 
-const pgp = pgPromise();
+export const pgp = pgPromise({ capSQL: true });
 
 const connection = {
   host: process.env.PGHOST,
@@ -9,9 +9,8 @@ const connection = {
   user: process.env.PGUSER,
   password: process.env.PGPASSWORD,
   allowExitOnIdle: true,
-  capSQL: true,
 };
 
-export const db = pgp(connection);
+const db = pgp(connection);
 
 export default db;

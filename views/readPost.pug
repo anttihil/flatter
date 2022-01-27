@@ -13,12 +13,15 @@ block content
 			id="post"
 			class="scroll-mt-8"
 			)
-			header#postTitle
-				span.px-2.font-sans= post.title
+			header
+				span#postTitle.px-2.font-sans= post.title
 				span(class="bg-gray text-xs text-dark rounded hover:bg-light hover:text-gray")=post.is_locked ? "Locked" : ""
-			section#postText( 
-				class="px-2 py-1 font-serif text-sm whitespace-pre-line"
-				)= post.text 
+			section( 
+				class="p-2"
+				)
+				a(href="/image/" + images[0].id class="float-left inline mr-2 mb-2 hover:outline hover:outline-brown")
+					img(src="https://images.aihio.org/thumbnail/" + images[0].id + ".webp" class=" max-w-screen-sm")
+				section#postText(class="font-serif text-sm whitespace-pre-line")= post.text 
 			footer.px-2.py-1.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
 				div.flex.space-x-2
 				div.flex.space-x-2
@@ -106,15 +109,6 @@ block content
 							maxlength="150" 
 							class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
 							)
-					div 
-						label(for="editImage") Edit Image URL:
-						input(
-								type="url" 
-								id="editImage"
-								name="image"
-								value="" 
-								class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
-								)
 					div 
 						label(for="editPostText") Edit Text:  
 						textarea(

@@ -1,6 +1,6 @@
 import log from "../../config/logging.js";
 import { validationResult } from "express-validator";
-import { insertPost } from "../../services/boardService.js";
+import { insertImages, insertPost } from "../../services/boardService.js";
 
 export function processValidationErrorsForCreatePost(req, res, next) {
   try {

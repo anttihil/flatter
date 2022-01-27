@@ -18,6 +18,7 @@ export default async function readBoard(req, res, next) {
       )}, page: ${page}, sort: ${sort}`
     );
     const posts = await selectPosts(boardList, page, sort);
+    console.log(posts);
     res.status(200).render("index", { posts: posts });
   } catch (error) {
     next(error);

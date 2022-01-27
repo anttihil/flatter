@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap");
 
 /*
-! tailwindcss v3.0.12 | MIT License | https://tailwindcss.com
+! tailwindcss v3.0.16 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -511,6 +511,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   z-index: 10;
 }
 
+.float-left{
+  float: left;
+}
+
 .my-2{
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -580,8 +584,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 100%;
 }
 
+.w-24{
+  width: 6rem;
+}
+
 .w-32{
   width: 8rem;
+}
+
+.max-w-screen-sm{
+  max-width: 640px;
 }
 
 .flex-none{
@@ -722,28 +734,32 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-color: rgb(144 130 108 / var(--tw-border-opacity));
 }
 
+.border-dark{
+  --tw-border-opacity: 1;
+  border-color: rgb(21 28 31 / var(--tw-border-opacity));
+}
+
 .border-main{
   --tw-border-opacity: 1;
   border-color: rgb(135 147 133 / var(--tw-border-opacity));
+}
+
+.border-opacity-50{
+  --tw-border-opacity: 0.5;
 }
 
 .border-opacity-70{
   --tw-border-opacity: 0.7;
 }
 
-.bg-main{
+.bg-gray{
   --tw-bg-opacity: 1;
-  background-color: rgb(135 147 133 / var(--tw-bg-opacity));
+  background-color: rgb(127 132 127 / var(--tw-bg-opacity));
 }
 
 .bg-dark{
   --tw-bg-opacity: 1;
   background-color: rgb(21 28 31 / var(--tw-bg-opacity));
-}
-
-.bg-gray{
-  --tw-bg-opacity: 1;
-  background-color: rgb(127 132 127 / var(--tw-bg-opacity));
 }
 
 .bg-light{
@@ -946,6 +962,14 @@ Ensure the default browser behavior of the `hidden` attribute.
 .hover\:text-red-800:hover{
   --tw-text-opacity: 1;
   color: rgb(153 27 27 / var(--tw-text-opacity));
+}
+
+.hover\:outline:hover{
+  outline-style: solid;
+}
+
+.hover\:outline-brown:hover{
+  outline-color: #90826C;
 }
 
 .focus\:outline-none:focus{

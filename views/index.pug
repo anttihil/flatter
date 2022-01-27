@@ -7,12 +7,15 @@ block content
 					header(class="")
 						a(
 							href="/board/post/" + post.id
-							class="px-2 font-sans hover:text-gray"
+							class="px-2 font-sans hover:text-gray whitespace-pre-line"
 							)= post.title
 						span(class="bg-gray text-xs text-dark rounded hover:bg-light hover:text-gray")=post.is_locked ? "Locked" : ""
 					section(
-						class="px-2 font-serif text-sm"
-						)= post.text 
+						class="p-2 font-serif text-sm"
+						)
+						a(href="/image/" + post.images[0] class="float-left inline mr-2 mb-2 hover:outline hover:outline-brown")
+							img(src="https://images.aihio.org/thumbnail/" + post.images[0] + ".webp" class="w-24 max-w-screen-sm")
+						a(href="/board/post/" + post.id class="hover:text-gray whitespace-pre-line")= post.text 
 					footer(
 						class="px-2 flex flex-row font-sans text-xs justify-end space-x-2"
 						)

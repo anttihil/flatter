@@ -2,6 +2,7 @@ import { Upload } from "@aws-sdk/lib-storage";
 import s3Client from "../config/s3Client.js";
 import { v4 as uuidv4 } from "uuid";
 import log from "../config/logging.js";
+import path from "path";
 
 /* 
 What is params?
@@ -32,24 +33,23 @@ export default async function uploadToSpaces(req, res, next) {
     const imageIds = await Promise.all(
       req.body.images.map(async (object) => {
         const uuid = uuidv4();
-        const uploadOriginal = new Upload({
-          client: s3Client,
-          params: {
-            Bucket: process.env.SPACES_BUCKET,
-            Key: `original/${uuid}`,
-            Body: object.original,
-            ACL: "public-read",
-          },
-        });
-        console.log(s3Client.config.endpoint);
-        console.log(s3Client.config.credentials);
 
         const uploadThumbnail = new Upload({
           client: s3Client,
           params: {
             Bucket: process.env.SPACES_BUCKET,
-            Key: `thumbnail/${uuid}`,
+            Key: `thumbnail/${uuid}.webp`,
             Body: object.thumbnail,
+            ACL: "public-read",
+          },
+        });
+
+        const uploadOriginal = new Upload({
+          client: s3Client,
+          params: {
+            Bucket: process.env.SPACES_BUCKET,
+            Key: `original/${uuid}.webp}`,
+            Body: object.original,
             ACL: "public-read",
           },
         });
@@ -70,11 +70,6 @@ export default async function uploadToSpaces(req, res, next) {
     req.imageIds = imageIds;
     next();
   } catch (error) {
-    console.log(error);
-    if (error.$metadata) {
-      const { requestId, cfId, extendedRequestId } = error.$metadata;
-      console.log({ requestId, cfId, extendedRequestId });
-    }
     next(error);
   }
 }
