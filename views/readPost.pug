@@ -32,14 +32,14 @@ block content
 						form(action=post.id + "/remove" method="post")
 							input(type="hidden" name="_csrf" value=csrfToken)
 							button(type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray") Delete
-					if user && (user.id === post.user_id || user.role === "admin")
+					if (user && (user.id === post.user_id || user.role === "admin") && (!user.permaBan || !user.tempBan || Date.now() > user.tempBan))
 						a(
 							href="#editPostForm"
 							data-action-type="editPost" 
 							data-post-id=post.id
 							class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
 							) Edit 
-					if user
+					if (user && (!user.permaBan || !user.tempBan || Date.now() > user.tempBan))
 						a(
 							href="#commentForm"
 							data-action-type="commentPost"
@@ -73,7 +73,7 @@ block content
 								form(action=post.id + "/comment/" + comment.id +"/remove" method="post")
 									input(type="hidden" name="_csrf" value=csrfToken)
 									button(type="submit" class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray") Delete
-							if (user && (user.id === comment.user_id || user.role === "admin"))
+							if (user && (user.id === comment.user_id || user.role === "admin") && (!user.permaBan || !user.tempBan || Date.now() > user.tempBan))
 								a(
 									href="#editCommentForm"
 									data-action-type="editComment" 
@@ -81,7 +81,7 @@ block content
 									data-comment-id=comment.id
 									class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
 									) Edit
-							if user
+							if (user && (!user.permaBan || !user.tempBan || Date.now() > user.tempBan))
 								a(
 									href="#commentForm"
 									data-action-type="commentComment" 

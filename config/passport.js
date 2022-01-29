@@ -25,6 +25,8 @@ export default function passportSetup() {
         email: queryResult.email,
         username: queryResult.username,
         role: queryResult.role,
+        permaBan: queryResult.permaBan,
+        tempBan: queryResult.tempBan,
       };
       if (await verify(queryResult.password, password)) {
         return done(null, user);
@@ -62,6 +64,8 @@ of further processing in the backend.
         email: queryResult.email,
         username: queryResult.username,
         role: queryResult.role,
+        permaBan: queryResult.permaBan,
+        tempBan: queryResult.tempBan,
       };
       done(null, user);
     } catch (err) {

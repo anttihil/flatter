@@ -52,4 +52,10 @@ block content
 				)
 				if validationErrors && validationErrors.text
 					span(class="text-red-800 text-xs")=validationErrors.text.msg
-			+bigButton("submit", "Submit")
+			if (!user)
+				div.flex.justify-end 
+					+hrefButton("/user/login", "Login")
+			else if (user && (!user.permaBan || !user.tempBan || Date.now() > user.tempBan))
+				+bigButton("submit", "Submit")
+			else 
+				span(class="text-red-800 hover:bg-gray p-0.5 text-lg border-2 border-main border-opacity-70 font-fraktur bg-light") Banned

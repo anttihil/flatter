@@ -6,12 +6,14 @@ export function passportMsgLocals(req, res, next) {
   next();
 }
 
-export const userAuthenticationLocals = (req, res, next) => {
+export const userLocals = (req, res, next) => {
   if (req.user && req.user.username && req.user.role) {
     res.locals.user = {
       username: req.user.username,
       role: req.user.role,
       id: req.user.id,
+      permaBan: req.user.permaBan,
+      tempBan: req.user.tempBan,
     };
     next();
   } else {

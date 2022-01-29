@@ -81,7 +81,7 @@ export function selectUserActivity(userId) {
 
 export function selectUserForAuthentication(email) {
   return db.oneOrNone(
-    `SELECT id, email, username, password, role  
+    `SELECT id, email, username, password, role, is_permabanned AS permaBan, is_banned_until AS tempBan  
     FROM users 
     WHERE email = $1`,
     [email]
@@ -90,7 +90,7 @@ export function selectUserForAuthentication(email) {
 
 export function selectUserForDeserialize(userId) {
   return db.oneOrNone(
-    `SELECT id, email, username, role 
+    `SELECT id, email, username, role, is_permabanned AS permaBan, is_banned_until AS tempBan 
       FROM users 
       WHERE id = $1`,
     [userId]

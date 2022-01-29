@@ -16,6 +16,7 @@ import {
   isAdmin,
   isCommentOwner,
   isPostOwner,
+  isNotBanned,
 } from "../middleware/authorization.js";
 import { body } from "express-validator";
 import uploadPostForm from "../middleware/uploadPostForm.js";
@@ -35,6 +36,7 @@ boardRouter
   .get(csrfProtection, readCreatePost)
   .post(
     isUser,
+    isNotBanned,
     uploadPostForm,
     csrfProtection,
     body("title").isLength({ max: 150 }),
@@ -58,6 +60,7 @@ boardRouter
   .route("/post/:postId(\\d+)/edit")
   .post(
     isPostOwner,
+    isNotBanned,
     csrfProtection,
     body("title").isLength({ max: 150 }).escape(),
     body("image_url").isURL(),
@@ -74,6 +77,7 @@ boardRouter
   .route("/post/:postId(\\d+)/comment/create")
   .post(
     isUser,
+    isNotBanned,
     csrfProtection,
     body("text").isLength({ max: 60000 }).escape(),
     createComment
@@ -82,6 +86,7 @@ boardRouter
   .route("/post/:postId(\\d+)/comment/:commentId(\\d+)/edit")
   .post(
     isCommentOwner,
+    isNotBanned,
     csrfProtection,
     body("text").isLength({ max: 60000 }).escape(),
     editComment
@@ -93,6 +98,7 @@ boardRouter
   .route("/post/:postId(\\d+)/comment/:commentId(\\d+)/create")
   .post(
     isUser,
+    isNotBanned,
     csrfProtection,
     body("text").isLength({ max: 60000 }).escape(),
     createComment

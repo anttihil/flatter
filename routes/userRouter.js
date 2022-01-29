@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { isAdmin, isOwnUser, isUser } from "../middleware/authorization.js";
+import { isAdmin, isNotBanned, isUser } from "../middleware/authorization.js";
 import editUserPassword from "../controllers/user/editUserPassword.js";
 import editUsername from "../controllers/user/editUsername.js";
 import readAdminDashboard from "../controllers/user/readAdminDashboard.js";
@@ -54,6 +54,7 @@ userRouter
   .route("/changePassword")
   .post(
     isUser,
+    isNotBanned,
     csrfProtection,
     body("newPassword").isAlphanumeric("en-US").isLength({ min: 12, max: 100 }),
     editUserPassword
@@ -62,6 +63,7 @@ userRouter
   .route("/changeUsername")
   .post(
     isUser,
+    isNotBanned,
     csrfProtection,
     body("username")
       .isAlphanumeric("en-US")
@@ -90,6 +92,8 @@ userRouter
 userRouter
   .route("/admin/dashboard")
   .get(isAdmin, csrfProtection, readAdminDashboard);
-userRouter.route("/dashboard").get(isUser, csrfProtection, readUserDashboard);
+userRouter
+  .route("/dashboard")
+  .get(isUser, isNotBanned, csrfProtection, readUserDashboard);
 
 export default userRouter;

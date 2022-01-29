@@ -9,10 +9,7 @@ import passportSetup from "./config/passport.js";
 import passport from "passport";
 import db from "./config/db.js";
 import { adminSetup } from "./config/adminSetup.js";
-import {
-  passportMsgLocals,
-  userAuthenticationLocals,
-} from "./middleware/locals.js";
+import { passportMsgLocals, userLocals } from "./middleware/locals.js";
 import { boardAppLocals } from "./config/appLocals.js";
 import createHttpError from "http-errors";
 
@@ -67,10 +64,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 /* 
-A middleware that attaches information to response
-local variables so that they are available for rendering views.
+A middleware that attaches user information and messages to the response 
+object's local variables so that they are available for view renders.
 */
-app.use(passportMsgLocals, userAuthenticationLocals);
+app.use(passportMsgLocals, userLocals);
 
 /* A function that mounts all the routes to the app. 
 Used in order to clean up the app structure. */

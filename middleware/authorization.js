@@ -86,6 +86,21 @@ export const isUser = (req, res, next) => {
   if (req.user) {
     next();
   } else {
-    next(createHttpError(401, "You must login to use this resource."));
+    next(createHttpError(401, "Please login to use this resource."));
   }
 };
+
+export function isNotBanned(req, res, next) {
+  if (req.user.permaBan) {
+    next(createHttpError(403, "You have been permanently banned."));
+  } else if (req.user.tempBan && Date.now() <= req.user.tempBan) {
+    const dateOptions = { month: "long", year: "numeric", day: "numeric" };
+    const formattedDate = req.user.tempBan.toLocaleDateString(
+      "en-US",
+      dateOptions
+    );
+    next(createHttpError(403, `You are banned until ${formattedDate}`));
+  } else {
+    next();
+  }
+}
