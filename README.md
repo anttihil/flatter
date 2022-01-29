@@ -14,7 +14,7 @@ ExpressJs framework.
 PugJS template engine with a light amount of vanilla javascript to bring interactivity. TailwindCSS to streamline the process of writing CSS. 
 
 ### CDN 
-DigitalOcean Spaces object storage for uploading and serving images. Also compatible with AWS S3 because they use the same SDK. I also 
+DigitalOcean Spaces object storage for uploading and serving images. This app is also compatible with AWS S3 because they use the same SDK.
 
 ### Security
 - User authentication: PassportJS
