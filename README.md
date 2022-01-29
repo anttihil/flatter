@@ -18,8 +18,12 @@ DigitalOcean Spaces object storage for uploading and serving images. Also compat
 
 ### Security
 - User authentication: PassportJS
-- Validation: Express-Validator on server-side and input element validation on client side
+- Input Validation: 
+- Server side input validation and sanitization: Express-Validator for text and Node file-type library for images and other files 
+- Client side input validation: HTML form pattern validation 
 - CSRF protection: ExpressJS CSURF
+- Password hashing: NodeJS Argon2
+- SQL injection prevention: parameterized queries in PG promise
 
 ## Cloning? 
 
