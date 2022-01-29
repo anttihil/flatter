@@ -1,22 +1,22 @@
-### flatter
+# flatter
 
 A minimalist message board site built with NodeJS, Express, Pug, and TailwindCSS. This is a side-project of mine, built for personal use. This is not a library or NPM package, but I thought it could be a useful example for those who are interested in building a message board from scratch in NodeJS.
 
 ## Technologies
 
-# Database
+### Database
 PostgresSQL. I use node-postgres and pg-promise libraries to handle database connections and queries. This app does not use models, only raw queries. The key for me has been to use dynamic, parameterized queries offered by pg-promise. I highly recommend that library.
 
-# Server
+### Server
 ExpressJs framework.
 
-# Client 
+### Client 
 PugJS template engine with a light amount of vanilla javascript to bring interactivity. TailwindCSS to streamline the process of writing CSS. 
 
-# CDN 
+### CDN 
 DigitalOcean Spaces object storage for uploading and serving images. Also compatible with AWS S3 because they use the same SDK. I also 
 
-# Security
+### Security
 - User authentication: PassportJS
 - Validation: Express-Validator on server-side and input element validation on client side
 - CSRF protection: ExpressJS CSURF
