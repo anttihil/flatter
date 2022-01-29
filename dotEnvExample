@@ -1,0 +1,49 @@
+#Note: Copy this file and rename it to .env. Do NOT upload the copied file with passwords and such to your own github repo.
+
+# Port number for the server
+PORT=
+
+# Parameters for PostgreSQL database configuration
+#Host name, for example "localhost"
+PGHOST=
+#Port number, for example "3001"
+PGPORT=
+#Database name, e.g. "flatter"
+PGDATABASE=
+#Pg username, e.g. "alice"
+PGUSER=
+#Pg password, e.g. "passwordisusername"
+PGPASSWORD=
+
+#These are for a separate test database used by Jest (not yet implemented)
+TEST_DB_USER=
+TEST_DB_HOST=
+TEST_DB_PASSWORD=
+TEST_DB_DATABASE=
+TEST_DB_PORT=
+
+#Express session configuration
+FOO_COOKIE_SECRET=
+FOO_COOKIE_NAME=
+
+#Used to set up an admit account when the server starts
+ADMIN_EMAIL=
+ADMIN_USERNAME=
+ADMIN_PASSWORD=
+
+#DigitalOcean Spaces / AWS S3 endpoint url, e.g. "https://nyc3.digitaloceanspaces.com"
+SPACES_ENDPOINT=
+#DigitalOcean Spaces / AWS S3 name, e.g. "images-flatter"
+SPACES_BUCKET=
+
+#DigitalOcean Spaces / AWS S3 API access key id (random alphanumeric)
+AWS_ACCESS_KEY_ID=
+#DigitalOcean Spaces /AWS S3 API secret access key (random alphanumeric)
+AWS_SECRET_ACCESS_KEY=
+
+#The URL pointing to the root of the CDN or object storage where your images are, e.g. ""https://images.flatter.com""
+IMAGE_STORAGE_ROOT_URL=
+#The URL to the folder of the bucket/space where your original (large size) images are stored, e.g. "https://images.aihio.org/original/"
+IMAGE_STORAGE_ORIGINAL_URL=
+#The URL to the folder where your thumbnails are stored, e.g. "https://images.aihio.org/thumbnail/"
+IMAGE_STORAGE_THUMBNAIL_URL=
