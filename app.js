@@ -47,7 +47,7 @@ app.set("view engine", "pug");
 /* app.use(
   helmet({
     contentSecurityPolicy: {
-      directives: { imgSrc: ["'self'", "data:", "https://images.aihio.org"] },
+      directives: { imgSrc: ["'self'", "data:", process.env.IMAGE_STORAGE_ROOT_URL] },
     },
   })
 ); */

@@ -14,7 +14,7 @@ block content
 						class="p-2 font-serif text-sm"
 						)
 						a(href="/image/" + post.images[0] class="float-left inline mr-2 mb-2 hover:outline hover:outline-brown")
-							img(src="https://images.aihio.org/thumbnail/" + post.images[0] + ".webp" class="w-24 max-w-screen-sm" crossorigin)
+							img(src=process.env.IMAGE_STORAGE_THUMBNAIL_URL + post.images[0] + ".webp" class="w-24 max-w-screen-sm" crossorigin)
 						a(href="/board/post/" + post.id class="hover:text-gray whitespace-pre-line")= post.text 
 					footer(
 						class="px-2 flex flex-row font-sans text-xs justify-end space-x-2"

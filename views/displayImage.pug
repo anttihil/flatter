@@ -2,4 +2,4 @@ extends layout
 
 block content 
   .p-2.flex.flex-col.items-center
-    img(src="https://images.aihio.org/original/" + image + ".webp" class="" crossorigin)
+    img(src=process.env.IMAGE_STORAGE_ORIGINAL_URL + image + ".webp" class="" crossorigin)

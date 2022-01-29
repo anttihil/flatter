@@ -20,7 +20,7 @@ block content
 				class="p-2"
 				)
 				a(href="/image/" + images[0].id class="float-left inline mr-2 mb-2 hover:outline hover:outline-brown")
-					img(src="https://images.aihio.org/thumbnail/" + images[0].id + ".webp" class=" max-w-screen-sm" crossorigin)
+					img(src=process.env.IMAGE_STORAGE_THUMBNAIL_URL + images[0].id + ".webp" class=" max-w-screen-sm" crossorigin)
 				section#postText(class="font-serif text-sm whitespace-pre-line")= post.text 
 			footer.px-2.py-1.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
 				div.flex.space-x-2
