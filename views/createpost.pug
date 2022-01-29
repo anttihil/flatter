@@ -8,6 +8,7 @@ block content
 		div.flex.flex-col.h-8.items-center.text-xl.font-fraktur.text-light
 			header Create a Post  
 		form#postForm(action="" enctype="multipart/form-data" method="post" class="flex flex-col space-y-2 font-serif w-full text-sm text-light focus:outline-none focus:ring focus:ring-brown" )
+			input(type="hidden" name="_csrf" value=csrfToken)
 			.pt-2  
 				label(for="selectBoard") Select Board:
 				select#selectBoard(
@@ -17,6 +18,8 @@ block content
 				)
 					for board in boards 
 						option(value=board).text-dark=board
+				if validationErrors && validationErrors.board
+					span(class="text-red-800 text-xs")=validationErrors.board.msg
 			div 
 				label(for="titleInput") Title:
 				input#titleInput(
@@ -27,9 +30,13 @@ block content
 					maxlength="150" 
 					class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark")
 				span.text-xs Max length 150 characters.
+				if validationErrors && validationErrors.title
+					span(class="text-red-800 text-xs")=validationErrors.title.msg
 			div 
 				label#imageLabel(for="imageInput" class="hover:bg-light bg-gray p-1 border-2 border-dark border-opacity-50 font-serif text-xs text-dark ") Choose an Image: .jpg, .gif, or .png 
 				input#imageInput(type="file" name="image" accept="image/jpg, image/jpeg, image/png, image/gif, image/webp, image/avif" class="opacity-0 focus:outline-none ")
+				if validationErrors && validationErrors.image
+						span(class="text-red-800 text-xs")=validationErrors.image.msg
 			#imagePreview
 				p No files currently selected for upload
 			div 
@@ -43,4 +50,6 @@ block content
 				spellcheck="true"
 				class="focus:outline-none focus:ring focus:ring-brown  bg-light text-dark shadow w-full"
 				)
+				if validationErrors && validationErrors.text
+					span(class="text-red-800 text-xs")=validationErrors.text.msg
 			+bigButton("submit", "Submit")

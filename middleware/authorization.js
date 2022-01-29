@@ -19,9 +19,10 @@ export function isAdmin(req, res, next) {
   }
 }
 
+// User does not need to be email verified for this
 export function isOwnUser(req, res, next) {
   if (req.user) {
-    if (req.user.id === +req.body.userId) {
+    if (req.user.id === +req.params.userId) {
       next();
     } else {
       next(
@@ -37,6 +38,7 @@ export function isOwnUser(req, res, next) {
 First check: the user has an authenticated session
   Then queries db for req.params.commentId
   Second check: comment owner Id is the same as the user 
+Email verification required.
 */
 export async function isCommentOwner(req, res, next) {
   try {
@@ -61,6 +63,7 @@ export async function isCommentOwner(req, res, next) {
   }
 }
 
+//Email verification required.
 export async function isPostOwner(req, res, next) {
   try {
     if (req.user) {

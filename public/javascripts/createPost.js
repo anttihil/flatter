@@ -1,3 +1,5 @@
+"use strict";
+
 const preview = document.getElementById("imagePreview");
 const imageInput = document.getElementById("imageInput");
 

@@ -46,6 +46,14 @@ export function selectEmail(email) {
   return db.any(`SELECT email FROM users WHERE email = $1`, [email]);
 }
 
+export function selectUserPassword(userId) {
+  return db.one(
+    `SELECT password FROM users WHERE id = $1`,
+    [userId],
+    (a) => a.password
+  );
+}
+
 export function selectUsername(username) {
   return db.any(`SELECT username FROM users WHERE username = $1`, [username]);
 }
@@ -132,7 +140,7 @@ export function updateUserRole(role, userId) {
   );
 }
 
-export function updateUserUsername(username, userId) {
+export function updateUsername(username, userId) {
   return db.one(
     `UPDATE users
       SET username=$1

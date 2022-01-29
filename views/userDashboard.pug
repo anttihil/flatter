@@ -26,6 +26,7 @@ block content
 				action="changePassword" 
 				method="post"
 				)
+				input(type="hidden" name="_csrf" value=csrfToken)
 				div(class="mt-2")
 					label(for="oldPassword" class="font-serif text-sm") Old Password
 					input(
@@ -35,8 +36,9 @@ block content
 						autocomplete="current-password" 
 						required 
 						class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
-						pattern="[0-9a-zA-Z]{12,100}"
 						)
+					if message
+						span(class="text-red-800 text-xs")=message
 				div(class="mt-2")
 					label(
 						for="newPassword"
@@ -52,6 +54,8 @@ block content
 						pattern="[0-9a-zA-Z]{12,100}"
 						)
 					span.text-xs 12 characters minimum, 100 maximum. A password can contain both upper and lower case letters, and numbers.
+					if validationErrors && validationErrors.newPassword
+						span(class="text-red-800 text-xs")=validationErrors.newPassword.msg
 				div.flex.justify-end
 					input(
 						type="submit" 
@@ -65,6 +69,7 @@ block content
 				method="post" 
 				class="mt-2 w-full"
 				)
+				input(type="hidden" name="_csrf" value=csrfToken)
 				label(
 					for="changeUsername" 
 					class="font-serif text-sm"
@@ -78,6 +83,8 @@ block content
 					class="focus:outline-none focus:ring focus:ring-brown w-full font-serif bg-light text-dark"
 					)
 				span.text-xs Max 20 characters
+				if validationErrors && validationErrors.username
+						span(class="text-red-800 text-xs")=validationErrors.username.msg
 				div.flex.justify-end
 					input(
 							type="submit" 

@@ -48,7 +48,7 @@ export default async function uploadToSpaces(req, res, next) {
           client: s3Client,
           params: {
             Bucket: process.env.SPACES_BUCKET,
-            Key: `original/${uuid}.webp}`,
+            Key: `original/${uuid}.webp`,
             Body: object.original,
             ACL: "public-read",
           },

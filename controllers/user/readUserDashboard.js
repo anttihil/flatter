@@ -9,6 +9,7 @@ export default async function readUserDashboard(req, res, next) {
     res.status(200).render("userDashboard", {
       posts: result.posts,
       comments: result.comments,
+      csrfToken: req.csrfToken(),
     });
   } catch (error) {
     next(error);

@@ -10,6 +10,7 @@ export default async function readAdminDashboard(req, res, next) {
       posts: result.posts,
       comments: result.comments,
       users: result.users,
+      csrfToken: req.csrfToken(),
     });
   } catch (error) {
     next(error);

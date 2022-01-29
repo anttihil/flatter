@@ -22,12 +22,11 @@ export default async function checkFileType(req, res, next) {
     if (result) {
       next();
     } else {
-      next(
-        createHttpError(
-          400,
-          "Please submit an image file of a type specified in the form."
-        )
-      );
+      res.status(400).render("createPost", {
+        validationErrors: {
+          image: { msg: "The file type of the image was wrong." },
+        },
+      });
     }
   } catch (error) {
     next(error);

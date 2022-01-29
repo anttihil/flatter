@@ -4,7 +4,7 @@ import log from "../../config/logging.js";
 // Also, display message prompting the user to check email.
 export default function displayImage(req, res, next) {
   try {
-    log.info("Reading create post page.");
+    log.info(`Displaying image with id: ${req.params.imageId}`);
     res.status(200).render("displayImage", { image: req.params.imageId });
   } catch (error) {
     next(error);

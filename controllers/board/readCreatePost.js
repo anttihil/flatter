@@ -5,7 +5,7 @@ import log from "../../config/logging.js";
 export default function readCreatePost(req, res, next) {
   try {
     log.info("Reading create post page.");
-    res.status(200).render("createPost");
+    res.status(200).render("createPost", { csrfToken: req.csrfToken() });
   } catch (error) {
     next(error);
   }

@@ -7,7 +7,9 @@ export default async function createUser(req, res, next) {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).render("register", { errors: errors.mapped() });
+      return res
+        .status(400)
+        .render("register", { validationErrors: errors.mapped() });
     }
 
     log.info(`Creating user ${req.body.username}`);

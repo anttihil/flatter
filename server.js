@@ -5,7 +5,7 @@ import log from "./config/logging.js";
 
 const server = createServer(app);
 
-const port = process.env.PORT || 3002;
+const port = process.env.PORT || 3001;
 
 server.listen(port, () => {
   log.info(`The server is up and listening on port ${port}`);

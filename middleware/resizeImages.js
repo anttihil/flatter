@@ -11,7 +11,7 @@ export default async function resizeImages(req, res, next) {
       req.files.map(async (file) => {
         const original = await sharp(file.buffer).webp().toBuffer();
 
-        const thumbnail = await sharp(original).resize({
+        const thumbnail = sharp(original).resize({
           width: 320,
           height: 320,
           fit: "inside",
