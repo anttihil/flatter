@@ -11,13 +11,28 @@ const options = {
   passwordField: "password",
 };
 
+/*
+This sets up the PassportJS library.
+
+Why is there a verify function under "if !(queryresult)" that seems to do nothing?
+
+It's there to mimic the behavior where a valid user has been found and their password is being verified.
+If the invalid username were to return a response to the frontend earlier than the valid username case,
+then a malicious user could use the time difference to map out which usernames are valid and which are not.
+The dummy verification call should (nearly) eliminate the time difference. 
+*/
+
 export default function passportSetup() {
   async function verifyHashedPassword(username, password, done) {
     try {
       const queryResult = await selectUserForAuthentication(username);
       if (!queryResult) {
+        await verify(
+          "$argon2i$v=19$m=4096,t=3,p=1$RPyky3lf9fTjGS31obht4g$yf+xpagJFvBJJtWqWKDyVvlDbi9TxvYzJ4bI4KUe6Kg",
+          "passwordISusername"
+        );
         return done(null, false, {
-          message: "Incorrect username.",
+          message: "Incorrect username or password.",
         });
       }
       const user = {
@@ -27,11 +42,12 @@ export default function passportSetup() {
         role: queryResult.role,
         permaBan: queryResult.permaBan,
         tempBan: queryResult.tempBan,
+        isVerified: queryResult.isVerified,
       };
       if (await verify(queryResult.password, password)) {
         return done(null, user);
       } else {
-        done(null, false, { message: "Incorrect password." });
+        done(null, false, { message: "Incorrect username or password." });
       }
     } catch (err) {
       return done(err);
@@ -66,6 +82,7 @@ of further processing in the backend.
         role: queryResult.role,
         permaBan: queryResult.permaBan,
         tempBan: queryResult.tempBan,
+        isVerified: queryResult.isVerified,
       };
       done(null, user);
     } catch (err) {

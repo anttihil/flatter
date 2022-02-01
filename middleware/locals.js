@@ -14,6 +14,7 @@ export const userLocals = (req, res, next) => {
       id: req.user.id,
       permaBan: req.user.permaBan,
       tempBan: req.user.tempBan,
+      isVerified: req.user.isVerified,
     };
     next();
   } else {

@@ -15,7 +15,7 @@ export function isAdmin(req, res, next) {
       );
     }
   } else {
-    next(createHttpError(401, "You must login to use this resource."));
+    next(createHttpError(401, "You must log in to use this resource."));
   }
 }
 
@@ -30,7 +30,7 @@ export function isOwnUser(req, res, next) {
       );
     }
   } else {
-    next(createHttpError(401, "You must login to use this resource."));
+    next(createHttpError(401, "You must log in to use this resource."));
   }
 }
 
@@ -56,7 +56,7 @@ export async function isCommentOwner(req, res, next) {
         );
       }
     } else {
-      next(createHttpError(401, "You must login to use this resource."));
+      next(createHttpError(401, "You must log in to use this resource."));
     }
   } catch (error) {
     next(error);
@@ -76,7 +76,7 @@ export async function isPostOwner(req, res, next) {
         );
       }
     } else {
-      next(createHttpError(401, "You must login to use this resource."));
+      next(createHttpError(401, "You must log in to use this resource."));
     }
   } catch (error) {
     next(error);
@@ -86,7 +86,7 @@ export const isUser = (req, res, next) => {
   if (req.user) {
     next();
   } else {
-    next(createHttpError(401, "Please login to use this resource."));
+    next(createHttpError(401, "Please log in to use this resource."));
   }
 };
 

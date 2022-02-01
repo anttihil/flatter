@@ -1,30 +1,10 @@
-import { hash } from "argon2";
-import { validationResult } from "express-validator";
-import { insertUser } from "../../services/userService.js";
 import log from "../../config/logging.js";
 import MailerSend from "mailersend";
 import jwt from "jsonwebtoken";
 
-export default async function createUser(req, res, next) {
+export default function resendVerificationEmail(req, res, next) {
   try {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .render("register", { validationErrors: errors.mapped() });
-    }
-
-    log.info(`Creating user ${req.body.username}`);
-    const hashedPassword = await hash(req.body.password);
-    const user = await insertUser(
-      req.body.email,
-      hashedPassword,
-      req.body.username,
-      "user"
-    );
-    log.info(
-      `Created user ${user.username} and now sending a verification email to ${user.email}.`
-    );
+    log.info(`Sending a verification email to ${user.email}.`);
     const Recipient = MailerSend.Recipient;
     const EmailParams = MailerSend.EmailParams;
     const mailersend = new MailerSend({
@@ -49,7 +29,7 @@ export default async function createUser(req, res, next) {
           </head>
           <body>
             <h1>Welcome to ${process.env.SERVER_DOMAIN}</h1>
-              <p>If this information is not correct, please disregard this email.</p>  
+              <p>If this information is not correct, please disregard this email.</p>
               <p>Here is a link to verify your email address:<br /> 
                 <a href="https://${process.env.SERVER_DOMAIN}/user/verify?token=${token}">https://${process.env.SERVER_DOMAIN}/user/verify?token=${token}</a>
               </p>
@@ -60,7 +40,7 @@ export default async function createUser(req, res, next) {
       );
     mailersend.send(emailParams);
     log.info(`Sent a verification email to ${user.email}`);
-    res.status(200).redirect("register/success");
+    res.status(200).render("emailSent");
   } catch (error) {
     next(error);
   }

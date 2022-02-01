@@ -54,7 +54,7 @@ block content
 					span(class="text-red-800 text-xs")=validationErrors.text.msg
 			if (!user)
 				div.flex.justify-end 
-					+hrefButton("/user/login", "Login")
+					+hrefButton("/user/login", "Log In")
 			else if (user && (!user.permaBan || !user.tempBan || Date.now() > user.tempBan))
 				+bigButton("submit", "Submit")
 			else 

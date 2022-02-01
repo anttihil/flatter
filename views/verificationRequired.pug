@@ -1,0 +1,13 @@
+extends layout 
+
+block content 
+	article.bg-dark.p-4.flex.flex-col.items-center.space-y-2.text-light 
+		if user   
+      header.h-8.text-xl.font-sans= user.name + ", please activate your user account"
+      section.font-serif In order to use your account, you need to verify your email address. There should be an email in your mailbox already. Check your spam folder also. If you cannot find the verification email and have waited a while already, please click on the button below to send a verification link to the email you provided during registration.
+      form(action="/user/verify" method="post" )
+        input(type="hidden" name="_csrf" value=csrfToken)
+        +bigButton("submit", "Send an email")
+    else 
+      header.h-8.text-xl.font-sans Please log in
+      section.font-serif Before we can send your email verification link, you need to log in.

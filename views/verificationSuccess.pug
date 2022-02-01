@@ -1,0 +1,16 @@
+extends layout 
+
+block content 
+	article.bg-dark.p-4.flex.flex-col.items-center.space-y-2.text-light 
+		header.h-8.text-xl.font-sans="Welcome, " + username 
+		section.font-serif You have successfully verified your email address. Your account is now fully activated.   
+		if user
+      a(
+            href= "/board"
+            class='bg-light p-1 border-2 border-main text-dark hover:bg-gray font-fraktur'
+          ) To the Board
+    else
+      a(
+            href= "/user/login"
+            class='bg-light p-1 border-2 border-main text-dark hover:bg-gray font-fraktur'
+          ) Log In

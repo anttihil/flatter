@@ -4,9 +4,8 @@ export function insertUser(email, password, username, role) {
   return db.one(
     `INSERT INTO users(email, password, username, role) 
     VALUES ($1, $2, $3, $4) 
-    RETURNING username`,
-    [email, password, username, role],
-    (a) => a.username
+    RETURNING username, email`,
+    [email, password, username, role]
   );
 }
 
@@ -46,6 +45,10 @@ export function selectEmail(email) {
   return db.any(`SELECT email FROM users WHERE email = $1`, [email]);
 }
 
+export function selectUserByEmail(email) {
+  return db.one(`SELECT username, email FROM users WHERE email = $1`, [email]);
+}
+
 export function selectUserPassword(userId) {
   return db.one(
     `SELECT password FROM users WHERE id = $1`,
@@ -81,7 +84,7 @@ export function selectUserActivity(userId) {
 
 export function selectUserForAuthentication(email) {
   return db.oneOrNone(
-    `SELECT id, email, username, password, role, is_permabanned AS permaBan, is_banned_until AS tempBan  
+    `SELECT id, email, username, password, role, is_permabanned AS permaBan, is_banned_until AS tempBan, is_verified AS isVerified  
     FROM users 
     WHERE email = $1`,
     [email]
@@ -90,7 +93,7 @@ export function selectUserForAuthentication(email) {
 
 export function selectUserForDeserialize(userId) {
   return db.oneOrNone(
-    `SELECT id, email, username, role, is_permabanned AS permaBan, is_banned_until AS tempBan 
+    `SELECT id, email, username, role, is_permabanned AS permaBan, is_banned_until AS tempBan, , is_verified AS isVerified 
       FROM users 
       WHERE id = $1`,
     [userId]
@@ -137,6 +140,17 @@ export function updateUserRole(role, userId) {
     RETURNING id`,
     [role, userId],
     (a) => a.id
+  );
+}
+
+export function updateUserVerification(email) {
+  return db.one(
+    `UPDATE users
+      SET is_verified=true
+      WHERE email=$1  
+    RETURNING username`,
+    [email],
+    (a) => a.username
   );
 }
 

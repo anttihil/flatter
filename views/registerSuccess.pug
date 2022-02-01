@@ -1,10 +1,11 @@
 extends layout 
 
 block content 
-	.bg-dark.p-4.flex.flex-col.items-center.divide-y-2.space-y-2.divide-brown 
-		div.flex.flex-col.h-8.items-center.text-xl.font-fraktur.text-light
-			header Registration was successful.  
+	article.bg-dark.p-4.flex.flex-col.items-center.space-y-2.text-light 
+		header.h-8.text-xl.font-sans Please activate your user account
+		section.font-serif We have sent a verification link to the email address you provided. Click on the link to activate your account. Then you can start using your account.   
 		a(
-					href= "/board"
+					href= "/user/login"
 					class='bg-light p-1 border-2 border-main text-dark hover:bg-gray font-fraktur'
-				) To the board.
+				) Log In 
+		
