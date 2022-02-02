@@ -1,7 +1,7 @@
 import express from "express";
 import expressSession from "express-session";
 import pgSession from "connect-pg-simple";
-import morgan from "morgan";
+import morganLogger from "./middleware/morganLogger.js";
 import log from "./config/logging.js";
 import mountRoutes from "./routes/index.js";
 import helmet from "helmet";
@@ -53,7 +53,11 @@ app.set("view engine", "pug");
 ); */
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
-app.use(morgan("dev", { stream: { write: (msg) => log.http(msg) } }));
+/*
+We set morgan to write the log stream to our Winston logger.
+We also skip logging http when in production
+*/
+app.use(morganLogger);
 
 app.use(expressSession(sessionOptions));
 /* Sets up the authentication strategy, verify function,
@@ -84,7 +88,6 @@ app.use(function (err, req, res, next) {
   log.error(err);
   res.locals.message = err.message;
   res.locals.error = app.get("env") === "development" ? err : {};
-
   // set response status to error status and render the error page
   res.status(err.status || 500);
   res.render("error");

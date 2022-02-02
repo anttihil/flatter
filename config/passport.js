@@ -75,7 +75,6 @@ of further processing in the backend.
   passport.deserializeUser(async function (id, done) {
     try {
       const queryResult = await selectUserForDeserialize(id);
-      console.log(queryResult);
       const user = {
         id: queryResult.id,
         email: queryResult.email,

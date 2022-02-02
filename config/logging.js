@@ -1,9 +1,26 @@
-import { createLogger, format, transports } from "winston";
-const { json, timestamp, errors, simple, colorize } = format;
+import winston, { createLogger, format, transports } from "winston";
+const { json, timestamp, errors, simple, printf, colorize } = format;
+
+const colors = {
+  error: "red",
+  warn: "yellow",
+  info: "green",
+  http: "magenta",
+  debug: "white",
+};
+
+winston.addColors(colors);
+
+const logFormat = format.combine(
+  timestamp({ format: "YYYY-MM-DD HH:mm:ss:ms" }),
+  colorize({ all: true }),
+  printf((info) => `${info.timestamp} ${info.level}: ${info.message}`),
+  errors({ stack: true })
+);
 
 const log = createLogger({
   level: "http",
-  format: format.combine(json(), timestamp(), errors({ stack: true })),
+  format: logFormat,
   transports: [
     //
     // - Write to all logs with level `info` and below to `quick-start-combined.log`.
@@ -19,11 +36,7 @@ const log = createLogger({
 // with the colorized simple format.
 //
 if (process.env.NODE_ENV !== "production") {
-  log.add(
-    new transports.Console({
-      format: format.combine(colorize(), simple(), errors({ stack: true })),
-    })
-  );
+  log.add(new transports.Console());
 }
 
 export default log;
