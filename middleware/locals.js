@@ -1,3 +1,7 @@
+/* 
+Express-session (and especially PassportJS) attach messages to req.session.
+This middleware moves those messages to local variables.
+*/
 export function passportMsgLocals(req, res, next) {
   var msgs = req.session.messages || [];
   res.locals.messages = msgs;
@@ -6,8 +10,12 @@ export function passportMsgLocals(req, res, next) {
   next();
 }
 
+/*  
+Req.user object is copied to local variables so that user properties are 
+available to HTML templates if needed. 
+*/
 export const userLocals = (req, res, next) => {
-  if (req.user && req.user.username && req.user.role) {
+  if (req.user) {
     res.locals.user = {
       username: req.user.username,
       role: req.user.role,

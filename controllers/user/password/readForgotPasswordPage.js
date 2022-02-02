@@ -1,4 +1,4 @@
-import log from "../../config/logging.js";
+import log from "../../../config/logging.js";
 
 export default function readForgotPasswordPage(req, res, next) {
   try {

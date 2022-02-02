@@ -12,7 +12,8 @@ import removeComment from "../controllers/board/removeComment.js";
 import removePost from "../controllers/board/removePost.js";
 import toggleLockPost from "../controllers/board/toggleLockPost.js";
 import {
-  isUser,
+  isVerifiedUser,
+  emailVerificationChecker,
   isAdmin,
   isCommentOwner,
   isPostOwner,
@@ -33,9 +34,9 @@ boardRouter.route("/").get((req, res) => {
 });
 boardRouter
   .route("/post/create")
-  .get(csrfProtection, readCreatePost)
+  .get(csrfProtection, emailVerificationChecker, readCreatePost)
   .post(
-    isUser,
+    isVerifiedUser,
     isNotBanned,
     uploadPostForm,
     csrfProtection,
@@ -76,7 +77,7 @@ boardRouter
 boardRouter
   .route("/post/:postId(\\d+)/comment/create")
   .post(
-    isUser,
+    isVerifiedUser,
     isNotBanned,
     csrfProtection,
     body("text").isLength({ max: 60000 }).escape(),
@@ -97,7 +98,7 @@ boardRouter
 boardRouter
   .route("/post/:postId(\\d+)/comment/:commentId(\\d+)/create")
   .post(
-    isUser,
+    isVerifiedUser,
     isNotBanned,
     csrfProtection,
     body("text").isLength({ max: 60000 }).escape(),

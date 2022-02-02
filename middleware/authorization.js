@@ -48,7 +48,8 @@ export async function isCommentOwner(req, res, next) {
       );
       const owner = await selectCommentOwner(req.params.commentId);
       log.info(`Authorization: Found owner #${owner} of comment`);
-      if (owner === req.user.id) {
+
+      if (owner === req.user.id || req.user.role === "admin") {
         next();
       } else {
         next(
@@ -67,8 +68,13 @@ export async function isCommentOwner(req, res, next) {
 export async function isPostOwner(req, res, next) {
   try {
     if (req.user) {
+      log.info(
+        `Authorization: Querying for owner of post #${req.params.postId}`
+      );
       const owner = await selectPostOwner(req.params.postId);
-      if (owner === req.user.id) {
+      log.info(`Authorization: Found owner #${owner} of the post`);
+
+      if (owner === req.user.id || req.user.role === "admin") {
         next();
       } else {
         next(
@@ -89,6 +95,33 @@ export const isUser = (req, res, next) => {
     next(createHttpError(401, "Please log in to use this resource."));
   }
 };
+
+export const isVerifiedUser = (req, res, next) => {
+  if (req.user && req.user.isVerified) {
+    next();
+  } else if (req.user) {
+    next(
+      createHttpError(
+        403,
+        "Please verify your account in order to use this resource."
+      )
+    );
+  } else {
+    next(createHttpError(401, "Please log in to use this resource."));
+  }
+};
+
+export function emailVerificationChecker(req, res, next) {
+  try {
+    if (req.user && !req.user.isVerified) {
+      res
+        .status(300)
+        .render("verificationRequired", { csrfToken: req.csrfToken() });
+    } else next();
+  } catch (error) {
+    next(error);
+  }
+}
 
 export function isNotBanned(req, res, next) {
   if (req.user.permaBan) {

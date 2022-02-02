@@ -40,9 +40,9 @@ export default function passportSetup() {
         email: queryResult.email,
         username: queryResult.username,
         role: queryResult.role,
-        permaBan: queryResult.permaBan,
-        tempBan: queryResult.tempBan,
-        isVerified: queryResult.isVerified,
+        permaBan: queryResult.is_permabanned,
+        tempBan: queryResult.is_banned_until,
+        isVerified: queryResult.is_verified,
       };
       if (await verify(queryResult.password, password)) {
         return done(null, user);
@@ -75,14 +75,15 @@ of further processing in the backend.
   passport.deserializeUser(async function (id, done) {
     try {
       const queryResult = await selectUserForDeserialize(id);
+      console.log(queryResult);
       const user = {
         id: queryResult.id,
         email: queryResult.email,
         username: queryResult.username,
         role: queryResult.role,
-        permaBan: queryResult.permaBan,
-        tempBan: queryResult.tempBan,
-        isVerified: queryResult.isVerified,
+        permaBan: queryResult.is_permabanned,
+        tempBan: queryResult.is_banned_until,
+        isVerified: queryResult.is_verified,
       };
       done(null, user);
     } catch (err) {

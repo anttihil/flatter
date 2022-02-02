@@ -1,7 +1,6 @@
 extends layout 
 
 block content
-	
 	article(
 		class="divide-y divide-brown md:h-auto h-full text-light font-sans items-start bg-dark flex flex-col space-y-2  border-b border-brown"
 		)
@@ -20,10 +19,16 @@ block content
 				href="#comments" 
 				class="hover:text-light text-brown"
 			) Comments
+		if passwordSuccess 
+			section.p-2 
+				span.text-light.font-serif=passwordSuccess
+		if usernameSuccess 
+			section.p-2 
+				span.text-light.font-serif=usernameSuccess
 		section.p-4.w-full
 			header.font-fraktur Change Password
 			form(
-				action="changePassword" 
+				action="/user/password/change" 
 				method="post"
 				)
 				input(type="hidden" name="_csrf" value=csrfToken)
@@ -65,7 +70,7 @@ block content
 		section.p-4.w-full 
 			header.font-fraktur Change Username
 			form(
-				action="changeUsername" 
+				action="user/username/change" 
 				method="post" 
 				class="mt-2 w-full"
 				)

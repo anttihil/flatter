@@ -46,13 +46,24 @@ export function selectEmail(email) {
 }
 
 export function selectUserByEmail(email) {
-  return db.one(`SELECT username, email FROM users WHERE email = $1`, [email]);
+  return db.one(
+    `SELECT username, password, email FROM users WHERE email = $1`,
+    [email]
+  );
 }
 
 export function selectUserPassword(userId) {
   return db.one(
     `SELECT password FROM users WHERE id = $1`,
     [userId],
+    (a) => a.password
+  );
+}
+
+export function selectUserPasswordByEmail(email) {
+  return db.one(
+    `SELECT password FROM users WHERE email = $1`,
+    [email],
     (a) => a.password
   );
 }
@@ -84,7 +95,7 @@ export function selectUserActivity(userId) {
 
 export function selectUserForAuthentication(email) {
   return db.oneOrNone(
-    `SELECT id, email, username, password, role, is_permabanned AS permaBan, is_banned_until AS tempBan, is_verified AS isVerified  
+    `SELECT id, email, username, password, role, is_permabanned, is_banned_until, is_verified  
     FROM users 
     WHERE email = $1`,
     [email]
@@ -93,7 +104,7 @@ export function selectUserForAuthentication(email) {
 
 export function selectUserForDeserialize(userId) {
   return db.oneOrNone(
-    `SELECT id, email, username, role, is_permabanned AS permaBan, is_banned_until AS tempBan, , is_verified AS isVerified 
+    `SELECT id, email, username, role, is_permabanned, is_banned_until, is_verified
       FROM users 
       WHERE id = $1`,
     [userId]
@@ -129,6 +140,17 @@ export function updateUserPassword(password, userId) {
     RETURNING id`,
     [password, userId],
     (a) => a.id
+  );
+}
+
+export function updateUserPasswordByEmail(password, email) {
+  return db.one(
+    `UPDATE users
+      SET password=$1
+      WHERE email=$2  
+    RETURNING email`,
+    [password, email],
+    (a) => a.email
   );
 }
 

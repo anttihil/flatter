@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import createHttpError from "http-errors";
-import { updateUserVerification } from "../../services/userService.js";
+import { updateUserVerification } from "../../../services/userService.js";
 
 export default async function verifyEmail(req, res, next) {
   try {

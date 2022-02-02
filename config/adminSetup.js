@@ -11,11 +11,11 @@ export async function adminSetup() {
     if (!admin) {
       const password = await hash(process.env.ADMIN_PASSWORD);
       const result = await db.one(
-        `INSERT INTO users(email, username, role, password) 
-          VALUES($1, $2, 'admin', $3)
+        `INSERT INTO users(email, username, role, password, is_verified) 
+          VALUES($1, $2, 'admin', $3, $4)
           ON CONFLICT DO NOTHING
           RETURNING username;`,
-        [process.env.ADMIN_EMAIL, process.env.ADMIN_USERNAME, password]
+        [process.env.ADMIN_EMAIL, process.env.ADMIN_USERNAME, password, true]
       );
       log.info("Admin user created.");
     } else {

@@ -37,10 +37,10 @@ export default async function createUser(req, res, next) {
       { expiresIn: "1d" }
     );
     const emailParams = new EmailParams()
-      .setFrom(`admin@${process.env.SERVER_DOMAIN}`)
-      .setFromName("Admin")
+      .setFrom(`noreply@${process.env.SERVER_DOMAIN}`)
+      .setFromName("Aihio")
       .setRecipients(recipients)
-      .setSubject(`Email Verification for ${process.env.SERVER_DOMAIN}`)
+      .setSubject(`User Email Verification for ${process.env.DOMAIN_NAME}`)
       .setHtml(
         `<!doctype html>
         <html lang="en">
@@ -48,7 +48,7 @@ export default async function createUser(req, res, next) {
             <meta http-equiv="Content-Type" content="text/html charset=UTF-8" />
           </head>
           <body>
-            <h1>Welcome to ${process.env.SERVER_DOMAIN}</h1>
+            <h1>Welcome to ${process.env.DOMAIN_NAME}</h1>
               <p>If this information is not correct, please disregard this email.</p>  
               <p>Here is a link to verify your email address:<br /> 
                 <a href="https://${process.env.SERVER_DOMAIN}/user/verify?token=${token}">https://${process.env.SERVER_DOMAIN}/user/verify?token=${token}</a>

@@ -15,7 +15,8 @@ block content
 			)
 			header
 				span#postTitle.px-2.font-sans= post.title
-				span(class="bg-gray text-xs text-dark rounded hover:bg-light hover:text-gray")=post.is_locked ? "Locked" : ""
+				if post.is_locked
+					span(class="px-2 bg-gray text-xs text-dark rounded hover:bg-light hover:text-gray") Locked
 			section( 
 				class="p-2"
 				)
@@ -89,10 +90,10 @@ block content
 									data-comment-id=comment.id
 									class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
 									) Comment
-						.space-x-1
-							-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
-							span=comment.username
-							time=comment.last_changed_at ? "edited on " + comment.last_changed_at.toLocaleString("en-US", dateConfig) : "on " + comment.created_at.toLocaleString("en-US", dateConfig)
+							.space-x-1
+								-let dateConfig = {dateStyle:"medium", timeStyle:"short" }
+								span=comment.username
+								time=comment.last_changed_at ? "edited on " + comment.last_changed_at.toLocaleString("en-US", dateConfig) : "on " + comment.created_at.toLocaleString("en-US", dateConfig)
 		+card(id="editPostForm" class="scroll-mt-8 hidden")
 				form(
 					action="" 

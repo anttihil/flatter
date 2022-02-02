@@ -47,3 +47,13 @@ IMAGE_STORAGE_ROOT_URL=
 IMAGE_STORAGE_ORIGINAL_URL=
 #The URL to the folder where your thumbnails are stored, e.g. "https://images.aihio.org/thumbnail/"
 IMAGE_STORAGE_THUMBNAIL_URL=
+
+MAILERSEND_API_KEY=
+
+#For example: website.org
+SERVER_DOMAIN=
+#For example: MyWebsite
+DOMAIN_NAME=
+
+#Secret used for signing JSON Web Tokens for verifying email addresses
+JWT_VERIFY_EMAIL_SECRET=

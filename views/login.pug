@@ -7,7 +7,7 @@ block content
 			if hasMessages
 				each message in messages 
 					article.font-serif= message
-		form(action="" method="POST" class='flex flex-col space-y-2 mt-2 font-serif w-full text-sm')
+		form(action="/user/login" method="POST" class='flex flex-col space-y-2 mt-2 font-serif w-full text-sm')
 			.pt-2 
 				label(for="email").text-light Email
 				input(
@@ -26,5 +26,5 @@ block content
 					required) 
 			.flex.justify-between.pt-2     
 				+hrefButton("register", "Register")
-				+hrefButton("forgotPassword", "Forgot Password")
+				+hrefButton("password/forgot", "Forgot Password")
 				+button("submit", "Log In")

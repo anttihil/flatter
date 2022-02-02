@@ -1,20 +1,26 @@
 import { Router } from "express";
-import { isAdmin, isNotBanned, isUser } from "../middleware/authorization.js";
-import editUserPassword from "../controllers/user/editUserPassword.js";
+import {
+  isAdmin,
+  isNotBanned,
+  isVerifiedUser,
+} from "../middleware/authorization.js";
+import editUserPassword from "../controllers/user/password/editUserPassword.js";
 import editUsername from "../controllers/user/editUsername.js";
-import readAdminDashboard from "../controllers/user/readAdminDashboard.js";
-import readForgotPasswordPage from "../controllers/user/readForgotPasswordPage.js";
+import readAdminDashboard from "../controllers/user/admin/readAdminDashboard.js";
+import readForgotPasswordPage from "../controllers/user/password/readForgotPasswordPage.js";
 import readUserDashboard from "../controllers/user/readUserDashboard.js";
 import readLoginPage from "../controllers/user/readLoginPage.js";
+import readPasswordResetPage from "../controllers/user/password/readPasswordResetPage.js";
+import resetPassword from "../controllers/user/password/resetPassword.js";
 import readRegisterPage from "../controllers/user/readRegisterPage.js";
 import readRegisterSuccess from "../controllers/user/readRegisterSuccess.js";
 import logoutUser from "../controllers/user/logoutUser.js";
 import createUser from "../controllers/user/createUser.js";
-import toggleUserBan from "../controllers/user/toggleUserBan.js";
-import setUserTempBan from "../controllers/user/setUserTempBan.js";
-import verifyEmail from "../controllers/user/verifyEmail.js";
-import sendPasswordResetEmail from "../controllers/user/sendPasswordResetEmail.js";
-import resendVerificationEmail from "../controllers/user/resendVerificationEmail.js";
+import toggleUserBan from "../controllers/user/admin/toggleUserBan.js";
+import setUserTempBan from "../controllers/user/admin/setUserTempBan.js";
+import verifyEmail from "../controllers/user/email/verifyEmail.js";
+import sendPasswordResetEmail from "../controllers/user/password/sendPasswordResetEmail.js";
+import sendVerificationEmail from "../controllers/user/email/sendVerificationEmail.js";
 import { selectEmail, selectUsername } from "../services/userService.js";
 import passport from "passport";
 import { body, query } from "express-validator";
@@ -42,6 +48,20 @@ async function checkUsernameUniqueness(username) {
   });
 }
 
+userRouter.route("/admin/ban").post(isAdmin, csrfProtection, toggleUserBan);
+userRouter
+  .route("/admin/dashboard")
+  .get(isAdmin, csrfProtection, readAdminDashboard);
+userRouter
+  .route("/admin/tempBan")
+  .post(isAdmin, csrfProtection, setUserTempBan);
+userRouter
+  .route("/dashboard")
+  .get(isVerifiedUser, isNotBanned, csrfProtection, readUserDashboard);
+userRouter
+  .route("/email/verify")
+  .post(csrfProtection, sendVerificationEmail)
+  .get(query("token").isJWT(), verifyEmail);
 userRouter
   .route("/login")
   .get(readLoginPage)
@@ -53,39 +73,37 @@ userRouter
       failureMessage: true,
     })
   );
-
+userRouter.route("/logout").get(logoutUser);
 userRouter
-  .route("/:userId(\\d+)/ban")
-  .post(isAdmin, csrfProtection, toggleUserBan);
-userRouter
-  .route("/changePassword")
+  .route("/password/change")
   .post(
-    isUser,
+    isVerifiedUser,
     isNotBanned,
     csrfProtection,
     body("newPassword").isAlphanumeric("en-US").isLength({ min: 12, max: 100 }),
     editUserPassword
   );
 userRouter
-  .route("/changeUsername")
-  .post(
-    isUser,
-    isNotBanned,
-    csrfProtection,
-    body("username")
-      .isAlphanumeric("en-US")
-      .isLength({ min: 1, max: 20 })
-      .custom(checkUsernameUniqueness),
-    editUsername
-  );
-userRouter
-  .route("/:userId(\\d+)/tempBan")
-  .post(isAdmin, csrfProtection, setUserTempBan);
-userRouter
-  .route("/forgotPassword")
+  .route("/password/forgot")
   .post(resetPasswordLimiter, sendPasswordResetEmail)
   .get(readForgotPasswordPage);
-userRouter.route("/logout").get(logoutUser);
+userRouter
+  .route("/password/reset")
+  .post(
+    body("newPassword").isAlphanumeric("en-US").isLength({ min: 12, max: 100 }),
+    body("confirmPassword")
+      .isAlphanumeric("en-US")
+      .isLength({ min: 12, max: 100 })
+      .custom((value, { req }) => {
+        if (value !== req.body.newPassword) {
+          throw new Error("Password confirmation does not match password");
+        }
+        // validator successful
+        return true;
+      }),
+    resetPassword
+  )
+  .get(query("token").isJWT(), readPasswordResetPage);
 userRouter.route("/register/success").get(readRegisterSuccess);
 userRouter
   .route("/register")
@@ -101,14 +119,15 @@ userRouter
     createUser
   );
 userRouter
-  .route("/admin/dashboard")
-  .get(isAdmin, csrfProtection, readAdminDashboard);
-userRouter
-  .route("/dashboard")
-  .get(isUser, isNotBanned, csrfProtection, readUserDashboard);
-userRouter
-  .route("/verify")
-  .post(csrfProtection, resendVerificationEmail)
-  .get(query("token").isJWT(), verifyEmail);
-
+  .route("/username/Change")
+  .post(
+    isVerifiedUser,
+    isNotBanned,
+    csrfProtection,
+    body("username")
+      .isAlphanumeric("en-US")
+      .isLength({ min: 1, max: 20 })
+      .custom(checkUsernameUniqueness),
+    editUsername
+  );
 export default userRouter;

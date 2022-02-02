@@ -18,13 +18,13 @@ block content
 						class="flex flex-wrap items-center space-x-2 mb-2 md:grid md:grid-cols-5 md:gap-2 md:justify-items-start font-sans text-sm"
 						)
 							span= u.username
-							form(action="/user/" + u.id + "/ban" method="post" class="") 
+							form(action="/user/admin/ban?user=" + u.id method="post" class="") 
 								input(type="hidden" name="_csrf" value=csrfToken)
 								button(
 									type="submit" 
 									class="p-1 bg-gray text-xs text-dark rounded hover:bg-light hover:text-gray ")= u.is_permabanned ? "UnPermaBan" : "PermaBan"
 							form(
-								action="/user/" + u.id + "/tempBan" 
+								action="/user/admin/tempBan?user=" + u.id 
 								method="post" 
 								class="p-1")
 								input(type="hidden" name="_csrf" value=csrfToken)
@@ -63,4 +63,3 @@ block content
 							-let dateConfig = {dateStyle:"short", timeStyle:"short" }
 							time(class="flex-none text-xs")= comment.last_changed_at ? "edited " + comment.last_changed_at.toLocaleString("en-US", dateConfig) : "created " + comment.created_at.toLocaleString("en-US", dateConfig)
 			a(href="#dashboardNavigation" class="hover:text-light text-brown text-xs") Back to the top
-		

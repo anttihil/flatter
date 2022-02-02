@@ -147,9 +147,9 @@ export function selectPosts(boardList, page, sort) {
   return db.any(
     `SELECT 
       p.id, 
-      LEFT(p.title, 150) AS title, 
-      LEFT(p.text, 150) AS text, 
-      p.user_id AS userId,  
+      p.title, 
+      LEFT(p.text, 500) AS text, 
+      p.user_id AS user_id,  
       p.last_changed_at, 
       p.created_at, 
       p.is_locked,

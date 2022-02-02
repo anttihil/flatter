@@ -3,10 +3,11 @@ import { validationResult } from "express-validator";
 import {
   selectUserPassword,
   updateUsername,
-} from "../../services/userService.js";
-import log from "../../config/logging.js";
+  updateUserPassword,
+} from "../../../services/userService.js";
+import log from "../../../config/logging.js";
 
-export default async function editUser(req, res, next) {
+export default async function editUserPassword(req, res, next) {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -18,10 +19,14 @@ export default async function editUser(req, res, next) {
     const hashedOldPassword = await hash(req.body.oldPassword);
     const result = await selectUserPassword(req.user.id);
     if (hashedOldPassword === result) {
-      const hashedPassword = await hash(req.body.newPassword);
-      const username = await updateUsername(hashedPassword, req.user.id);
-      log.info(`Updated username of #${username}`);
-      res.status(200).redirect("back");
+      const hashedNewPassword = await hash(req.body.newPassword);
+      const id = await updateUserPassword(hashedNewPassword, req.user.id);
+      log.info(`Updated username of #${id}`);
+      res
+        .status(200)
+        .render("userDashboard", {
+          passwordSuccess: "Your password was changed successfully.",
+        });
     } else {
       log.info(
         `User #${req.user.id} tried to update password but failed due to wrong password.`

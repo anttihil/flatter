@@ -1,5 +1,5 @@
-import { selectAllUserActivity } from "../../services/userService.js";
-import log from "../../config/logging.js";
+import { selectAllUserActivity } from "../../../services/userService.js";
+import log from "../../../config/logging.js";
 
 export default async function readAdminDashboard(req, res, next) {
   try {

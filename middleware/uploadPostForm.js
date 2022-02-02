@@ -1,21 +1,14 @@
 import createHttpError from "http-errors";
 import multer from "multer";
 import log from "../config/logging.js";
+import config from "config";
 
 const multerStorage = multer.memoryStorage();
 
-const allowedTypes = [
-  "image/jpg",
-  "image/jpeg",
-  "image/webp",
-  "image/avif",
-  "image/gif",
-  "image/png",
-];
 // This should check for file size
 // and file type
 function multerFilter(req, file, cb) {
-  if (allowedTypes.includes(file.mimetype)) {
+  if (config.get("allowedFileTypes").includes(file.mimetype)) {
     cb(null, true);
   } else {
     cb("Please upload only images.", false);
@@ -23,8 +16,8 @@ function multerFilter(req, file, cb) {
 }
 
 const multerLimits = {
-  files: 1,
-  fileSize: 5000000,
+  files: config.get("uploadFilesMax"),
+  fileSize: config.get("uploadFileSizeLimit"),
 };
 
 const upload = multer({
