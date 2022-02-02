@@ -44,13 +44,18 @@ boardAppLocals(app);
 app.set("views", "views");
 app.set("view engine", "pug");
 
-/* app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: { imgSrc: ["'self'", "data:", process.env.IMAGE_STORAGE_ROOT_URL] },
-    },
-  })
-); */
+if (app.get("env") === "production") {
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          imgSrc: ["'self'", "data:", process.env.IMAGE_STORAGE_ROOT_URL],
+        },
+      },
+    })
+  );
+}
+
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: false }));
 /*
