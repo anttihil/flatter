@@ -96,11 +96,11 @@ CREATE INDEX "IDX_session_expire" ON "session" ("expire");
 INSERT INTO 
     boards (name) 
 VALUES
-    ('Terrain'), 
-    ('Painting'),
-    ('Modeling'),
-    ('3D-printing'),
-    ('Mordheim')
+    ('Board A'), 
+    ('Board B'),
+    ('Board C'),
+    ('Board D'),
+    ('Board E')
 RETURNING *;
 
 CREATE OR REPLACE FUNCTION trigger_set_timestamp()

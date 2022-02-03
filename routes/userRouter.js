@@ -119,7 +119,7 @@ userRouter
     createUser
   );
 userRouter
-  .route("/username/Change")
+  .route("/username/change")
   .post(
     isVerifiedUser,
     isNotBanned,

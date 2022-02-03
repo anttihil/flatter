@@ -52,6 +52,8 @@ MAILERSEND_API_KEY=
 
 #For example: website.org
 SERVER_DOMAIN=
+#For example: https://website.org OR http://localhost:3000
+SERVER_DOMAIN_WITH_HTTP=
 #For example: MyWebsite
 DOMAIN_NAME=
 

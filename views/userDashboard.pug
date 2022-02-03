@@ -19,12 +19,12 @@ block content
 				href="#comments" 
 				class="hover:text-light text-brown"
 			) Comments
-		if passwordSuccess 
-			section.p-2 
-				span.text-light.font-serif=passwordSuccess
-		if usernameSuccess 
-			section.p-2 
-				span.text-light.font-serif=usernameSuccess
+		if passwordChange && passwordChange === "success" 
+			section.p-2.self-center 
+				span.text-light.font-serif Your password has been changed successfully.
+		if usernameChange && usernameChange === "success" 
+			section.p-2.self-center 
+				span.text-light.font-serif Your username has been changed successfully.
 		section.p-4.w-full
 			header.font-fraktur Change Password
 			form(
@@ -42,8 +42,8 @@ block content
 						required 
 						class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
 						)
-					if message
-						span(class="text-red-800 text-xs")=message
+					if passwordChange && passwordChange === "old"
+						section(class="text-red-800 text-xs") Invalid old password.
 				div(class="mt-2")
 					label(
 						for="newPassword"
@@ -59,8 +59,8 @@ block content
 						pattern="[0-9a-zA-Z]{12,100}"
 						)
 					span.text-xs 12 characters minimum, 100 maximum. A password can contain both upper and lower case letters, and numbers.
-					if validationErrors && validationErrors.newPassword
-						span(class="text-red-800 text-xs")=validationErrors.newPassword.msg
+					if passwordChange && passwordChange === "failure"
+						section(class="text-red-800 text-xs") Invalid password entry.
 				div.flex.justify-end
 					input(
 						type="submit" 
@@ -70,7 +70,7 @@ block content
 		section.p-4.w-full 
 			header.font-fraktur Change Username
 			form(
-				action="user/username/change" 
+				action="/user/username/change" 
 				method="post" 
 				class="mt-2 w-full"
 				)
@@ -88,8 +88,8 @@ block content
 					class="focus:outline-none focus:ring focus:ring-brown w-full font-serif bg-light text-dark"
 					)
 				span.text-xs Max 20 characters
-				if validationErrors && validationErrors.username
-						span(class="text-red-800 text-xs")=validationErrors.username.msg
+				if usernameChange && usernameChange === "failure"
+						section(class="text-red-800 text-xs") Invalid username entry.
 				div.flex.justify-end
 					input(
 							type="submit" 

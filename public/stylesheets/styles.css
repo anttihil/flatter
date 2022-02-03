@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap");
 
 /*
-! tailwindcss v3.0.16 | MIT License | https://tailwindcss.com
+! tailwindcss v3.0.18 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -544,6 +544,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-top: 0.5rem;
 }
 
+.mr-4{
+  margin-right: 1rem;
+}
+
+.ml-2{
+  margin-left: 0.5rem;
+}
+
 .mr-3{
   margin-right: 0.75rem;
 }
@@ -554,6 +562,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .block{
   display: block;
+}
+
+.inline-block{
+  display: inline-block;
 }
 
 .inline{
@@ -664,28 +676,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   margin-left: calc(0.25rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
-.space-y-1 > :not([hidden]) ~ :not([hidden]){
-  --tw-space-y-reverse: 0;
-  margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(0.25rem * var(--tw-space-y-reverse));
-}
-
-.space-y-3 > :not([hidden]) ~ :not([hidden]){
-  --tw-space-y-reverse: 0;
-  margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
-}
-
 .divide-y > :not([hidden]) ~ :not([hidden]){
   --tw-divide-y-reverse: 0;
   border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
   border-bottom-width: calc(1px * var(--tw-divide-y-reverse));
-}
-
-.divide-y-2 > :not([hidden]) ~ :not([hidden]){
-  --tw-divide-y-reverse: 0;
-  border-top-width: calc(2px * calc(1 - var(--tw-divide-y-reverse)));
-  border-bottom-width: calc(2px * var(--tw-divide-y-reverse));
 }
 
 .divide-brown > :not([hidden]) ~ :not([hidden]){
@@ -703,6 +697,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .justify-self-end{
   justify-self: end;
+}
+
+.whitespace-normal{
+  white-space: normal;
 }
 
 .whitespace-pre-line{
@@ -752,9 +750,9 @@ Ensure the default browser behavior of the `hidden` attribute.
   --tw-border-opacity: 0.7;
 }
 
-.bg-gray{
+.bg-light{
   --tw-bg-opacity: 1;
-  background-color: rgb(127 132 127 / var(--tw-bg-opacity));
+  background-color: rgb(243 239 238 / var(--tw-bg-opacity));
 }
 
 .bg-dark{
@@ -762,9 +760,9 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(21 28 31 / var(--tw-bg-opacity));
 }
 
-.bg-light{
+.bg-gray{
   --tw-bg-opacity: 1;
-  background-color: rgb(243 239 238 / var(--tw-bg-opacity));
+  background-color: rgb(127 132 127 / var(--tw-bg-opacity));
 }
 
 .bg-header{
@@ -843,12 +841,16 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-top: 0.5rem;
 }
 
-.pl-3{
-  padding-left: 0.75rem;
+.pt-3{
+  padding-top: 0.75rem;
 }
 
 .pb-4{
   padding-bottom: 1rem;
+}
+
+.pl-3{
+  padding-left: 0.75rem;
 }
 
 .font-fraktur{
@@ -901,6 +903,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 .text-red-800{
   --tw-text-opacity: 1;
   color: rgb(153 27 27 / var(--tw-text-opacity));
+}
+
+.text-gray{
+  --tw-text-opacity: 1;
+  color: rgb(127 132 127 / var(--tw-text-opacity));
 }
 
 .text-main{

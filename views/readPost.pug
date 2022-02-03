@@ -14,13 +14,13 @@ block content
 			class="scroll-mt-8"
 			)
 			header
-				span#postTitle.px-2.font-sans= post.title
+				span#postTitle.px-2.font-sans.whitespace-normal= post.title
 				if post.is_locked
 					span(class="px-2 bg-gray text-xs text-dark rounded hover:bg-light hover:text-gray") Locked
 			section( 
 				class="p-2"
 				)
-				a(href="/image/" + images[0].id class="float-left inline mr-2 mb-2 hover:outline hover:outline-brown")
+				a(href="/image/" + images[0].id class="float-left inline mr-4 mb-2 hover:outline hover:outline-brown")
 					img(src=process.env.IMAGE_STORAGE_THUMBNAIL_URL + images[0].id + ".webp" class=" max-w-screen-sm" crossorigin)
 				section#postText(class="font-serif text-sm whitespace-pre-line")= post.text 
 			footer.px-2.py-1.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
@@ -61,11 +61,11 @@ block content
 						a(
 							href=comment.reference_id ? "#comment" + comment.reference_id : "#post"
 							class="text-main text-xs hover:text-red-800"
-						)  
+							)  
 							i=comment.reference_id ? "@" + comment.reference_author : "@" + post.username
 						section(
 							id="commentText" + comment.id 
-							class="inline px-2 font-serif text-sm"
+							class="inline px-2 font-serif text-sm whitespace-pre-line"
 							)= comment.text 
 					footer.px-2.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
 						div.flex.space-x-2
@@ -112,7 +112,7 @@ block content
 							required
 							spellcheck="true"
 							maxlength="150" 
-							class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
+							class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark text-sm"
 							)
 					div 
 						label(for="editPostText") Edit Text:  
@@ -124,7 +124,7 @@ block content
 							required
 							spellcheck="true"
 							maxlength="60000" 
-							class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
+							class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark text-sm"
 							)=""
 					div.flex.justify-end.space-x-2 
 						+bigButton("submit", "Submit")
@@ -147,7 +147,7 @@ block content
 								required
 								spellcheck="true"
 								maxlength="60000" 
-								class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
+								class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark text-sm"
 							)
 						div.flex.justify-end.space-x-2 
 							+bigButton("submit", "Submit")
@@ -169,7 +169,7 @@ block content
 								rows="10" 
 								required
 								maxlength="60000" 
-								class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
+								class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark text-sm"
 							)
 						div.flex.justify-end.space-x-2 
 							+bigButton("submit", "Submit")

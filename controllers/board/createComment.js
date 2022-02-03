@@ -10,7 +10,9 @@ export default async function createComment(req, res, next) {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).render("readPost", { errors: errors.mapped() });
+      return res
+        .status(400)
+        .redirect("error", { validationErrors: errors.mapped() });
     }
 
     const commentId = await insertComment(

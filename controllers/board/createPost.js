@@ -6,7 +6,9 @@ export function processValidationErrorsForCreatePost(req, res, next) {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).render("createPost", { errors: errors.mapped() });
+      return res
+        .status(400)
+        .render("createPost", { validationErrors: errors.mapped() });
     }
     next();
   } catch (error) {

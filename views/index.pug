@@ -4,18 +4,20 @@ block content
 		if posts
 			for post in posts 
 				+card
-					header(class="")
-						a(
-							href="/board/post/" + post.id
-							class="px-2 font-sans hover:text-gray whitespace-pre-line"
-							)= post.title
-						span(class="bg-gray text-xs text-dark rounded hover:bg-light hover:text-gray")=post.is_locked ? "Locked" : ""
 					section(
 						class="p-2 font-serif text-sm"
 						)
-						a(href="/image/" + post.images[0] class="float-left inline mr-2 mb-2 hover:outline hover:outline-brown")
+						a(href="/image/" + post.images[0] class="float-left inline mr-4 mb-2 hover:outline hover:outline-brown")
 							img(src=process.env.IMAGE_STORAGE_THUMBNAIL_URL + post.images[0] + ".webp" class="w-24 max-w-screen-sm" crossorigin)
-						a(href="/board/post/" + post.id class="hover:text-gray whitespace-pre-line")= post.text 
+						header(class="mb-2")
+							a(
+								href="/board/post/" + post.id
+								class="text-lg font-sans hover:text-gray whitespace-normal"
+								)= post.title
+							if post.is_locked
+								span(class="px-2 bg-gray text-xs text-dark rounded hover:bg-light hover:text-gray") Locked
+						a(href="/board/post/" + post.id class="hover:text-gray whitespace-pre-line")= post.text + "..."
+							div(class="inline-block ml-2 text-gray hover:text-red-800 text-xs") Read More
 					footer(
 						class="px-2 flex flex-row font-sans text-xs justify-end space-x-2"
 						)

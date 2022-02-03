@@ -64,7 +64,6 @@ boardRouter
     isNotBanned,
     csrfProtection,
     body("title").isLength({ max: 150 }).escape(),
-    body("image_url").isURL(),
     body("text").isLength({ max: 60000 }).escape(),
     editPost
   );

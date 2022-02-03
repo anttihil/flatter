@@ -7,7 +7,9 @@ export default async function editPost(req, res, next) {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).render("readPost", { errors: errors.mapped() });
+      return res
+        .status(400)
+        .render("error", { validationErrors: errors.mapped() });
     }
 
     log.info(

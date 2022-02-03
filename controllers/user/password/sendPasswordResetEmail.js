@@ -9,6 +9,7 @@ export default async function sendPasswordResetEmail(req, res, next) {
       `Selecting user by email before sending a verification email: ${req.body.email}.`
     );
     const user = await selectUserByEmail(req.body.email);
+    console.log(user);
     if (user) {
       log.info(`Sending a password reset email to ${user.email}.`);
       const Recipient = MailerSend.Recipient;
@@ -36,7 +37,7 @@ export default async function sendPasswordResetEmail(req, res, next) {
               <h1>According to our records, you requested to reset your password for ${process.env.DOMAIN_NAME}</h1>
                 <p>If this information is not correct, please disregard this email.</p>  
                 <p>Here is a link to reset your password:<br /> 
-                  <a href="https://${process.env.SERVER_DOMAIN}/user/verify?token=${token}">https://${process.env.SERVER_DOMAIN}/user/verify?token=${token}</a>
+                  <a href="${process.env.SERVER_DOMAIN_WITH_HTTP}/user/password/reset?token=${token}">${process.env.SERVER_DOMAIN_WITH_HTTP}/user/password/reset?token=${token}</a>
                 </p>
                 <p>This link will be active for one hour.</p>
             </body>

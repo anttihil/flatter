@@ -5,12 +5,12 @@ block content
 		header.h-8.text-xl.font-sans="Welcome, " + username 
 		section.font-serif You have successfully verified your email address. Your account is now fully activated.   
 		if user
-      a(
-            href= "/board"
-            class='bg-light p-1 border-2 border-main text-dark hover:bg-gray font-fraktur'
-          ) To the Board
-    else
-      a(
-            href= "/user/login"
-            class='bg-light p-1 border-2 border-main text-dark hover:bg-gray font-fraktur'
-          ) Log In
+			a(
+						href= "/board"
+						class='bg-light p-1 border-2 border-main text-dark hover:bg-gray font-fraktur'
+					) To the Board
+		else
+			a(
+						href= "/user/login"
+						class='bg-light p-1 border-2 border-main text-dark hover:bg-gray font-fraktur'
+					) Log In

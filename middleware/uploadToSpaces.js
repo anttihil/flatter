@@ -30,6 +30,7 @@ should be "public-read".
 
 export default async function uploadToSpaces(req, res, next) {
   try {
+    log.info("Starting to upload images to Spaces.");
     const imageIds = await Promise.all(
       req.body.images.map(async (object) => {
         const uuid = uuidv4();
@@ -54,16 +55,20 @@ export default async function uploadToSpaces(req, res, next) {
           },
         });
 
-        uploadOriginal.on("httpUploadProgress", (progress) => {
-          log.info(progress);
-        });
-
         uploadThumbnail.on("httpUploadProgress", (progress) => {
-          log.info(progress);
+          log.info(
+            `Thumbnail image upload progress: ${JSON.stringify(progress)}`
+          );
         });
 
-        await uploadOriginal.done();
+        uploadOriginal.on("httpUploadProgress", (progress) => {
+          log.info(
+            `Original image upload progress: ${JSON.stringify(progress)}`
+          );
+        });
+
         await uploadThumbnail.done();
+        await uploadOriginal.done();
         return uuid;
       })
     );

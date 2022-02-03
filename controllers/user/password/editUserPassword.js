@@ -1,8 +1,7 @@
-import { hash } from "argon2";
+import { hash, verify } from "argon2";
 import { validationResult } from "express-validator";
 import {
   selectUserPassword,
-  updateUsername,
   updateUserPassword,
 } from "../../../services/userService.js";
 import log from "../../../config/logging.js";
@@ -11,29 +10,21 @@ export default async function editUserPassword(req, res, next) {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .render("userDashboard", { validationErrors: errors.mapped() });
+      return res.status(400).redirect("/user/dashboard?passwordChange=failure");
     }
     log.info(`Updating password of #${req.user.id}`);
-    const hashedOldPassword = await hash(req.body.oldPassword);
-    const result = await selectUserPassword(req.user.id);
-    if (hashedOldPassword === result) {
+    const hashedOldPassword = await selectUserPassword(req.user.id);
+    const result = await verify(hashedOldPassword, req.body.oldPassword);
+    if (result) {
       const hashedNewPassword = await hash(req.body.newPassword);
       const id = await updateUserPassword(hashedNewPassword, req.user.id);
-      log.info(`Updated username of #${id}`);
-      res
-        .status(200)
-        .render("userDashboard", {
-          passwordSuccess: "Your password was changed successfully.",
-        });
+      log.info(`Updated password of #${id}`);
+      res.status(200).redirect("/user/dashboard?passwordChange=success");
     } else {
       log.info(
-        `User #${req.user.id} tried to update password but failed due to wrong password.`
+        `User #${req.user.id} tried to update password but failed due to wrong old password.`
       );
-      res.status(400).render("userDashboard", {
-        message: "Your old password was incorrect.",
-      });
+      res.status(400).redirect("/user/dashboard?passwordChange=old");
     }
   } catch (error) {
     next(error);
