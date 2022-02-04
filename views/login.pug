@@ -2,14 +2,13 @@ extends layout
 
 block content 
 	+formCard            
-		header.flex.flex-col.items-center.text-light
-			.font-fraktur.text-xl Log In
+		header.flex.flex-col.items-center.font-aleg.font-bold.text-xl Log In
 			if hasMessages
 				each message in messages 
-					article.font-serif= message
-		form(action="/user/login" method="POST" class='flex flex-col space-y-2 mt-2 font-serif w-full text-sm')
+					article= message
+		form(action="/user/login" method="POST" class='flex flex-col space-y-2 mt-2 w-full font-alegsans font-normal')
 			.pt-2 
-				label(for="email").text-light Email
+				label(for="email").font-aleg.font-medium Email
 				input(
 					type="email" 
 					name="email"
@@ -17,7 +16,7 @@ block content
 					class='focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark' 
 					required)
 			div 
-				label(for="password").text-light Password
+				label(for="password").font-aleg.font-medium Password
 				input(
 					type="password" 
 					name="password"

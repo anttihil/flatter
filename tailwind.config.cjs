@@ -4,6 +4,8 @@ module.exports = {
     extend: {
       fontFamily: {
         fraktur: ["UnifrakturCook", "cursive"],
+        aleg: ["Alegreya", "serif"],
+        alegsans: ["Alegreya-Sans", "sans"],
       },
       colors: {
         dark: "#151C1F",

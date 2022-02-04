@@ -6,24 +6,24 @@ block content
 	if errors
 		+card(id="errorCard" class="scroll-mt-8")
 			for field, key in errors
-				header.self-center.text-lg.font-fraktur.p-2 Errors in form input
-				span(class="self-center text-red-800 font-sans text-sm pb-4")=key + ": " + field.msg
+				header.self-center.text-lg.font-aleg.font-semibold.p-2 Errors in form input
+				span(class="self-center text-red-800 font-alegsans font-normal pb-4")=key + ": " + field.msg
 	if post
 		+card(
 			id="post"
-			class="scroll-mt-8"
+			class="scroll-mt-8 pb-4"
 			)
 			header
-				span#postTitle.px-2.font-sans.whitespace-normal= post.title
+				span#postTitle.px-2.font-aleg.font-semibold.whitespace-normal.text-lg= post.title
 				if post.is_locked
-					span(class="px-2 bg-gray text-xs text-dark rounded hover:bg-light hover:text-gray") Locked
+					span(class="px-2 bg-gray font-alegsans font-normal text-xs text-dark rounded hover:bg-light hover:text-gray") Locked
 			section( 
 				class="p-2"
 				)
 				a(href="/image/" + images[0].id class="float-left inline mr-4 mb-2 hover:outline hover:outline-brown")
 					img(src=process.env.IMAGE_STORAGE_THUMBNAIL_URL + images[0].id + ".webp" class=" max-w-screen-sm" crossorigin)
-				section#postText(class="font-serif text-sm whitespace-pre-line")= post.text 
-			footer.px-2.py-1.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
+				section#postText(class="font-alegsans font-normal whitespace-pre-line")= post.text 
+			footer.px-2.py-1.flex.flex-row.font-alegsans.font-normal.text-xs.justify-between.space-x-1
 				div.flex.space-x-2
 				div.flex.space-x-2
 					if (user && user.role === "admin")
@@ -55,19 +55,19 @@ block content
 			for comment in comments 
 				+card(
 					id="comment" + comment.id
-					class="scroll-mt-8"
+					class="scroll-mt-8 py-4"
 					)
-					section.text-sm.font-serif
+					section.font-alegsans.font-normal 
 						a(
 							href=comment.reference_id ? "#comment" + comment.reference_id : "#post"
 							class="text-main text-xs hover:text-red-800"
 							)  
-							i=comment.reference_id ? "@" + comment.reference_author : "@" + post.username
+							i.text-sm=comment.reference_id ? "@" + comment.reference_author : "@" + post.username
 						section(
 							id="commentText" + comment.id 
-							class="inline px-2 font-serif text-sm whitespace-pre-line"
+							class="inline px-2 whitespace-pre-line"
 							)= comment.text 
-					footer.px-2.flex.flex-row.font-sans.text-xs.justify-between.space-x-1
+					footer.px-2.flex.flex-row.font-alegsans.font-normal.text-xs.justify-between.space-x-1
 						div.flex.space-x-2
 						div.flex.space-x-2
 							if (user && user.role === "admin")
@@ -98,12 +98,12 @@ block content
 				form(
 					action="" 
 					method="post"
-					class="flex flex-col space-y-2 mt-2 font-serif"
+					class="flex flex-col space-y-2 mt-2"
 					name="editPostForm"
 					)
 					input(type="hidden" name="_csrf" value=csrfToken)
 					div 
-						label(for="editPostTitle") Edit Title:
+						label(for="editPostTitle" class="font-aleg font-medium") Edit Title:
 						input(
 							type="text" 
 							id="editPostTitle"
@@ -112,10 +112,10 @@ block content
 							required
 							spellcheck="true"
 							maxlength="150" 
-							class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark text-sm"
+							class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark font-alegsans font-normal"
 							)
 					div 
-						label(for="editPostText") Edit Text:  
+						label(for="editPostText" class="font-aleg font-medium") Edit Text:  
 						textarea(
 							id="editPostText" 
 							name="text" 
@@ -124,7 +124,7 @@ block content
 							required
 							spellcheck="true"
 							maxlength="60000" 
-							class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark text-sm"
+							class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark font-alegsans font-normal"
 							)=""
 					div.flex.justify-end.space-x-2 
 						+bigButton("submit", "Submit")
@@ -133,12 +133,12 @@ block content
 					form(
 						action="" 
 						method="post" 
-						class="flex flex-col space-y-2 mt-2 font-serif"
+						class="flex flex-col space-y-2 mt-2"
 						name="editCommentForm"
 						)
 						input(type="hidden" name="_csrf" value=csrfToken)
 						div 
-							label(for="editCommentText") Edit Comment:  
+							label(for="editCommentText" class="font-aleg font-medium") Edit Comment:  
 							textarea(
 								id="editCommentText" 
 								name="text" 
@@ -147,7 +147,7 @@ block content
 								required
 								spellcheck="true"
 								maxlength="60000" 
-								class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark text-sm"
+								class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark font-alegsans font-normal"
 							)
 						div.flex.justify-end.space-x-2 
 							+bigButton("submit", "Submit")
@@ -156,12 +156,12 @@ block content
 					form(
 						action=""
 						method="post"
-						class="flex flex-col space-y-2 mt-2 font-serif"
+						class="flex flex-col space-y-2 mt-2"
 						name="commentForm"
 						)
 						input(type="hidden" name="_csrf" value=csrfToken)
 						div 
-							label(for="commentText") Comment:  
+							label(for="commentText" class="font-aleg font-medium") Comment:  
 							textarea(
 								id="commentText" 
 								name="text" 
@@ -169,7 +169,7 @@ block content
 								rows="10" 
 								required
 								maxlength="60000" 
-								class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark text-sm"
+								class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark font-alegsans font-normal"
 							)
 						div.flex.justify-end.space-x-2 
 							+bigButton("submit", "Submit")

@@ -5,42 +5,51 @@ block pageScript
 	
 block content 
 	+formCard 
-		div.flex.flex-col.h-8.items-center.text-xl.font-fraktur.text-light
+		div.flex.flex-col.h-8.items-center.text-lg.font-aleg.font-normal.text-light
 			header Create a Post  
-		form#postForm(action="" enctype="multipart/form-data" method="post" class="flex flex-col space-y-2 font-serif w-full text-sm text-light focus:outline-none focus:ring focus:ring-brown" )
+		form#postForm(
+			action="" 
+			enctype="multipart/form-data" 
+			method="post" 
+			class="flex flex-col space-y-2 w-full text-light focus:outline-none focus:ring focus:ring-brown" )
 			input(type="hidden" name="_csrf" value=csrfToken)
 			.pt-2  
-				label(for="selectBoard") Select Board:
+				label(for="selectBoard" class="font-aleg font-medium") Select Board:
 				select#selectBoard(
 					name="board" 
 					required 
-					class="w-full bg-light text-dark p-1"
+					class="w-full bg-light text-dark p-1 font-alegsans font-normal"
 				)
 					for board in boards 
-						option(value=board).text-dark=board
+						option(value=board class="text-dark font-alegsans font-normal")=board
 				if validationErrors && validationErrors.board
-					span(class="text-red-800 text-xs")=validationErrors.board.msg
+					span(class="text-red-800 text-sm font-alegsans font-normal")=validationErrors.board.msg
 			div 
-				label(for="titleInput") Title:
+				label(for="titleInput" class="font-aleg font-medium") Title:
 				input#titleInput(
 					type="text" 
 					name="title" 
 					required 
 					placeholder=" Title text"
 					maxlength="150" 
-					class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark")
-				span.text-xs Max length 150 characters.
+					class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark font-alegsans font-normal")
+				span.text-sm.font-alegsans.font-normal Max length 150 characters.
 				if validationErrors && validationErrors.title
-					span(class="text-red-800 text-xs")=validationErrors.title.msg
+					span(class="text-red-800 text-sm font-alegsans font-normal")=validationErrors.title.msg
 			div 
-				label#imageLabel(for="imageInput" class="hover:bg-light bg-gray p-1 border-2 border-dark border-opacity-50 font-serif text-xs text-dark ") Choose an Image: .jpg, .gif, or .png 
-				input#imageInput(type="file" name="image" accept="image/jpg, image/jpeg, image/png, image/gif, image/webp, image/avif" class="opacity-0 focus:outline-none ")
+				label#imageLabel(
+					for="imageInput" 
+					class="hover:bg-light bg-gray p-1 border-2 border-dark border-opacity-50 font-alegsans font-normal text-dark ") Choose an Image: .jpg, .gif, .png, .webp, or .avif 
+				input#imageInput(
+					type="file" 
+					name="image" 
+					accept="image/jpg, image/jpeg, image/png, image/gif, image/webp, image/avif" class="opacity-0 focus:outline-none ")
 				if validationErrors && validationErrors.image
-						span(class="text-red-800 text-xs")=validationErrors.image.msg
+						span(class="text-red-800 text-sm font-alegsans font-normal")=validationErrors.image.msg
 			#imagePreview
-				p No files currently selected for upload
+				p.text-sm No files currently selected for upload
 			div 
-				label(for="textInput") Text:  
+				label(for="textInput" class="font-aleg font-medium") Text:  
 				textarea#textInput(
 				name="text" 
 				cols="30" 
@@ -51,11 +60,11 @@ block content
 				class="focus:outline-none focus:ring focus:ring-brown  bg-light text-dark shadow w-full"
 				)
 				if validationErrors && validationErrors.text
-					span(class="text-red-800 text-xs")=validationErrors.text.msg
+					span(class="text-red-800 text-sm font-alegsans font-normal")=validationErrors.text.msg
 			if (!user)
 				div.flex.justify-end 
 					+hrefButton("/user/login", "Log In")
 			else if (user && (!user.permaBan || !user.tempBan || Date.now() > user.tempBan))
 				+bigButton("submit", "Submit")
 			else 
-				span(class="text-red-800 hover:bg-gray p-0.5 text-lg border-2 border-main border-opacity-70 font-fraktur bg-light") Banned
+				div(class="text-red-800 self-end hover:bg-gray p-0.5 border-2 border-main border-opacity-70 font-aleg font-bold bg-light") Banned

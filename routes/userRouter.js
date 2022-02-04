@@ -10,7 +10,7 @@ import readAdminDashboard from "../controllers/user/admin/readAdminDashboard.js"
 import readForgotPasswordPage from "../controllers/user/password/readForgotPasswordPage.js";
 import readUserDashboard from "../controllers/user/readUserDashboard.js";
 import readLoginPage from "../controllers/user/readLoginPage.js";
-import readPasswordResetPage from "../controllers/user/password/readPasswordResetPage.js";
+import readPasswordResetForm from "../controllers/user/password/readPasswordResetForm.js";
 import resetPassword from "../controllers/user/password/resetPassword.js";
 import readRegisterPage from "../controllers/user/readRegisterPage.js";
 import readRegisterSuccess from "../controllers/user/readRegisterSuccess.js";
@@ -103,7 +103,7 @@ userRouter
       }),
     resetPassword
   )
-  .get(query("token").isJWT(), readPasswordResetPage);
+  .get(query("token").isJWT(), readPasswordResetForm);
 userRouter.route("/register/success").get(readRegisterSuccess);
 userRouter
   .route("/register")

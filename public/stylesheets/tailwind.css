@@ -3,3 +3,69 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: Alegreya;
+    font-weight: 900;
+    src: url(/webfonts/Alegreya-Black.ttf) format("truetype");
+  }
+  @font-face {
+    font-family: Alegreya;
+    font-weight: 800;
+    src: url(/webfonts/Alegreya-ExtraBold.ttf) format("truetype");
+  }
+  @font-face {
+    font-family: Alegreya;
+    font-weight: 700;
+    src: url(/webfonts/Alegreya-Bold.ttf) format("truetype");
+  }
+  @font-face {
+    font-family: Alegreya;
+    font-weight: 600;
+    src: url(/webfonts/Alegreya-SemiBold.ttf) format("truetype");
+  }
+  @font-face {
+    font-family: Alegreya;
+    font-weight: 500;
+    src: url(/webfonts/Alegreya-Medium.ttf) format("truetype");
+  }
+  @font-face {
+    font-family: Alegreya;
+    font-weight: 400;
+    src: url(/webfonts/Alegreya-Regular.ttf) format("truetype");
+  }
+}
+
+@layer base {
+  @font-face {
+    font-family: Alegreya-Sans;
+    font-weight: 900;
+    src: url(/webfonts/AlegreyaSans-Black.ttf) format("truetype");
+  }
+  @font-face {
+    font-family: Alegreya-Sans;
+    font-weight: 800;
+    src: url(/webfonts/AlegreyaSans-ExtraBold.ttf) format("truetype");
+  }
+  @font-face {
+    font-family: Alegreya-Sans;
+    font-weight: 700;
+    src: url(/webfonts/AlegreyaSans-Bold.ttf) format("truetype");
+  }
+  @font-face {
+    font-family: Alegreya-Sans;
+    font-weight: 600;
+    src: url(/webfonts/AlegreyaSans-SemiBold.ttf) format("truetype");
+  }
+  @font-face {
+    font-family: Alegreya-Sans;
+    font-weight: 500;
+    src: url(/webfonts/AlegreyaSans-Medium.ttf) format("truetype");
+  }
+  @font-face {
+    font-family: Alegreya-Sans;
+    font-weight: 400;
+    src: url(/webfonts/AlegreyaSans-Regular.ttf) format("truetype");
+  }
+}

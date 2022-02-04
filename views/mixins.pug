@@ -12,7 +12,7 @@ mixin cardContainer
 
 mixin formCard 
 	article(
-		class="md:h-auto h-full bg-dark p-6 flex flex-col items-center space-y-2"
+		class="md:h-auto h-full bg-dark p-6 flex flex-col items-center space-y-2 border-b border-brown text-light font-alegsans font-normal"
 		)&attributes(attributes)
 		block 
 
@@ -26,17 +26,17 @@ mixin bigButton(type, text)
 	input(
 		type=type 
 		value=text
-		class='self-end p-0.5 text-lg border-2 border-main border-opacity-70 font-fraktur bg-light text-dark hover:bg-gray'
+		class='self-end p-0.5 border-2 border-main border-opacity-70 font-aleg font-bold bg-light text-dark hover:bg-gray'
 		)&attributes(attributes)
 	
 mixin hrefButton(href, text)
 	a(
 		href=href 
-		class="hover:bg-gray p-0.5 text-lg border-2 border-main border-opacity-70 font-fraktur bg-light text-dark"
+		class="hover:bg-gray p-0.5 border-2 border-main border-opacity-70 font-aleg font-bold bg-light text-dark"
 		)&attributes(attributes)=text
 
 mixin button(type, text)
 	button(
 		type=type 
-		class="hover:bg-gray p-0.5 text-lg border-2 border-main border-opacity-70 font-fraktur bg-light text-dark"
+		class="hover:bg-gray p-0.5 border-2 border-main border-opacity-70 font-aleg font-bold bg-light text-dark"
 		)&attributes(attributes)=text

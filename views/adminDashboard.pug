@@ -2,27 +2,27 @@ extends layout
 
 block content
 	article(
-		class="divide-y divide-brown md:h-auto h-full text-light font-sans items-start bg-dark flex flex-col space-y-2  border-b border-brown"
+		class="pt-4 divide-y divide-brown md:h-auto h-full text-light font-alegsans font-normal items-start bg-dark flex flex-col space-y-2  border-b border-brown"
 		)
-		header(class='text-light font-fraktur text-xl self-center') Admin Dashboard
-		section#dashboardNavigation(class="self-center flex justify-between text-xs space-x-3 p-2")
+		header(class='text-light font-aleg font-bold text-xl self-center') Admin Dashboard
+		section#dashboardNavigation(class="self-center flex justify-between text-sm space-x-3 p-2")
 			span Navigation:
 			a(href="#users" class="hover:text-light text-brown") Users
 			a(href="#posts" class="hover:text-light text-brown") Posts
 			a(href="#comments" class="hover:text-light text-brown") Comments
 		section.p-4.w-full
-			header#users.font-fraktur.mb-4 Users    
+			header#users.font-aleg.font-bold.text-lg.mb-4 Users    
 			if users
 				for u in users 
 					article(
-						class="flex flex-wrap items-center space-x-2 mb-2 md:grid md:grid-cols-5 md:gap-2 md:justify-items-start font-sans text-sm"
+						class="flex flex-wrap items-center space-x-2 mb-2 md:grid md:grid-cols-5 md:gap-2 md:justify-items-start font-alegsans font-normal text-sm"
 						)
 							span= u.username
 							form(action="/user/admin/ban?user=" + u.id method="post" class="") 
 								input(type="hidden" name="_csrf" value=csrfToken)
 								button(
 									type="submit" 
-									class="p-1 bg-gray text-xs text-dark rounded hover:bg-light hover:text-gray ")= u.is_permabanned ? "UnPermaBan" : "PermaBan"
+									class="p-1 bg-gray text-sm text-dark rounded hover:bg-light hover:text-gray ")= u.is_permabanned ? "UnPermaBan" : "PermaBan"
 							form(
 								action="/user/admin/tempBan?user=" + u.id 
 								method="post" 
@@ -36,30 +36,30 @@ block content
 									)  
 								button(
 									type="submit" 
-									class="bg-gray text-xs text-dark px-2 rounded hover:bg-light hover:text-gray"
+									class="bg-gray text-sm text-dark m-1 px-2 rounded hover:bg-light hover:text-gray"
 									) Set TempBan
 							-let dateConfig = {dateStyle:"short", timeStyle:"short" }
-							time#latest-visit(class="text-xs")= u.latest_visit ? "Visited " + u.latest_visit.toLocaleString("en-US", dateConfig) : "Never visited"
-							time#created(class="text-xs justify-self-end")= u.created_at ? "Created " + u.created_at.toLocaleString("en-US", dateConfig) : "No creation date"
-			a(href="#dashboardNavigation" class="hover:text-light text-brown text-xs") Back to the top	
+							time#latest-visit(class="text-sm")= u.latest_visit ? "Visited " + u.latest_visit.toLocaleString("en-US", dateConfig) : "Never visited"
+							time#created(class="text-sm justify-self-end")= u.created_at ? "Created " + u.created_at.toLocaleString("en-US", dateConfig) : "No creation date"
+			a(href="#dashboardNavigation" class="hover:text-light text-brown text-sm") Back to the top	
 		section.p-4.w-full
-			header#posts.font-fraktur.mb-4 Posts
+			header#posts.font-aleg.font-bold.text-lg.mb-4 Posts
 			if posts
 				for post in posts 
-					article.flex.font-sans.text-sm.space-x-1.mb-1
+					article.flex.font-alegsans.font-normal.text-sm.space-x-1.mb-1
 						a.mr-auto(href="/board/post/" + post.id )= post.title				
-						a.text-xs(href=post.image_url)
-						span.text-xs=post.username 
+						a.text-sm(href=post.image_url)
+						span.text-sm=post.username 
 						-let dateConfig = {dateStyle:"short", timeStyle:"short" }
-						time(class="flex-none text-xs")= post.last_changed_at ? "edited " + post.last_changed_at.toLocaleString("en-US", dateConfig) : "created " + post.created_at.toLocaleString("en-US", dateConfig)
-			a(href="#dashboardNavigation" class="hover:text-light text-brown text-xs") Back to the top
+						time(class="flex-none text-sm")= post.last_changed_at ? "edited " + post.last_changed_at.toLocaleString("en-US", dateConfig) : "created " + post.created_at.toLocaleString("en-US", dateConfig)
+			a(href="#dashboardNavigation" class="hover:text-light text-brown text-sm") Back to the top
 		section.p-4.w-full
-			header#comments.font-fraktur.mb-4 Comments    
+			header#comments.font-aleg.font-bold.text-lg.mb-4 Comments    
 			if comments
 				for comment in comments 
-					article.flex.font-sans.text-sm.space-x-1.mb-1
+					article.flex.font-alegsans.font-normal.text-sm.space-x-1.mb-1
 							a.mr-auto(href="/board/post/" + comment.post_id + "/#comment" + comment.id class="")= comment.text 
-							span.text-xs=comment.username
+							span.text-sm=comment.username
 							-let dateConfig = {dateStyle:"short", timeStyle:"short" }
-							time(class="flex-none text-xs")= comment.last_changed_at ? "edited " + comment.last_changed_at.toLocaleString("en-US", dateConfig) : "created " + comment.created_at.toLocaleString("en-US", dateConfig)
-			a(href="#dashboardNavigation" class="hover:text-light text-brown text-xs") Back to the top
+							time(class="flex-none text-sm")= comment.last_changed_at ? "edited " + comment.last_changed_at.toLocaleString("en-US", dateConfig) : "created " + comment.created_at.toLocaleString("en-US", dateConfig)
+			a(href="#dashboardNavigation" class="hover:text-light text-brown text-sm") Back to the top

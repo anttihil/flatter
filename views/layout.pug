@@ -11,24 +11,23 @@ html.scroll-pt-12
 		script(defer src="/javascripts/client.js")
 		block pageScript 
 	body(class="flex flex-col min-h-screen bg-gradient-to-r from-empty1 to-empty2")
-		header#headerMenu(class="z-5 md:z-20 h-8 left-0 top-0 right-0 sticky flex justify-between items-center bg-header text-light shadow-black shadow font-fraktur")
+		header#headerMenu(class="font-aleg font-bold z-5 md:z-20 h-8 left-0 top-0 right-0 sticky flex justify-between items-center bg-header text-light shadow-black shadow ")
 			.flex.items-center.py-2.px-3.space-x-2.justify-between
 				button(data-toggle-hide-id="navbar" class="md:hidden")
 					span(data-toggle-hide-id="navbar" class="fas fa-bars fa-lg")
-				div.text-lg KraftWorld 
+				div.text-xl.font-fraktur=process.env.DOMAIN_NAME 
 			div.flex.space-x-3.items-center
 				if user
 					form(action="/user/logout" class="flex-none hover:text-gray") 
-						input(type="hidden" name="_csrf" value=csrfToken)
-						button Log Out
+						button.font-aleg.font-bold Log Out
 				else 
 					a(href="/user/login" class="flex-none hover:text-gray") Log In
 				if user && user.role === "admin"
-					a(href="/user/admin/dashboard" class="flex-none mr-3 p-0.5 rounded-full bg-light text-dark hover:text-light hover:bg-opacity-40")= "Dashboard"
+					a(href="/user/admin/dashboard" class="flex-none mr-3 p-0.5 px-1 rounded-full bg-light text-dark hover:text-light hover:bg-opacity-40")= "Admin"
 				else if user	
-					a(href="/user/dashboard" class="flex-none mr-3 p-0.5 rounded-full bg-light text-dark hover:text-gray")= "User: " + user.username
+					a(href="/user/dashboard" class="flex-none mr-3 p-0.5 px-1 rounded-full bg-light text-dark hover:text-gray")=user.username
 				else 
-					div(class="flex-none mr-3 p-0.5 rounded-full bg-light text-dark") User: Guest  
+					div(class="flex-none mr-3 p-0.5 px-1 rounded-full bg-light text-dark") Guest  
 		div(class="flex flex-col md:flex-row md:flex-1")
 				aside#navbar(class="hidden flex-none pl-3 w-32 fixed z-10 md:z-1 md:block md:static inset-y-0 left-0 bg-sidebar shadow shadow-black")
 					include navbar.pug

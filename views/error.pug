@@ -1,14 +1,10 @@
 extends layout 
 
 block content 
-		article.bg-dark.p-4.flex.flex-col.text-light.items-center
-			header.text-light.font-fraktur.text-lg Error
+		+formCard
+			header.font-aleg.font-bold.text-xl Error
 			if message 
-				article(class="self-center text-red-800 font-sans text-sm pt-3 pb-4")= message
+				article(class="self-center text-red-800 font-alegsans font-normal pt-3 pb-4")= message
 			if errors
 				for field, key in errors
-					article(class="self-center text-red-800 font-sans text-sm pt-3 pb-4")=key + ": " + field.msg 
-			a(
-				href= "/board"
-				class='bg-light p-1 border-2 border-main text-dark hover:bg-gray font-fraktur'
-				) To the board.
+					article(class="self-center text-red-800 font-alegsans font-normal pt-3 pb-4")=key + ": " + field.msg 

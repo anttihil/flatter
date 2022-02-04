@@ -6,21 +6,23 @@ import {
   updateUserPasswordByEmail,
   selectUserPasswordByEmail,
 } from "../../../services/userService.js";
+import { validationResult } from "express-validator";
 
 export default async function resetPassword(req, res, next) {
   try {
+    log.info(`Processing password reset form data.`);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      log.error("Validation error with password reset.");
+      log.error("Validation error with password reset form data.");
       return res
         .status(400)
         .render("resetPassword", { validationErrors: errors.mapped() });
     }
     const payload = jwt.decode(req.query.token);
     const oldHashedPassword = await selectUserPasswordByEmail(payload.email);
-    const verifiedPayload = jwt.verify(payload.email, oldHashedPassword);
+    const verifiedPayload = jwt.verify(req.query.token, oldHashedPassword);
     log.info(
-      `Password reset: verified token with email: ${verifiedPayload.email}`
+      `Password reset form data: verified token with email: ${verifiedPayload.email}`
     );
     // hash the new password
     const newHashedPassword = await hash(req.body.newPassword);
@@ -36,15 +38,12 @@ export default async function resetPassword(req, res, next) {
       next(
         createHttpError(
           400,
-          "The verification link has expired. Please log in to try again."
+          "The verification link has expired. Please try again."
         )
       );
     } else {
       next(
-        createHttpError(
-          400,
-          "An error occurred with the verification link. Please log in to try again."
-        )
+        createHttpError(400, "An error occurred with the verification link.")
       );
     }
   }

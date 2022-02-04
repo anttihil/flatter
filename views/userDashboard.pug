@@ -2,13 +2,13 @@ extends layout
 
 block content
 	article(
-		class="divide-y divide-brown md:h-auto h-full text-light font-sans items-start bg-dark flex flex-col space-y-2  border-b border-brown"
+		class="pt-4 divide-y divide-brown md:h-auto h-full text-light font-alegsans font-normal items-start bg-dark flex flex-col space-y-2  border-b border-brown"
 		)
 		header(
-			class="text-light font-fraktur text-xl self-center"
+			class="text-light font-aleg font-bold text-xl self-center"
 			) User Dashboard
 		section#dashboardNavigation(
-			class="self-center flex justify-between text-xs space-x-3 p-2"
+			class="self-center flex justify-between text-sm space-x-3 p-2"
 			)
 			span Navigation:
 			a(
@@ -21,19 +21,19 @@ block content
 			) Comments
 		if passwordChange && passwordChange === "success" 
 			section.p-2.self-center 
-				span.text-light.font-serif Your password has been changed successfully.
+				span.text-light Your password has been changed successfully.
 		if usernameChange && usernameChange === "success" 
 			section.p-2.self-center 
-				span.text-light.font-serif Your username has been changed successfully.
+				span.text-light Your username has been changed successfully.
 		section.p-4.w-full
-			header.font-fraktur Change Password
+			header.font-aleg.font-bold.text-lg Change Password
 			form(
 				action="/user/password/change" 
 				method="post"
 				)
 				input(type="hidden" name="_csrf" value=csrfToken)
 				div(class="mt-2")
-					label(for="oldPassword" class="font-serif text-sm") Old Password
+					label(for="oldPassword" class="font-aleg font-medium") Old Password
 					input(
 						type="password" 
 						id="oldPassword" 
@@ -43,11 +43,11 @@ block content
 						class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
 						)
 					if passwordChange && passwordChange === "old"
-						section(class="text-red-800 text-xs") Invalid old password.
+						section(class="text-red-800 text-sm") Invalid old password.
 				div(class="mt-2")
 					label(
 						for="newPassword"
-						class="font-serif text-sm"
+						class="font-aleg font-medium"
 						) New Password
 					input(
 						type="password" 
@@ -58,17 +58,13 @@ block content
 						class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
 						pattern="[0-9a-zA-Z]{12,100}"
 						)
-					span.text-xs 12 characters minimum, 100 maximum. A password can contain both upper and lower case letters, and numbers.
+					span.text-sm 12 characters minimum, 100 maximum. A password can contain both upper and lower case letters, and numbers.
 					if passwordChange && passwordChange === "failure"
-						section(class="text-red-800 text-xs") Invalid password entry.
+						section(class="text-red-800 text-sm") Invalid password entry.
 				div.flex.justify-end
-					input(
-						type="submit" 
-						value="Submit" 
-						class="hover:bg-gray border-2 border-main border-opacity-70 font-fraktur bg-light text-dark"
-						)
+					+bigButton("submit", "Submit")
 		section.p-4.w-full 
-			header.font-fraktur Change Username
+			header.font-aleg.font-bold.text-lg Change Username
 			form(
 				action="/user/username/change" 
 				method="post" 
@@ -77,7 +73,7 @@ block content
 				input(type="hidden" name="_csrf" value=csrfToken)
 				label(
 					for="changeUsername" 
-					class="font-serif text-sm"
+					class="font-aleg font-medium"
 					) New Username
 				input(
 					id="changeUsername"
@@ -85,35 +81,31 @@ block content
 					autocomplete="username"					 
 					required 
 					pattern="[a-zA-Z0-9]{1,20}"
-					class="focus:outline-none focus:ring focus:ring-brown w-full font-serif bg-light text-dark"
+					class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
 					)
-				span.text-xs Max 20 characters
+				span.text-sm Max 20 characters
 				if usernameChange && usernameChange === "failure"
-						section(class="text-red-800 text-xs") Invalid username entry.
+						section(class="text-red-800 text-sm") Invalid username entry.
 				div.flex.justify-end
-					input(
-							type="submit" 
-							value="Submit" 
-							class="justify-end mt-3 hover:bg-gray border-2 border-main border-opacity-70 font-fraktur bg-light text-dark"
-							)
+					+bigButton("submit", "Submit")
 				if message
 					div=message
 		section.p-4.w-full
-			header#posts.font-fraktur.mb-4 Your Post History
+			header#posts.font-aleg.font-bold.text-lg.mb-4 Your Post History
 			for post in posts 
-				article.flex.justify-between.font-sans.text-sm.space-x-3.mb-2
+				article.flex.justify-between.font-alegsans.font-normal.text-sm.space-x-3.mb-2
 						a(
 							href="/board/post/" + post.id 
 							class=""
 							)= post.title 
 						-let dateConfig = {dateStyle:"short", timeStyle:"short" }
-						time(class="flex-none text-xs")= post.last_changed_at ? "Edited " + post.last_changed_at.toLocaleString("en-US", dateConfig) : "Created " + post.created_at.toLocaleString("en-US", dateConfig)
-			a(href="#dashboardNavigation" class="hover:text-light text-brown text-xs") Back to the top
+						time(class="flex-none text-sm")= post.last_changed_at ? "Edited " + post.last_changed_at.toLocaleString("en-US", dateConfig) : "Created " + post.created_at.toLocaleString("en-US", dateConfig)
+			a(href="#dashboardNavigation" class="hover:text-light text-brown text-sm") Back to the top
 		section.p-4.w-full
-			header#comments.font-fraktur.mb-4 Your Comment History
+			header#comments.font-aleg.font-bold.text-lg.mb-4 Your Comment History
 			for comment in comments 
-				article.flex.font-sans.text-sm.space-x-3.mb-2
+				article.flex.font-alegsans.font-normal.text-sm.space-x-3.mb-2
 						a.mr-auto(href="/board/post/" + comment.post_id + "/#comment" + comment.id class="")= comment.text 
 						-let dateConfig = {dateStyle:"short", timeStyle:"short" }
-						time(class="flex-none text-xs")= comment.last_changed_at ? "Edited " + comment.last_changed_at.toLocaleString("en-US", dateConfig) : "Created " + comment.created_at.toLocaleString("en-US", dateConfig)
-			a(href="#dashboardNavigation" class="hover:text-light text-brown text-xs") Back to the top
+						time(class="flex-none text-sm")= comment.last_changed_at ? "Edited " + comment.last_changed_at.toLocaleString("en-US", dateConfig) : "Created " + comment.created_at.toLocaleString("en-US", dateConfig)
+			a(href="#dashboardNavigation" class="hover:text-light text-brown text-sm") Back to the top

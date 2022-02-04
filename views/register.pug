@@ -1,11 +1,11 @@
 extends layout 
 
 block content 
-	.bg-dark.text-light.p-4.flex.flex-col.items-center.divide-y.space-y-2.divide-brown.border-2.border-brown 
-		header.text-xl.font-fraktur Register
-		form(action="/user/register" method="POST").flex.flex-col.space-y-2.mt-2.font-serif.w-full.text-sm
+	+formCard.font-alegsans.font-normal 
+		header.text-xl.font-aleg.font-bold Register
+		form(action="/user/register" method="POST").flex.flex-col.space-y-2.mt-2.w-full
 			.pt-2
-				label(for="email") Email
+				label(for="email" class="font-aleg font-medium") Email
 				input(
 					type="email" 
 					id="email" 
@@ -14,9 +14,9 @@ block content
 					required 
 					class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark")
 				if validationErrors && validationErrors.email
-					span(class="text-red-800 text-xs")=validationErrors.email.msg
+					span(class="text-red-800 text-sm")=validationErrors.email.msg
 			div 
-				label(for="username") Username
+				label(for="username" class="font-aleg font-medium") Username
 				input(
 					type="text" 
 					id="username" 
@@ -25,11 +25,11 @@ block content
 					required
 					pattern="[0-9a-zA-Z]{1,20}" 
 					class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark")
-				span.text-xs Max 20 characters
+				span.text-sm Max 20 characters
 				if validationErrors && validationErrors.username
-					span(class="text-red-800 text-xs")=validationErrors.username.msg
+					span(class="text-red-800 text-sm")=validationErrors.username.msg
 			div 
-				label(for="password") Password
+				label(for="password" class="font-aleg font-medium") Password
 				input(
 					type="password" 
 					id="password" 
@@ -39,10 +39,7 @@ block content
 					class="focus:outline-none focus:ring focus:ring-brown w-full bg-light text-dark"
 					pattern="[0-9a-zA-Z]{12,100}"
 					)
-				span.text-xs 12 characters minimum, 100 maximum. Password can contain both upper and lower case letters, and numbers.
+				span.text-sm 12 characters minimum, 100 maximum. Password can contain both upper and lower case letters, and numbers.
 				if validationErrors && validationErrors.password
-					span(class="text-red-800 text-xs")=validationErrors.password.msg
-			input(
-				type="submit" 
-				value="Submit" 
-				class="hover:bg-gray self-end p-1 border-2 border-main border-opacity-70 text-lg font-fraktur bg-light text-dark")
+					span(class="text-red-800 text-sm")=validationErrors.password.msg
+			+bigButton("submit", "Submit")
